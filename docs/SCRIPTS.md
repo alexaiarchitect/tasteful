@@ -359,7 +359,7 @@ Copies `scripts/package.json` + `package-lock.json` into `<data-dir>/deps` and r
 Runs in order and stops on the first failure:
 
 1. `claude plugin validate . --strict` (skipped with a notice when the `claude` CLI is not installed, e.g. in CI)
-2. `node --test tests/`
+2. `node --test 'tests/**/*.test.mjs'`
 3. `node scripts/validate-index.mjs`
 4. `node scripts/contrast.mjs fixtures/theme.reference.css`
 5. `node scripts/contract.mjs fixtures/theme.reference.css fixtures/theme.reference.css --check`, then against a copy with one token renamed — must exit 1
