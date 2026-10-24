@@ -4,4 +4,4 @@ allowed_tools: [Read, Glob, Grep, Skill, AskUserQuestion, Write, "Bash(node *)",
 tags: [extract, approval-gate]
 ---
 
-/tasteful:extract ai-architect-blog
+Run the tasteful extract step for the ai-architect-blog proposal.

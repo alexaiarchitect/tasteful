@@ -44,7 +44,7 @@ Brief: `$ARGUMENTS`
 
 ## Writing each candidate
 
-Use `rank.mjs` output as the backbone (`reasons`, `take`, `leave`) and the index entry for facts. For each candidate, numbered 1…n:
+Use `rank.mjs` output as the backbone (`reasons`, `take`, `leave`) and the index entry for facts. Every candidate, including a weaker one you label as such, gets all four parts below; never collapse a candidate to take/leave only. For each candidate, numbered 1…n:
 
 - **Title** — url — source link (`source_url`), and "anchor" if `anchor: true`.
 - **Why it fits this brief** — one paragraph tied to the brief's words (audience, tone, density, motion), citing concrete index facts (faces, strategy, density, hero). No generic praise.

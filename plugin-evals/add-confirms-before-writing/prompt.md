@@ -4,4 +4,4 @@ allowed_tools: [Read, Glob, Grep, Skill, AskUserQuestion, Write, "Bash(node *)",
 tags: [add, index, confirmation]
 ---
 
-/tasteful:add https://fontsource.org/
+Add https://fontsource.org/ to the tasteful reference index.
