@@ -589,9 +589,14 @@ function collectFacts({ maxEls, vpCount }) {
     els.push({ el, r, top, s });
   }
 
+  // Sampled box: full width × min(3 viewports, page height). Page height is the larger of
+  // scrollHeight and the lowest sampled element (inner scroll containers keep scrollHeight = vh).
+  let maxBottom = vh;
+  for (const { r, top } of els) maxBottom = Math.max(maxBottom, top + r.height);
+  const boxH = Math.min(limitY, Math.max(docH, maxBottom));
   const clipArea = (r, top) => {
     const x0 = Math.max(0, r.left), x1 = Math.min(vw, r.right);
-    const y0 = Math.max(0, top), y1 = Math.min(limitY, top + r.height);
+    const y0 = Math.max(0, top), y1 = Math.min(boxH, top + r.height);
     return x1 > x0 && y1 > y0 ? (x1 - x0) * (y1 - y0) : 0;
   };
 
@@ -605,7 +610,7 @@ function collectFacts({ maxEls, vpCount }) {
     const hx = hex(c);
     b.hexes.set(hx, (b.hexes.get(hx) ?? 0) + Math.max(area, 0));
   };
-  const pageArea = vw * Math.min(docH, limitY);
+  const pageArea = vw * boxH;
   addBg(rootBg, pageArea);
   const textW = new Map();
   const borderN = new Map();
@@ -885,6 +890,10 @@ function collectFacts({ maxEls, vpCount }) {
   const meta = document.querySelector('meta[name="color-scheme"]')?.content ?? '';
   const csRoot = cs(html).colorScheme;
   const lum = (c) => (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255;
+  // Buckets can go negative when overlapping/overflowing children subtract more than their
+  // parent covered: clamp at 0 and normalise so the shares never sum past 100.
+  const bgPositive = [...bgArea.values()].reduce((a, b) => a + Math.max(0, b.area), 0);
+  const bgDenom = Math.max(pageArea, bgPositive) || 1;
   const bgList = [...bgArea.values()].map((b) => ({ hex: [...b.hexes.entries()].sort((x, y) => y[1] - x[1])[0][0], area: Math.max(0, b.area) })).sort((a, b) => b.area - a.area);
   const dominant = bgList[0] ? rgba(bgList[0].hex) : rootBg;
   const scheme = /dark/.test(csRoot) && !/light/.test(csRoot) ? 'dark' : /dark/.test(meta) && !/light/.test(meta) ? 'dark' : lum(dominant) < 0.35 ? 'dark' : 'light';
@@ -899,7 +908,7 @@ function collectFacts({ maxEls, vpCount }) {
     fonts: { loaded, computed, faces, google_fonts: googleFonts, self_hosted: selfHosted },
     type,
     colors: {
-      backgrounds: bgList.filter((b) => b.area > 0).slice(0, 8).map((b) => ({ hex: b.hex, area_pct: Math.round((b.area / pageArea) * 1000) / 10 })),
+      backgrounds: bgList.filter((b) => b.area > 0).slice(0, 8).map((b) => ({ hex: b.hex, area_pct: Math.round((b.area / bgDenom) * 1000) / 10 })),
       texts: top(textW, 8).map(([hx, w]) => ({ hex: hx, weight: Math.round((w / tTotal) * 1000) / 1000 })),
       borders: top(borderN, 5).map(([hx, count]) => ({ hex: hx, count })),
     },

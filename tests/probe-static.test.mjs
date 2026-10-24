@@ -9,7 +9,8 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { spawn } from 'node:child_process';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { tmpdir, homedir } from 'node:os';
+import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -55,6 +56,13 @@ before(async () => {
     if (req.url === '/' || req.url === '/index.html') {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
       res.end(PAGE);
+    } else if (req.url === '/scroller') {
+      // Body locked to one viewport, content scrolls inside a container: scrollHeight = vh
+      // while sampled elements extend over 3 viewports (regression: area_pct > 100).
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      res.end(`<!doctype html><title>Scroller</title><style>html,body{margin:0;height:100vh;overflow:hidden;background:#dddcd7}
+#s{height:100vh;overflow:auto}.blk{height:900px;background:#dddcd7}.alt{height:600px;background:#222;position:relative}
+.alt i{position:absolute;inset:-200px 0;background:#3b5bdb}</style><div id="s"><div class="blk"></div><div class="alt"><i></i></div><div class="blk"></div><div class="blk"></div></div>`);
     } else if (req.url === '/site.css') {
       res.writeHead(200, { 'content-type': 'text/css' });
       res.end(CSS);
@@ -158,6 +166,27 @@ test('static mode extracts fonts, colours, radii, shadows and motion from HTML +
   assert.equal(j.motion.animated_count, 1);
   assert.equal(j.motion.canvas_count, 1);
   assert.equal(j.motion.level_guess, 3); // canvas + animation
+});
+
+const hasPlaywright = (() => {
+  try {
+    return !!createRequire(join(process.env.CLAUDE_PLUGIN_DATA ?? join(homedir(), '.claude/plugins/data/tasteful'), 'deps', 'package.json')).resolve('playwright');
+  } catch {
+    return false;
+  }
+})();
+
+test('browser mode: background area_pct stays within 0–100 (inner scroll container, overflowing child)', { skip: !hasPlaywright && 'playwright not installed' }, async () => {
+  const r = await run([`${base}/scroller`, '--json', '--timeout', '20000']);
+  assert.equal(r.code, 0, r.stderr);
+  const j = JSON.parse(r.stdout);
+  assert.equal(j.mode, 'browser');
+  const bgs = j.colors.backgrounds;
+  assert.ok(bgs.length >= 2, JSON.stringify(bgs));
+  for (const b of bgs) assert.ok(b.area_pct >= 0 && b.area_pct <= 100, JSON.stringify(bgs));
+  const sum = bgs.reduce((a, b) => a + b.area_pct, 0);
+  assert.ok(sum <= 100.05, `sum ${sum}: ${JSON.stringify(bgs)}`);
+  assert.equal(bgs[0].hex, '#dddcd7');
 });
 
 test('static mode on a 404 exits 1', async () => {
