@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/alexaiarchitect/tasteful/index/schema.json",
+  "title": "tasteful reference index (index/sites.json)",
+  "description": "An array of reference-site entries. Validated by scripts/validate-index.mjs with the stdlib subset validator in scripts/lib/schema.mjs; only keywords that validator supports may be used here.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/entry" },
+  "$defs": {
+    "id": {
+      "description": "Kebab-case unique id.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 80
+    },
+    "date": { "type": "string", "format": "date" },
+    "url": { "type": "string", "format": "uri" },
+    "hex": { "description": "Lowercase #rrggbb.", "type": "string", "format": "hex-color" },
+    "line": { "description": "One line of prose.", "type": "string", "minLength": 1, "maxLength": 300 },
+    "source": {
+      "description": "Where the entry was found.",
+      "enum": ["awwwards", "cssda", "behance", "manual"]
+    },
+    "status": { "enum": ["live", "dead", "unchecked"] },
+    "kind": {
+      "enum": ["landing", "product", "portfolio", "editorial", "ecommerce", "tool", "docs", "studio"]
+    },
+    "mood": {
+      "enum": ["minimal", "editorial", "brutalist", "playful", "luxury", "technical", "warm", "corporate", "retro", "organic"]
+    },
+    "extractable": {
+      "enum": ["type-pairing", "palette", "card-system", "hero", "section-rhythm", "nav", "footer", "buttons", "chips", "motion", "spacing-scale"]
+    },
+    "typography_display": { "enum": ["serif", "sans", "mono", "display", "mixed"] },
+    "typography_body": { "enum": ["serif", "sans", "mono"] },
+    "color_strategy": {
+      "enum": ["monochrome", "accent-on-neutral", "duotone", "vivid", "dark-first", "warm-neutral", "cold-neutral"]
+    },
+    "layout_grid": { "enum": ["single-column", "12-col", "asymmetric", "bento", "full-bleed"] },
+    "layout_density": { "enum": ["airy", "balanced", "dense"] },
+    "layout_hero": { "enum": ["type-only", "image", "video", "product-shot", "split", "wash"] },
+    "motion": {
+      "description": "0 none, 1 subtle hover/fade, 2 scroll-driven, 3 heavy/WebGL.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display", "body", "faces"],
+      "properties": {
+        "display": { "$ref": "#/$defs/typography_display" },
+        "body": { "$ref": "#/$defs/typography_body" },
+        "faces": {
+          "description": "Family names actually observed.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "open_alternatives": {
+          "description": "Fontsource-available equivalents.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "note": { "$ref": "#/$defs/line" }
+      }
+    },
+    "color": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "dominant", "accent", "ink"],
+      "properties": {
+        "strategy": { "$ref": "#/$defs/color_strategy" },
+        "dominant": { "$ref": "#/$defs/hex" },
+        "accent": { "$ref": "#/$defs/hex" },
+        "ink": { "$ref": "#/$defs/hex" },
+        "note": { "$ref": "#/$defs/line" }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grid", "density", "hero"],
+      "properties": {
+        "grid": { "$ref": "#/$defs/layout_grid" },
+        "density": { "$ref": "#/$defs/layout_density" },
+        "hero": { "$ref": "#/$defs/layout_hero" },
+        "note": { "$ref": "#/$defs/line" }
+      }
+    },
+    "screenshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "desktop": { "type": "string", "minLength": 1 },
+        "mobile": { "type": "string", "minLength": 1 }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "url", "title", "source", "source_url", "added", "status", "last_checked", "kind", "mood", "typography", "color", "layout", "motion", "extractable", "why"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "source": { "$ref": "#/$defs/source" },
+        "source_url": { "$ref": "#/$defs/url" },
+        "source_score": { "type": ["number", "null"], "minimum": 0, "maximum": 10 },
+        "added": { "$ref": "#/$defs/date" },
+        "status": { "$ref": "#/$defs/status" },
+        "last_checked": { "$ref": "#/$defs/date" },
+        "kind": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "$ref": "#/$defs/kind" } },
+        "mood": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "$ref": "#/$defs/mood" } },
+        "typography": { "$ref": "#/$defs/typography" },
+        "color": { "$ref": "#/$defs/color" },
+        "layout": { "$ref": "#/$defs/layout" },
+        "motion": { "$ref": "#/$defs/motion" },
+        "extractable": { "type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/extractable" } },
+        "why": { "type": "string", "minLength": 10, "maxLength": 600 },
+        "avoid": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "anchor": { "type": "boolean" },
+        "tentative": { "type": "boolean" },
+        "screenshots": { "$ref": "#/$defs/screenshots" },
+        "probe": {
+          "description": "Path to the stored probe result, index/probes/<id>.json.",
+          "type": "string",
+          "pattern": "^index/probes/[a-z0-9]+(-[a-z0-9]+)*\\.json$"
+        }
+      }
+    }
+  }
+}
