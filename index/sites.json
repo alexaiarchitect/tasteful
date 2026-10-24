@@ -1,1 +1,3014 @@
-[]
+[
+  {
+    "id": "100lostspecies",
+    "url": "https://www.100lostspecies.com/",
+    "title": "100 Lost Species",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/wotm/100-lost-species/49386",
+    "source_score": 8.69,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "editorial"
+    ],
+    "mood": [
+      "editorial",
+      "minimal"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Reckless Neue",
+        "Enduro"
+      ],
+      "open_alternatives": [
+        "Fraunces",
+        "Newsreader",
+        "Inter"
+      ],
+      "note": "Hairline-weight serif headline over a light grotesk paragraph; the contrast is weight and stroke, not size alone."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#000000",
+      "accent": "#ffffff",
+      "ink": "#ffffff",
+      "note": "Probe recorded no text colours (content sits behind a WebGL layer); white ink and white-outlined controls read from the screenshot, no saturated accent."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Centred stack: icon tile, three-line serif title, short paragraph, outlined counter button."
+    },
+    "motion": 3,
+    "extractable": [
+      "type-pairing",
+      "hero",
+      "buttons"
+    ],
+    "why": "Light-weight editorial serif title with a quiet grotesk paragraph and square outlined controls on pure black: a restrained intro worth lifting for long-form pages. Tentative: everything past the intro is a WebGL experience the probe could not read, and the site is dark-only.",
+    "avoid": "Dark-only scheme and the WebGL journey behind the intro; take only the serif/grotesk pairing and the outlined button.",
+    "tentative": true,
+    "probe": "index/probes/100lostspecies.json"
+  },
+  {
+    "id": "1367studio",
+    "url": "https://www.1367studio.com/",
+    "title": "1367 Studio",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/1367-studio/50191",
+    "source_score": 8.42,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio"
+    ],
+    "mood": [
+      "technical",
+      "minimal"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "mono",
+      "faces": [
+        "Geist",
+        "Geist Mono"
+      ],
+      "open_alternatives": [
+        "Geist",
+        "Geist Mono"
+      ],
+      "note": "Geist regular headline with a grey second line, Geist Mono uppercase for body copy, buttons and the agent pill."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#ffffff",
+      "accent": "#f43c00",
+      "ink": "#000000",
+      "note": "Probe reports white as largest area, render shows a cream video field; one hot orange for the primary CTA and outlined pill."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "video",
+      "note": "Centred silhouette video, headline bottom-left, mono blurb and CTA bottom-right; nav split around a centred wordmark."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "buttons",
+      "nav"
+    ],
+    "why": "Geist with Geist Mono is an open, Cyrillic-ready pairing, and the orange appears only on the book-a-call button and the outlined agent pill. Mono body copy reads as a technical voice without a third face.",
+    "avoid": "WebGL video hero and uppercase mono for running copy; keep mono for labels.",
+    "probe": "index/probes/1367studio.json"
+  },
+  {
+    "id": "aat-architecten",
+    "url": "https://www.aat-architecten.be/",
+    "title": "AAT Architecten",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/aat-architecten",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "minimal",
+      "corporate"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Suisse Intl"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "Manrope"
+      ],
+      "note": "One grotesk at two sizes: a 40px statement and 16px body, grey nav for de-emphasis."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#1d1d1b",
+      "ink": "#1d1d1b",
+      "note": "White and warm black #1d1d1b with grey #ababab nav; no chromatic accent, ink doubles as accent."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "airy",
+      "hero": "split",
+      "note": "Statement pinned bottom left, tall photograph right; mobile stacks text over image."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "nav",
+      "hero",
+      "spacing-scale"
+    ],
+    "why": "Architecture-office restraint: a single grotesk, warm black on white, grey nav labels and a statement-plus-photo split that stacks cleanly on mobile.",
+    "probe": "index/probes/aat-architecten.json"
+  },
+  {
+    "id": "aestudio",
+    "url": "https://aestudio.studio/goshuin/en",
+    "title": "GoShuin: Goshuin Map & Journal for iPhone",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/goshuin-every-stamp-a-memory",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing",
+      "product"
+    ],
+    "mood": [
+      "editorial",
+      "warm",
+      "minimal"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Georgia",
+        "-apple-system"
+      ],
+      "open_alternatives": [
+        "Source Serif 4",
+        "Inter"
+      ],
+      "note": "Georgia display at 129px with a Georgia subtitle, system sans for UI and small tracked caps for metadata."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#f8f3e7",
+      "accent": "#756449",
+      "ink": "#2d3435",
+      "note": "Paper tones with slate ink and a deep slate cover panel; the most saturated colour is the bronze #756449 border, used for rules."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "airy",
+      "hero": "split",
+      "note": "Book spread: text page left, illustrated cover right, a paging bar (Previous / page select / Next) at the bottom."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "section-rhythm",
+      "nav",
+      "buttons"
+    ],
+    "why": "An app landing built as a paged book: serif title page, hairline rules, underlined text links instead of filled buttons, and a pause-motion control. Paper and slate tones with bronze rules feel chosen, not default cream.",
+    "avoid": "The pixel-dithered Japanese pattern art is specific to this product.",
+    "probe": "index/probes/aestudio.json"
+  },
+  {
+    "id": "akaru",
+    "url": "https://www.akaru.fr/",
+    "title": "Agence web lyon : création de site internet et design graphique",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/akaru-2",
+    "source_score": 7.91,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "playful",
+      "editorial"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Alliance Neue",
+        "Alliance Platt"
+      ],
+      "open_alternatives": [
+        "Manrope"
+      ],
+      "note": "One superfamily: Neue for headings and nav, Platt for body; the condensed wordmark is a logo, not a heading face."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#f1efeb",
+      "accent": "#b692a1",
+      "ink": "#0e0e0e",
+      "note": "Warm off-white with three muted pastels (blue-grey, mauve, sage) as project panel backgrounds; no saturated accent, mauve taken from panel backgrounds."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "balanced",
+      "hero": "split",
+      "note": "Left half holds wordmark, intro and social row; right half is a horizontal strip of project panels in muted colours."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "nav",
+      "footer"
+    ],
+    "why": "Dusty pastel panels (blue-grey, mauve, sage) on warm off-white give project colour coding without one saturated hue. Nav items carry a small coloured dot keyed to each panel.",
+    "avoid": "The ultra-condensed wordmark and the horizontal panel strip; both break on long Russian words and on mobile reading.",
+    "probe": "index/probes/akaru.json"
+  },
+  {
+    "id": "almadalabel",
+    "url": "https://almadalabel.com/",
+    "title": "ALMADA LABEL",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/almada-label",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "ecommerce"
+    ],
+    "mood": [
+      "luxury",
+      "minimal"
+    ],
+    "typography": {
+      "display": "mixed",
+      "body": "sans",
+      "faces": [
+        "Paragraph Primary Font",
+        "Heading Font Italic"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "Instrument Serif"
+      ],
+      "note": "Neutral grotesk for all UI, a single italic serif for collection labels such as \"New Arrivals\"."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#17140f",
+      "ink": "#17140f",
+      "note": "White and warm near-black; the primary button reuses the ink, no chromatic accent."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "image",
+      "note": "Split full-bleed photo hero, centred spaced wordmark, short plain nav on both sides."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "nav",
+      "buttons",
+      "palette"
+    ],
+    "why": "Restrained fashion shop: a plain grotesk UI with one italic serif label and an ink-filled square button, letting photography carry the brand.",
+    "avoid": "Font names are Shopify aliases, so the real faces are unknown; the spaced-out wordmark is a logo, not a heading style.",
+    "probe": "index/probes/almadalabel.json"
+  },
+  {
+    "id": "banham",
+    "url": "https://www.banham.co.uk/",
+    "title": "Banham",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/banham-1",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing",
+      "ecommerce"
+    ],
+    "mood": [
+      "editorial",
+      "corporate"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "serif",
+      "faces": [
+        "IvarHeadline",
+        "IvarText",
+        "Neue Haas Grotesk Pro 55 Roman"
+      ],
+      "open_alternatives": [
+        "Source Serif 4",
+        "Literata",
+        "Inter"
+      ],
+      "note": "Ivar Headline and Ivar Text carry headings and body; centred serif headings at 48px read calm and established."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#000000",
+      "accent": "#333e48",
+      "ink": "#ffffff",
+      "note": "Probe areas are skewed by the full-bleed video (black 67%); the page itself is white with a slate #333e48 for buttons."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "video",
+      "note": "Centred serif headline over a video band, then centred serif section headings on white."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "buttons",
+      "section-rhythm"
+    ],
+    "why": "An all-serif heading and body system (Ivar) on white with one slate button colour shows how a heritage brand can feel editorial instead of corporate.",
+    "avoid": "Video hero and floating booking pill; mobile is dominated by a cookie modal.",
+    "probe": "index/probes/banham.json"
+  },
+  {
+    "id": "bedfordsquarebk",
+    "url": "https://bedfordsquarebk.com/",
+    "title": "Bedford Square",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/bedford-square/50478",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing"
+    ],
+    "mood": [
+      "minimal",
+      "luxury"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Arizona Flare",
+        "Aktiv Grotesk"
+      ],
+      "open_alternatives": [
+        "Fraunces",
+        "Inter"
+      ],
+      "note": "Light flared serif (300) for headings and nav over Aktiv Grotesk body."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#38332e",
+      "accent": "#e4e1d7",
+      "ink": "#f8f2e8",
+      "note": "Warm brown-black with cream type; no saturated hue, accent is the pale stone of the Apply button."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "video",
+      "note": "Aerial video with a cell-bordered top bar (menu, weather, wordmark, apply, login)."
+    },
+    "motion": 2,
+    "extractable": [
+      "nav",
+      "palette"
+    ],
+    "why": "A ruled top bar split into bordered cells is a tidy nav pattern, and the warm brown with cream type is a dark scheme with real temperature. Tentative: the capture shows only the intro video and loader.",
+    "avoid": "The intro loader and video-only first screen.",
+    "probe": "index/probes/bedfordsquarebk.json",
+    "tentative": true
+  },
+  {
+    "id": "bennettandclive",
+    "url": "https://bennettandclive.com/",
+    "title": "Bennett & Clive",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/bennett-clive",
+    "source_score": 7.71,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "brutalist",
+      "minimal"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "InterWeb"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "Inter Bold at 150px with -10px tracking, all caps, used as a right-aligned client list."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#ffffff",
+      "ink": "#ffffff",
+      "note": "White type over video; probe ink is white because the heavy text sits on footage."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Full-bleed video with stacked client names as the navigation."
+    },
+    "motion": 2,
+    "extractable": [
+      "hero",
+      "nav"
+    ],
+    "why": "Tentative: a single Inter weight at huge size as the whole interface is striking, but it depends on video behind it and offers little beyond the scale.",
+    "avoid": "Video hero, ultra-tight caps that will overflow with long words, white text over moving footage.",
+    "probe": "index/probes/bennettandclive.json"
+  },
+  {
+    "id": "boostlab-btgpactual",
+    "url": "https://boostlab.btgpactual.com/en",
+    "title": "boostlab",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/boostlab",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing"
+    ],
+    "mood": [
+      "corporate",
+      "minimal"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "BTG Pactual Sans"
+      ],
+      "open_alternatives": [
+        "Manrope"
+      ],
+      "note": "One proprietary geometric sans at regular weight for the 64px headline and body; no bold needed."
+    },
+    "color": {
+      "strategy": "cold-neutral",
+      "dominant": "#f5f5f6",
+      "accent": "#195ab4",
+      "ink": "#000000",
+      "note": "Cool grey with navy sections and one bank blue for the second headline line and primary button."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "type-only",
+      "note": "Headline in the centre cell of a visible hairline grid, with logo tiles occupying other cells."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "hero",
+      "buttons"
+    ],
+    "why": "Hairline grid hero with the headline in one cell and portfolio logos in others; cool grey and a single bank blue. Tentative: corporate tone and the coloured second headline line.",
+    "avoid": "The highlighted second line in every headline.",
+    "probe": "index/probes/boostlab-btgpactual.json",
+    "tentative": true
+  },
+  {
+    "id": "bortolettostudio",
+    "url": "https://bortolettostudio.com/",
+    "title": "Bortoletto Studio",
+    "source": "behance",
+    "source_url": "https://www.behance.net/gallery/242997523/Trato-Studio",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "minimal"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "ctfp"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "A single light grotesk at large size for the statement, regular for nav; the face name is obfuscated by the host."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#282828",
+      "ink": "#373737",
+      "note": "White with soft charcoal type and a light grey pill button; no hue, imagery provides colour."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Centred statement paragraph, one pill CTA, then full-width project tiles in a two-up grid."
+    },
+    "motion": 1,
+    "extractable": [
+      "hero",
+      "section-rhythm"
+    ],
+    "why": "A type-only hero of one centred statement sentence and a single soft pill CTA before the work grid. Tentative: generic grotesk, face names obfuscated in the probe.",
+    "probe": "index/probes/bortolettostudio.json",
+    "tentative": true
+  },
+  {
+    "id": "brandonyasin",
+    "url": "https://brandonyasin.com/",
+    "title": "Brandon Yasin",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/brandon-yasin",
+    "source_score": 7.31,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "minimal",
+      "luxury"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Neue Haas Unica Pro",
+        "Helvetica Now Variable"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "Neo-grotesk throughout; 12px caps UI, 90px headings per probe."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#2c2922",
+      "accent": "#c3beb1",
+      "ink": "#c3beb1",
+      "note": "Warm olive-brown ground with sand text; one colour pair only."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "image",
+      "note": "Tiny four-corner header and a single centred image on an empty warm field."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette"
+    ],
+    "why": "Tentative: the warm dark #2c2922 with sand #c3beb1 is a designed dark palette with real temperature, but the screens show little structure beyond it.",
+    "avoid": "Dark-only; tiny caps UI and centred single-image screens.",
+    "probe": "index/probes/brandonyasin.json"
+  },
+  {
+    "id": "burocratik",
+    "url": "https://www.burocratik.com/",
+    "title": "We are Büro",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/wotm/we-are-buro/47381",
+    "source_score": 8.81,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio"
+    ],
+    "mood": [
+      "minimal",
+      "brutalist"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Commercial Gräphik Web"
+      ],
+      "open_alternatives": [
+        "Figtree",
+        "Inter"
+      ],
+      "note": "One grotesk from 16px body to 270px headlines with heavy negative tracking (-5% to -7%)."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Strict black and white; colour comes only from the work shown."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Full-viewport showreel or 3D object with a floating dark pill bar; content sections below in a 1405px container."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "nav"
+    ],
+    "why": "A single grotesk carrying everything from body to 270px tight-tracked headlines in strict black and white; the floating pill bar is a compact nav pattern. Tentative: the screenshots show only the video/3D intro, so the content sections are judged from probe facts.",
+    "avoid": "Video and 3D intro, extreme negative tracking that breaks with long words.",
+    "tentative": true,
+    "probe": "index/probes/burocratik.json"
+  },
+  {
+    "id": "cristianaaraujo",
+    "url": "https://www.cristianaaraujo.com/",
+    "title": "Cris Araújo (Designer)",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/cristiana-araujo-portfolio/50197",
+    "source_score": 8.01,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "minimal"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "PPNeueMontreal"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "Neue Montreal at 64px regular for statements, one face throughout."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Black on white; colour only inside embedded client videos."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "video",
+      "note": "Large regular-weight statements stacked between full-width case-study videos."
+    },
+    "motion": 2,
+    "extractable": [
+      "section-rhythm",
+      "spacing-scale"
+    ],
+    "why": "Tentative: regular-weight 64px statements between full-width case videos give a calm rhythm, but most of the visual identity belongs to the client work.",
+    "avoid": "Embedded client reels (including a crypto product) carry gradients and tilted marquees; take only the statement scale.",
+    "probe": "index/probes/cristianaaraujo.json"
+  },
+  {
+    "id": "crl-2026",
+    "url": "https://crl-2026.webflow.io/",
+    "title": "Creative Reference Library",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/creative-reference-library/50229",
+    "source_score": 8.12,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "editorial"
+    ],
+    "mood": [
+      "minimal",
+      "editorial"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Neue Haas Grotesk Text Pro",
+        "Oswald"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "Oswald"
+      ],
+      "note": "Neue Haas at one weight: 15px tight-leaded paragraphs and ~90px numerals, parenthetical counts as labels."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#a1a098",
+      "accent": "#ffffff",
+      "ink": "#ffffff",
+      "note": "Warm grey #a1a098 ground with white type; white is the only accent (button fill)."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "type-only",
+      "note": "Three text columns, a large CRL /V.01 (2026) line across the middle, counts list bottom left."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "section-rhythm",
+      "nav"
+    ],
+    "why": "Tentative: warm grey with white Neue Haas and (n) count labels is a distinctive library look; mobile rendered blank and the probe reports WebGL.",
+    "avoid": "White on #a1a098 fails contrast; 14.8px/14.8px leading is too tight for reading.",
+    "probe": "index/probes/crl-2026.json"
+  },
+  {
+    "id": "deathtorobots",
+    "url": "https://www.deathtorobots.com/",
+    "title": "Death to Robots",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/death-to-robots",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio"
+    ],
+    "mood": [
+      "editorial",
+      "warm"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "mixed",
+      "body": "serif",
+      "faces": [
+        "Inter Display",
+        "Libre Caslon Text"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "Libre Caslon Text"
+      ],
+      "note": "Inter Display caps with a Libre Caslon italic phrase in the same headline; Caslon for body."
+    },
+    "color": {
+      "strategy": "duotone",
+      "dominant": "#18181c",
+      "accent": "#facfd7",
+      "ink": "#facfd7",
+      "note": "Near-black and blush pink only; pink is both text and accent."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Inset video with the centred headline over it; body copy in large pink sans below."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "palette"
+    ],
+    "why": "Tentative: grotesk caps meeting a Caslon italic in one line, in blush on near-black, is a clean duotone pairing; dark-only with a video hero.",
+    "avoid": "One highlighted italic phrase per headline, video hero, dark-only scheme.",
+    "probe": "index/probes/deathtorobots.json"
+  },
+  {
+    "id": "dropbox",
+    "url": "https://brand.dropbox.com/",
+    "title": "Dropbox Brand Guidelines",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/dropbox-brand",
+    "source_score": 7.67,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "docs",
+      "editorial"
+    ],
+    "mood": [
+      "playful",
+      "corporate"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Sharp Grotesk",
+        "Atlas Grotesk",
+        "Noto Sans Mono"
+      ],
+      "open_alternatives": [
+        "Archivo",
+        "Inter",
+        "IBM Plex Mono"
+      ],
+      "note": "Wide, heavy Sharp Grotesk headlines over neutral Atlas Grotesk body; width contrast instead of serif contrast."
+    },
+    "color": {
+      "strategy": "vivid",
+      "dominant": "#ffffff",
+      "accent": "#0061fe",
+      "ink": "#1e1919",
+      "note": "White base with brand blue for type and links and colour-blocked panels (plum, pale blue, coral) per chapter."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "type-only",
+      "note": "Square type panel centred on a visible blue hairline grid; chapters scroll as colour blocks."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "section-rhythm"
+    ],
+    "why": "Brand-guidelines site that is itself a docs layout: chapters as colour-blocked sections and a visible hairline grid. Wide display grotesk with a neutral text grotesk is a clean two-face system.",
+    "avoid": "The multi-hue chapter palette is brand-specific; keep one hue for a content site.",
+    "probe": "index/probes/dropbox.json"
+  },
+  {
+    "id": "enricbadrinas",
+    "url": "https://enricbadrinas.com/",
+    "title": "Enric Badrinas",
+    "source": "behance",
+    "source_url": "https://www.behance.net/gallery/180444857/La-Deseada",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "minimal",
+      "editorial"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Suisse BP Intl"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "One grotesk at one size (16px) for name, nav and caption; the photograph is the only hierarchy."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Black on white, no accent; colour comes only from the photographs."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "image",
+      "note": "Single centred portrait image with a one-line caption; two-link nav top right."
+    },
+    "motion": 1,
+    "extractable": [
+      "nav",
+      "spacing-scale"
+    ],
+    "why": "The quietest possible frame for images: one face, one size, a two-item nav and a single caption line. A reference for gallery and case-study pages where content must lead.",
+    "probe": "index/probes/enricbadrinas.json"
+  },
+  {
+    "id": "estudioniksen",
+    "url": "https://estudioniksen.com/",
+    "title": "Estudio Niksen",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/estudio-niksen",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "ecommerce"
+    ],
+    "mood": [
+      "minimal",
+      "editorial"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "PP Neue Montreal"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "Single grotesk; 42px headings with -1.47px tracking, small uppercase nav and 16/24 body."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#f0f0f0",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Light grey and black only; probe has no saturated colour, so accent is black (white button on photography)."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "image",
+      "note": "One-row nav with handwritten logo centred, edge-to-edge campaign photo with caption and button bottom-left; 2px radii."
+    },
+    "motion": 1,
+    "extractable": [
+      "nav",
+      "buttons",
+      "type-pairing",
+      "spacing-scale"
+    ],
+    "why": "Brand storefront that lets photography carry colour while the UI stays one grotesk in black on light grey, with near-square 2px radii and a plain one-row nav.",
+    "avoid": "Newsletter popover over the hero; arrow on the sign-up link.",
+    "probe": "index/probes/estudioniksen.json"
+  },
+  {
+    "id": "farmminerals",
+    "url": "https://www.farmminerals.com/",
+    "title": "Farm Minerals",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/wotm/farm-minerals/50091",
+    "source_score": 8.61,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "product",
+      "landing"
+    ],
+    "mood": [
+      "organic",
+      "warm",
+      "minimal"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Aeonik",
+        "Arial"
+      ],
+      "open_alternatives": [
+        "Manrope",
+        "Inter"
+      ],
+      "note": "Regular-weight geometric grotesk at 86/52px with tight leading, set against small uppercase Arial captions."
+    },
+    "color": {
+      "strategy": "duotone",
+      "dominant": "#f4ede6",
+      "accent": "#636f3d",
+      "ink": "#404f1d",
+      "note": "Bone #f4ede6 and deep olive #404f1d; heaviest text is bone-on-olive in the hero, so ink is the olive used on light sections; accent is the lighter olive text."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "balanced",
+      "hero": "product-shot",
+      "note": "Headline top-left, secondary claim and outlined CTA bottom-right, product render centred between."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "type-pairing",
+      "buttons",
+      "nav"
+    ],
+    "why": "A two-colour bone-and-olive system with one regular-weight grotesk for every heading; outlined uppercase CTA with dot markers and a three-item centred-logo nav keep the page quiet.",
+    "avoid": "The 3D product render hero and uppercase Arial body copy; GSAP ScrollTrigger reveals.",
+    "probe": "index/probes/farmminerals.json"
+  },
+  {
+    "id": "forumcases",
+    "url": "https://forumcases.com/",
+    "title": "FORUM Cases",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/forum-cases",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "ecommerce",
+      "product"
+    ],
+    "mood": [
+      "luxury",
+      "technical"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Barlow Semi Condensed",
+        "Barlow",
+        "Shippori Mincho B1"
+      ],
+      "open_alternatives": [
+        "Barlow Semi Condensed",
+        "Barlow",
+        "Shippori Mincho B1"
+      ],
+      "note": "Wide-tracked semi-condensed caps for headings and nav, a serif wordmark, Barlow body."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#111112",
+      "accent": "#4c4d53",
+      "ink": "#ffffff",
+      "note": "Near-black and light grey only; no saturated colour, accent taken from the slate #4c4d53 text tone."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Centred tracked headline and square button over a full-bleed product video."
+    },
+    "motion": 1,
+    "extractable": [
+      "buttons",
+      "palette"
+    ],
+    "why": "Tentative: disciplined monochrome product page with square tracked-caps buttons, but the identity is a video hero and heavily tracked caps.",
+    "avoid": "Tracked caps everywhere, video hero, dark-only.",
+    "probe": "index/probes/forumcases.json"
+  },
+  {
+    "id": "halfthesky",
+    "url": "https://halfthesky.app/",
+    "title": "Half the Sky",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/half-the-sky/50250",
+    "source_score": 8.04,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "editorial",
+      "landing"
+    ],
+    "mood": [
+      "minimal",
+      "organic"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "serif",
+      "faces": [
+        "Cormorant Garamond",
+        "Noto Serif SC"
+      ],
+      "open_alternatives": [
+        "Cormorant Garamond"
+      ],
+      "note": "One classical serif in tracked small caps for wordmark and nav; scale stays small so the reliefs carry the page."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#dddcd7",
+      "accent": "#3a3934",
+      "ink": "#66645c",
+      "note": "Stone grey ground with warm grey ink; no chromatic accent, the darkest text tone serves as accent."
+    },
+    "layout": {
+      "grid": "bento",
+      "density": "airy",
+      "hero": "image",
+      "note": "A hairline-ruled 4-up grid of carved portrait tiles under a centred one-row nav."
+    },
+    "motion": 1,
+    "extractable": [
+      "palette",
+      "nav",
+      "card-system"
+    ],
+    "why": "Warm stone-grey palette and hairline-divided grid make a quiet, tactile surface; a good reference for a neutral with real temperature and a nav that stays out of the way.",
+    "avoid": "Tracked-out caps everywhere and the low ink contrast (#66645c on #dddcd7) fail the 7:1 floor.",
+    "probe": "index/probes/halfthesky.json"
+  },
+  {
+    "id": "hopecancerresources",
+    "url": "https://hopecancerresources.org/",
+    "title": "Hope Cancer Resources",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/hope-cancer-resources",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing"
+    ],
+    "mood": [
+      "warm",
+      "corporate"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Brandon Text"
+      ],
+      "open_alternatives": [
+        "Figtree"
+      ],
+      "note": "Geometric Brandon Text at 800 for headlines and tracked caps buttons, regular for body."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#0e1829",
+      "accent": "#1b7aaf",
+      "ink": "#0e1829",
+      "note": "Deep navy and white with one ribbon blue on buttons and the logo mark."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Video hero with a giant translucent ribbon glyph, two pill CTAs and a stats band overlapping the fold."
+    },
+    "motion": 1,
+    "extractable": [
+      "buttons"
+    ],
+    "why": "Nonprofit site with a single ribbon blue on pill CTAs and a stats band, a direct pattern for a support organisation. Tentative: tracked caps buttons, overlapping glyph and a mobile render that showed an injected network-warning overlay.",
+    "avoid": "Tracked all-caps buttons and the giant translucent glyph over video.",
+    "probe": "index/probes/hopecancerresources.json",
+    "tentative": true
+  },
+  {
+    "id": "inkfishnyc",
+    "url": "https://inkfishnyc.com/",
+    "title": "Inkfish",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/inkfish",
+    "source_score": 7.53,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "technical",
+      "brutalist"
+    ],
+    "typography": {
+      "display": "mono",
+      "body": "mono",
+      "faces": [
+        "Martian Mono",
+        "NT Dapper"
+      ],
+      "open_alternatives": [
+        "Martian Mono"
+      ],
+      "note": "Martian Mono at 12-14px for everything; NT Dapper only in the wordmark."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#090909",
+      "accent": "#ffffff",
+      "ink": "#ffffff",
+      "note": "Black page, white mono text, highlighted rows inverted to white; the probe reports #ffffff as largest area, but the render is black."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "dense",
+      "hero": "type-only",
+      "note": "Two-column work index (client, numbered title) as the home page; hover row inverts."
+    },
+    "motion": 2,
+    "extractable": [
+      "card-system",
+      "nav",
+      "chips"
+    ],
+    "why": "The home page is a mono work index: client column, bracketed numbers and an inverted highlight row, a dense list pattern that works for archives. Tentative: dark-only and all-mono body text.",
+    "avoid": "All-mono body copy and the dark-only scheme; use the list pattern, not the palette.",
+    "probe": "index/probes/inkfishnyc.json",
+    "tentative": true
+  },
+  {
+    "id": "itsua",
+    "url": "https://itsua.com/",
+    "title": "ITSUA",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/itsua",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "landing"
+    ],
+    "mood": [
+      "technical",
+      "minimal"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Space Grotesk",
+        "Berkeley Mono"
+      ],
+      "open_alternatives": [
+        "Space Grotesk",
+        "JetBrains Mono"
+      ],
+      "note": "Tight-tracked 120px Space Grotesk headline over mono nav, labels and buttons; size does the hierarchy."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#ffffff",
+      "accent": "#2f4cff",
+      "ink": "#0e1012",
+      "note": "White with near-black ink; cobalt #2f4cff on the primary button, plus green and rust used for stats and status."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "split",
+      "note": "Dashed vertical column guides, headline left with abstract and CTA right, ruled stat strip below."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "spacing-scale",
+      "buttons",
+      "nav"
+    ],
+    "why": "A spec-sheet aesthetic done cleanly: huge Space Grotesk headline, mono metadata, visible column guides and square ink buttons with a cobalt arrow cap.",
+    "avoid": "Numbered [00]-[05] nav and section markers, tracked caps labels and three status colours; take the scale and grid, not the ornament.",
+    "probe": "index/probes/itsua.json"
+  },
+  {
+    "id": "juice",
+    "url": "https://www.juice.agency/",
+    "title": "Creative Branding & Web Agency in Orlando",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/wotm/juice-agency/48077",
+    "source_score": 8.54,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio"
+    ],
+    "mood": [
+      "playful",
+      "brutalist"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Riposte",
+        "Juice Mono"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "IBM Plex Mono"
+      ],
+      "note": "One grotesk in uppercase for statements plus a mono for small metadata; the giant wordmark is a drawn logo, not a font."
+    },
+    "color": {
+      "strategy": "vivid",
+      "dominant": "#5ea85e",
+      "accent": "#b6dedb",
+      "ink": "#1d1c1b",
+      "note": "Saturated grass green field with near-black ink and cream #ffffeb; accent is the pale aqua announcement chip, the only coloured control."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Edge-to-edge wordmark, two-line uppercase statement left, mono metadata in the four corners."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "nav"
+    ],
+    "why": "Grotesk-plus-mono pairing with mono metadata pinned to the corners is a reusable trick for a tool site footer or header. Tentative: the identity is a vivid green field with illustration, outside the preferred palette.",
+    "avoid": "Vivid full-green background, illustrated mascots, all-caps statements.",
+    "tentative": true,
+    "probe": "index/probes/juice.json"
+  },
+  {
+    "id": "leeholmes",
+    "url": "https://www.leeholmes.uk/",
+    "title": "UI/UX Designer for Fashion & Music Brands",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/lee-holmes/50209",
+    "source_score": 8.21,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "brutalist",
+      "editorial"
+    ],
+    "typography": {
+      "display": "display",
+      "body": "sans",
+      "faces": [
+        "ASModule",
+        "Xanh Mono",
+        "Neue Montreal"
+      ],
+      "open_alternatives": [
+        "Xanh Mono",
+        "Inter"
+      ],
+      "note": "Pixel-cut display caps over a neutral grotesk body, with Xanh Mono for nav and labels; three faces, each with one job."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Pure black on white; no hue at all, buttons are black with a hard drop shadow."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Centred headline, a short paragraph and one CTA; work collage sits below the fold."
+    },
+    "motion": 2,
+    "extractable": [
+      "buttons",
+      "hero"
+    ],
+    "why": "Strict black-on-white with a pixel display face shows how far one distinctive headline face can carry a page. Tentative: three typefaces, a blur effect on the headline and → on every button.",
+    "avoid": "Blurred headline, drop-shadow buttons and the → suffix on every CTA.",
+    "probe": "index/probes/leeholmes.json",
+    "tentative": true
+  },
+  {
+    "id": "navtec",
+    "url": "https://navtec.com/",
+    "title": "Moab Adventure Tours",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/navtec",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing",
+      "editorial"
+    ],
+    "mood": [
+      "organic",
+      "warm"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Eczar",
+        "Geologica"
+      ],
+      "open_alternatives": [
+        "Eczar",
+        "Geologica"
+      ],
+      "note": "Eczar's sharp, slightly calligraphic serif for headings over Geologica body at 18px."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#ebe6d8",
+      "accent": "#5b1f11",
+      "ink": "#062c3c",
+      "note": "Sand base, deep teal ink and oxblood nav; oxblood is the accent, sand is the button fill."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Video hero with a wavy edge into a teal intro band; headline left, tracked-caps kicker and copy right."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "section-rhythm"
+    ],
+    "why": "Eczar plus Geologica is an open-source pairing with real character, and sand, teal and oxblood come from the canyon landscape rather than a default. 130-140px section gaps keep the long page calm.",
+    "avoid": "Tracked-caps kickers and nav labels, the wavy section edge and Montserrat in the logo lockup.",
+    "probe": "index/probes/navtec.json"
+  },
+  {
+    "id": "nojiggery",
+    "url": "https://nojiggery.co/",
+    "title": "No Jiggery",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/no-jiggery",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "landing"
+    ],
+    "mood": [
+      "playful",
+      "warm"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Bricolage Grotesque",
+        "Figtree"
+      ],
+      "open_alternatives": [
+        "Bricolage Grotesque",
+        "Figtree"
+      ],
+      "note": "Bricolage Grotesque Bold at 120px tight against a friendly Figtree body at ~20px/1.5."
+    },
+    "color": {
+      "strategy": "vivid",
+      "dominant": "#d6ecf0",
+      "accent": "#fa2a6f",
+      "ink": "#004646",
+      "note": "Pale aqua and deep teal with a hot pink #fa2a6f for headlines and round buttons."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "balanced",
+      "hero": "split",
+      "note": "Rounded aqua hero panel with headline left and custom line illustration right."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "buttons"
+    ],
+    "why": "Tentative: a good open pairing (Bricolage Grotesque with Figtree) and readable 20px body, but pink headlines on aqua plus illustration is louder than the profile.",
+    "avoid": "Pink headline colour, arrow buttons everywhere, illustrated hero; neither face has Cyrillic in Fontsource.",
+    "probe": "index/probes/nojiggery.json"
+  },
+  {
+    "id": "northlandscapes",
+    "url": "https://www.northlandscapes.com/",
+    "title": "Fine Art Landscape Photography by Jan Erik Waider",
+    "source": "behance",
+    "source_url": "https://www.behance.net/gallery/188728551/FROZEN-COLORS-OF-WINTER-Germany",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "editorial",
+      "luxury"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Breve Title",
+        "Montserrat",
+        "Merriweather"
+      ],
+      "open_alternatives": [
+        "Newsreader",
+        "Montserrat",
+        "Merriweather"
+      ],
+      "note": "Light serif intro line over tracked Montserrat caps for titles; Merriweather appears as a third face."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#ffffff",
+      "accent": "#c7ac7f",
+      "ink": "#2d2d2d",
+      "note": "White with charcoal and grey text; a muted gold for the photographer's name link and a short rule."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "type-only",
+      "note": "Three-column photo grid with caps title and grey location caption under each image."
+    },
+    "motion": 1,
+    "extractable": [
+      "card-system",
+      "palette"
+    ],
+    "why": "Image grid captions as bold caps title plus grey location separated by a gold dash, with a muted gold used only for one link and a rule. Tentative: three typefaces and tracked caps throughout.",
+    "avoid": "Three typefaces and tracked-caps titles on every card.",
+    "probe": "index/probes/northlandscapes.json",
+    "tentative": true
+  },
+  {
+    "id": "obsidianassembly",
+    "url": "https://obsidianassembly.com/",
+    "title": "The Obsidian Assembly",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/wotm/the-obsidian-assembly/48991",
+    "source_score": 8.58,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing"
+    ],
+    "mood": [
+      "luxury",
+      "editorial"
+    ],
+    "typography": {
+      "display": "display",
+      "body": "sans",
+      "faces": [
+        "OTJubilee-Platinum",
+        "Switzer-Regular",
+        "Voyage-Regular"
+      ],
+      "open_alternatives": [
+        "Playfair Display",
+        "Cormorant Garamond",
+        "Inter"
+      ],
+      "note": "High-contrast swash display serif at poster scale against a plain neutral grotesk for labels and body."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#151415",
+      "accent": "#f1eade",
+      "ink": "#f1eade",
+      "note": "Near-black #151415 with parchment #f1eade; a bronze gradient wash in the hero; no saturated accent, so accent is the parchment used on buttons."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "airy",
+      "hero": "product-shot",
+      "note": "Staggered three-line display headline over an obsidian render with tilted photo cards at the edges."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "type-pairing"
+    ],
+    "why": "Parchment-on-near-black palette with a swash serif display and a neutral grotesk; the palette is reusable for a premium dark scheme. Tentative: three faces, dark-first, and the display face will not survive long Cyrillic words.",
+    "avoid": "Swash display at body-level headings, gradient wash, tilted cards, 2s transitions.",
+    "tentative": true,
+    "probe": "index/probes/obsidianassembly.json"
+  },
+  {
+    "id": "odysseeclinic",
+    "url": "https://www.odysseeclinic.com.au/",
+    "title": "Odyssée",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/odyssee",
+    "source_score": 7.38,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing"
+    ],
+    "mood": [
+      "luxury",
+      "minimal"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "psTimes",
+        "Basel Grotesk"
+      ],
+      "open_alternatives": [
+        "Source Serif 4",
+        "Inter"
+      ],
+      "note": "Light Times-style serif for headings and the tagline, small tracked Basel Grotesk caps for nav; one serif, one sans."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#fffcf8",
+      "accent": "#1e305e",
+      "ink": "#1e305e",
+      "note": "Warm white with navy as the only colour, used for ink and the menu; no black."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "video",
+      "note": "Full-bleed portrait video with the nav row set across the vertical middle; section gaps of 120-240px."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "nav",
+      "spacing-scale"
+    ],
+    "why": "Navy ink on warm white replaces black entirely, and a light serif with small grotesk caps gives a quiet clinical luxury. Spacing runs on a clear 24/40/120/240 scale.",
+    "avoid": "Mid-viewport nav over video and the close-crop face video; both are brand theatre.",
+    "probe": "index/probes/odysseeclinic.json"
+  },
+  {
+    "id": "olhauzhykova",
+    "url": "https://olhauzhykova.com/",
+    "title": "Olha Uzhykova. Design Director",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/olha-uzhykova-personal-website-1",
+    "source_score": 7.49,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "warm",
+      "editorial"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Austin",
+        "satoshi"
+      ],
+      "open_alternatives": [
+        "Playfair Display",
+        "Figtree"
+      ],
+      "note": "Austin high-contrast serif for h2 with Satoshi body, per probe facts."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#1b1c1e",
+      "accent": "#568778",
+      "ink": "#f5f5eb",
+      "note": "Charcoal ground with cream text, a cream panel and sage #b1c0a0 / #568778 greens."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Pill nav top right; content not rendered in either screenshot."
+    },
+    "motion": 1,
+    "extractable": [
+      "palette",
+      "type-pairing"
+    ],
+    "why": "Tentative: screenshots caught only the preloader, so tags rest on probe facts (Austin serif with Satoshi, charcoal, cream and sage); worth a re-probe.",
+    "avoid": "Unverified visually; dark-first with no light variant observed.",
+    "probe": "index/probes/olhauzhykova.json"
+  },
+  {
+    "id": "onseis",
+    "url": "https://onseis.com/",
+    "title": "Onseis Studio",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/onseis-studio",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "warm",
+      "editorial"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "mono",
+      "faces": [
+        "Plus Jakarta Sans",
+        "Lekton",
+        "Pinyon Script"
+      ],
+      "open_alternatives": [
+        "Plus Jakarta Sans",
+        "IBM Plex Mono"
+      ],
+      "note": "Small uppercase grotesk headings against justified uppercase mono copy; a script face is used only for the start-a-project link."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#f0e9dd",
+      "accent": "#212121",
+      "ink": "#363636",
+      "note": "Oat #f0e9dd with charcoal ink and a #212121 ticker bar; probe has no saturated colour, so accent is the darkest text; a small teal dot marks the CTA."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Three-column intro statement, then a staggered horizontal strip of project images with mono captions."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "section-rhythm",
+      "nav"
+    ],
+    "why": "Warm oat ground with charcoal mono captions and a staggered project strip gives a print-studio feel with very little ornament. Tentative: three typefaces and justified uppercase mono body fail the reading rules.",
+    "avoid": "Justified uppercase mono paragraphs, the script CTA, the marquee booking bar; Lekton has no Cyrillic.",
+    "tentative": true,
+    "probe": "index/probes/onseis.json"
+  },
+  {
+    "id": "quakerschool",
+    "url": "https://www.quakerschool.org/",
+    "title": "The Quaker School at Horsham",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/the-quaker-school-at-horsham/50093",
+    "source_score": 8,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing",
+      "editorial"
+    ],
+    "mood": [
+      "warm",
+      "editorial"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Season Mix",
+        "Season Sans"
+      ],
+      "open_alternatives": [
+        "Newsreader",
+        "Inter"
+      ],
+      "note": "Huge (226px) soft serif display paired with its own sans sibling for body at 18.6px; one family, two voices."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#f9f9f0",
+      "accent": "#1a1a1a",
+      "ink": "#1a1a1a",
+      "note": "Ivory and near-black only; no saturated accent in the probe, so the accent is the ink colour."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "video",
+      "note": "Full-bleed classroom video with a screen-wide serif headline at the bottom; section gaps 220-444px."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "section-rhythm",
+      "nav"
+    ],
+    "why": "A soft serif display set screen-wide over video, with a matching sans for body and a short plain-label nav. Very generous section gaps (220-444px) make each block read as a chapter.",
+    "avoid": "Video hero and the 226px display; scale the headline down for content pages.",
+    "probe": "index/probes/quakerschool.json"
+  },
+  {
+    "id": "readingstones",
+    "url": "http://readingstones.com/",
+    "title": "Point Of View",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/point-of-view/50203",
+    "source_score": 8.2,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing",
+      "editorial"
+    ],
+    "mood": [
+      "playful",
+      "technical"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Inter",
+        "JetBrains Mono"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "JetBrains Mono"
+      ],
+      "note": "Tight bold Inter headlines with JetBrains Mono measurement annotations (D = 50,0)."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#030303",
+      "accent": "#a1a4a6",
+      "ink": "#fafeff",
+      "note": "Probe says black 60%, but screenshots read near-white #fafeff with black type; grey #a1a4a6 annotations, no chromatic accent."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "image",
+      "note": "Spaced POINT OF VIEW title with optical-measurement lines, centred portrait, centred bold statement."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "section-rhythm"
+    ],
+    "why": "Tentative: eyewear story told with optician measurement marks in mono around tight bold Inter; witty, but colour facts conflict with the screenshots.",
+    "avoid": "Braille glyphs inside headings and letter-spaced title; probe colours look inverted.",
+    "probe": "index/probes/readingstones.json"
+  },
+  {
+    "id": "righthemisphere",
+    "url": "https://www.righthemisphere.studio/",
+    "title": "Right Hemisphere",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/right-hemisphere-1",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "minimal",
+      "playful"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Ppmori",
+        "Karla"
+      ],
+      "open_alternatives": [
+        "Manrope",
+        "Karla"
+      ],
+      "note": "One soft grotesk (PP Mori) at 75px uppercase spread across the full width, regular weight only."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#ffffff",
+      "accent": "#ff7136",
+      "ink": "#000000",
+      "note": "No saturated text or button colour in the probe; accent taken from the orange #ff7136 project panel."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Full-width spaced headline, contact block bottom right, then a two-column project list with years set vertically."
+    },
+    "motion": 2,
+    "extractable": [
+      "hero",
+      "section-rhythm",
+      "nav"
+    ],
+    "why": "Very airy type-only hero with a single regular-weight grotesk and a plain five-item nav; the project list below keeps the same quiet rhythm.",
+    "avoid": "The word-spread headline relies on short English words and will not survive long translations.",
+    "probe": "index/probes/righthemisphere.json"
+  },
+  {
+    "id": "ross-oneill",
+    "url": "https://ross-oneill.com/",
+    "title": "Ross O'Neill — Freelance Web Developer in Perth, Australia",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/ross-oneill",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "minimal",
+      "corporate"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "DM Sans"
+      ],
+      "open_alternatives": [
+        "DM Sans"
+      ],
+      "note": "One face throughout; hierarchy from a large medium-weight statement headline against 16px body."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Black and white with a #f5f5f7 card grey; the probe has no saturated colour, so accent is the black pill button (red appears only in the logo)."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "One-row nav with black pill CTA, statement headline, then a swipeable row of 32px-radius project cards; 160px section gaps."
+    },
+    "motion": 1,
+    "extractable": [
+      "hero",
+      "nav",
+      "spacing-scale"
+    ],
+    "why": "Plain statement-headline hero with a one-row nav and consistent 160px section gaps; a clean baseline for a freelancer page. Tentative: competent but generic, with no accent and nothing that beats the current theme.",
+    "avoid": "DM Sans lacks Cyrillic; arrow appended to links; identical rounded project cards.",
+    "tentative": true,
+    "probe": "index/probes/ross-oneill.json"
+  },
+  {
+    "id": "runtimewire",
+    "url": "https://runtimewire.com/",
+    "title": "RuntimeWire",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/runtimewire/50472",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "editorial"
+    ],
+    "mood": [
+      "editorial",
+      "technical"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Newsreader",
+        "Inter",
+        "JetBrains Mono"
+      ],
+      "open_alternatives": [
+        "Newsreader",
+        "Inter",
+        "JetBrains Mono"
+      ],
+      "note": "Newsreader semibold headlines and serif deks over Inter UI; mono only for tracker counters and the terminal theme."
+    },
+    "color": {
+      "strategy": "cold-neutral",
+      "dominant": "#f9fafb",
+      "accent": "#bb4d00",
+      "ink": "#171a26",
+      "note": "Cool grey surfaces with blue-black ink; burnt orange #bb4d00 for the Featured kicker, links and the logo dot."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "dense",
+      "hero": "split",
+      "note": "Lead story left, ruled numbered More Features rail right, subscribe bar under a one-row nav."
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "chips",
+      "nav",
+      "card-system"
+    ],
+    "why": "A real news front built on open faces: Newsreader headlines, Inter UI, a cool neutral and one burnt-orange kicker, with a light/dark/terminal theme switch in the header.",
+    "avoid": "Tag chips in several pastel colours and the HOT badge add noise; keep the single orange.",
+    "probe": "index/probes/runtimewire.json"
+  },
+  {
+    "id": "samgoddard",
+    "url": "https://samgoddard.co.uk/",
+    "title": "Sam Goddard // Design Engineer",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/sam-goddard-2",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "editorial",
+      "technical"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "serif",
+      "body": "mono",
+      "faces": [
+        "editorial",
+        "geistMono"
+      ],
+      "open_alternatives": [
+        "Instrument Serif",
+        "Geist Mono"
+      ],
+      "note": "Condensed editorial serif caps at 86px with swash ligatures against a 12px Geist Mono UI."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#171717",
+      "accent": "#d4d4d4",
+      "ink": "#d4d4d4",
+      "note": "Neutral charcoal with one light grey for all text and rules; no accent."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Ruled mono header and footer bars framing a full-width serif statement over a halftone portrait."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "nav",
+      "footer"
+    ],
+    "why": "Tentative: serif display caps with a mono UI framed by thin rules is a strong engineer-portfolio pairing, but it is dark-only.",
+    "avoid": "Dark-only; double-slash separators and the halftone canvas are decoration.",
+    "probe": "index/probes/samgoddard.json"
+  },
+  {
+    "id": "second-ride",
+    "url": "https://second-ride.de/en",
+    "title": "Second Ride",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/second-ride",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "ecommerce",
+      "product"
+    ],
+    "mood": [
+      "minimal",
+      "retro"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Nunito Sans"
+      ],
+      "open_alternatives": [
+        "Nunito Sans"
+      ],
+      "note": "One rounded humanist sans at two weights; hierarchy comes from photo captions, not the type."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#050505",
+      "accent": "#e4b854",
+      "ink": "#ffffff",
+      "note": "Near-black page with a single mustard tone (0.6% of area) lifted from the moped paint."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "split",
+      "note": "Two full-height photo panels, one per product line, with a frosted floating nav bar."
+    },
+    "motion": 1,
+    "extractable": [
+      "hero",
+      "nav"
+    ],
+    "why": "Split full-bleed hero that routes straight to the two product lines, with captions set quietly over a dark gradient. Kept tentative: dark-only and the type system is a single generic sans.",
+    "avoid": "Dark-only scheme and the glassy floating nav; neither has a light counterpart.",
+    "probe": "index/probes/second-ride.json",
+    "tentative": true
+  },
+  {
+    "id": "signal-a",
+    "url": "https://signal-a.studio/",
+    "title": "Signal-A Studio",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/signal-a-studio",
+    "source_score": 7.22,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "editorial",
+      "minimal"
+    ],
+    "typography": {
+      "display": "mixed",
+      "body": "mono",
+      "faces": [
+        "PPEditorialNew",
+        "Neue Haas Grotesk Text Pro",
+        "Gt America Mono"
+      ],
+      "open_alternatives": [
+        "Instrument Serif",
+        "Inter",
+        "JetBrains Mono"
+      ],
+      "note": "Hairline condensed Editorial New caps set against heavy grotesk caps in the same justified line; mono for nav and meta."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Pure black on white; no chromatic accent in the probe, black doubles as accent."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Six-column underlined nav row, full-width justified statement, then a centred media block."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "nav",
+      "hero",
+      "section-rhythm"
+    ],
+    "why": "A justified all-caps statement that switches between hairline serif and heavy grotesk word by word, on plain white with a ruled mono nav; a sharp lesson in weight contrast without colour.",
+    "avoid": "Three faces and a text-scramble load effect; the justified caps would break with long Russian or Spanish words.",
+    "probe": "index/probes/signal-a.json"
+  },
+  {
+    "id": "stash",
+    "url": "https://stash.cool/",
+    "title": "Stash",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/stash",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "editorial",
+      "tool"
+    ],
+    "mood": [
+      "brutalist",
+      "minimal"
+    ],
+    "typography": {
+      "display": "display",
+      "body": "sans",
+      "faces": [
+        "Helvetica Neue",
+        "Space Mono"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "Space Mono"
+      ],
+      "note": "Custom slab wordmark at full width; Helvetica for UI and deks, Space Mono for card titles and meta."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#ffffff",
+      "accent": "#ffff00",
+      "ink": "#8a8a8a",
+      "note": "White and black with one highlighter yellow #ffff00 for the shortcut key and play control; probe ink is the grey dek colour."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "type-only",
+      "note": "Full-width wordmark, ruled section header with bracketed pager, horizontal article cards."
+    },
+    "motion": 1,
+    "extractable": [
+      "nav",
+      "chips",
+      "card-system",
+      "buttons"
+    ],
+    "why": "A directory with real editorial structure: ruled section headers, bracketed [ ← ] pagers, mono meta lines and one yellow highlight on otherwise black and white.",
+    "avoid": "The giant slab wordmark is a logo, not a heading style; grey #8a8a8a deks are below 4.5:1.",
+    "probe": "index/probes/stash.json"
+  },
+  {
+    "id": "stefanobg",
+    "url": "https://www.stefanobg.com/",
+    "title": "Stéfano Girardelli",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/stefano-girardelli-designer",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "playful",
+      "technical"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Archivo"
+      ],
+      "open_alternatives": [
+        "Archivo"
+      ],
+      "note": "Archivo at 600-700 with tight tracking for headlines and regular for body; wide-tracked caps for the reel link."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#141414",
+      "accent": "#e22356",
+      "ink": "#ffffff",
+      "note": "Charcoal with one raspberry accent used on a single word and the full stop."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "image",
+      "note": "Game screenshot fills the hero, headline bottom-left with an inline avatar pill."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing"
+    ],
+    "why": "Single-family Archivo system with one raspberry accent; shows a heavy open grotesk holding a dark page. Tentative: dark-only, numbered 01-07 nav and a highlighted word in the headline.",
+    "avoid": "Numbered nav labels, highlighted headline word and the dark-only scheme.",
+    "probe": "index/probes/stefanobg.json",
+    "tentative": true
+  },
+  {
+    "id": "supermodels-phototypelabs",
+    "url": "https://supermodels.phototypelabs.com/",
+    "title": "SUPERMODELS: Top AI models. One app.",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/supermodels",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "product",
+      "tool"
+    ],
+    "mood": [
+      "editorial",
+      "technical"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Manrope",
+        "DM Sans",
+        "Onest"
+      ],
+      "open_alternatives": [
+        "Manrope",
+        "DM Sans",
+        "Onest"
+      ],
+      "note": "Medium Manrope with very tight tracking (-6%) for headlines over a plain DM Sans body."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#f7f6f2",
+      "accent": "#ded5c5",
+      "ink": "#171715",
+      "note": "Warm off-white #f7f6f2 body with a black hero; no saturated accent in the probe, so accent is the most saturated text colour, warm beige #ded5c5."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "airy",
+      "hero": "split",
+      "note": "Full-width wordmark, then headline and CTAs left with an image carousel of 24px-radius cards."
+    },
+    "motion": 2,
+    "extractable": [
+      "palette",
+      "buttons",
+      "chips",
+      "section-rhythm"
+    ],
+    "why": "Warm off-white and near-black neutrals with 24px pill chips and square cream CTAs; the section gaps (144–214px) set a calm rhythm for a tool landing. Tentative: four faces loaded and tracked caps on nav and eyebrows.",
+    "avoid": "Tracked-out uppercase nav and eyebrow labels; arrows on every CTA; extra Onest and Impact Label faces.",
+    "tentative": true,
+    "probe": "index/probes/supermodels-phototypelabs.json"
+  },
+  {
+    "id": "tengilemalamala",
+    "url": "https://tengilemalamala.com/",
+    "title": "Luxury Safari Experiences in Greater Kruger & Sabi Sand",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/tengile-malamala-collection",
+    "source_score": 7.22,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing",
+      "product"
+    ],
+    "mood": [
+      "luxury",
+      "organic",
+      "editorial"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "PP Fragment",
+        "Inter"
+      ],
+      "open_alternatives": [
+        "Fraunces",
+        "Inter"
+      ],
+      "note": "Hairline-weight (220) serif caps at 120px against plain Inter; the weight contrast does the luxury work."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#e3e1d4",
+      "accent": "#5c6e21",
+      "ink": "#373f1d",
+      "note": "Stone background with olive (#5c6e21) as both secondary surface and link colour; dark olive ink instead of black."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "airy",
+      "hero": "video",
+      "note": "Staggered two-line headline offset across the hero, intro copy indented to a second column; section gaps 100-196px."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "section-rhythm",
+      "buttons"
+    ],
+    "why": "An ultra-light serif display over Inter with olive used for both ink and accent: one temperature, no black anywhere. Section gaps step from 100 to 196px, so the page reads as a slow sequence.",
+    "avoid": "The 220-weight display fails at small sizes and on low-contrast photos; keep it above 48px and on solid surfaces.",
+    "probe": "index/probes/tengilemalamala.json"
+  },
+  {
+    "id": "terakawaoffice",
+    "url": "https://www.terakawaoffice.com/en",
+    "title": "Architectural Photographer in Tokyo, Japan",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/terakawa-photo-office/50463",
+    "source_score": 7.47,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "portfolio"
+    ],
+    "mood": [
+      "editorial",
+      "luxury"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "EB Garamond",
+        "Inter"
+      ],
+      "open_alternatives": [
+        "EB Garamond",
+        "Inter"
+      ],
+      "note": "EB Garamond for headings, italic accents and body copy; Inter only for small UI. Italic swashes do the emphasis."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#fbfaf7",
+      "accent": "#6d5a33",
+      "ink": "#6b6b6b",
+      "note": "Warm off-white with near-black #141414 headings and a bronze #6d5a33 used for italics, outlines and rules."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "airy",
+      "hero": "image",
+      "note": "Inset photo hero, then a left-aligned serif intro with generous leading."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "buttons",
+      "section-rhythm"
+    ],
+    "why": "An open Garamond with a warm off-white and one bronze accent for italics and outline buttons; long body copy at 1.8 leading reads like a book.",
+    "avoid": "Tracked italic caps labels and an always-visible Enquire pill; body grey #6b6b6b is below 7:1 on the off-white.",
+    "probe": "index/probes/terakawaoffice.json"
+  },
+  {
+    "id": "thelinestudio",
+    "url": "https://thelinestudio.com/",
+    "title": "Animation Studio London",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/thelinestudio-com",
+    "source_score": 7.76,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "brutalist",
+      "playful"
+    ],
+    "typography": {
+      "display": "display",
+      "body": "sans",
+      "faces": [
+        "DenimWeb"
+      ],
+      "open_alternatives": [
+        "Archivo"
+      ],
+      "note": "A single variable grotesk does everything, from the 175px stencil-cut wordmark to slash-separated nav."
+    },
+    "color": {
+      "strategy": "vivid",
+      "dominant": "#dddee2",
+      "accent": "#ff0000",
+      "ink": "#0b0b0b",
+      "note": "Cool light grey with a full red field (33% of area) as the brand surface; red-orange for the active nav item."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Edge-to-edge reel with a screen-wide wordmark pinned to the bottom; inline slash-separated nav top right."
+    },
+    "motion": 2,
+    "extractable": [
+      "nav",
+      "hero"
+    ],
+    "why": "Inline slash-separated text nav with a dot marking the current page, and a wordmark that spans the viewport. Tentative: vivid red identity and video-led hero sit outside the taste profile.",
+    "avoid": "Full red fields and the bottom-pinned giant wordmark; they are brand-specific.",
+    "probe": "index/probes/thelinestudio.json",
+    "tentative": true
+  },
+  {
+    "id": "tricota",
+    "url": "https://www.tricota.com.ar/",
+    "title": "Tricota",
+    "source": "behance",
+    "source_url": "https://www.behance.net/gallery/226759561/Brand-Website",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "minimal",
+      "editorial"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Public Sans"
+      ],
+      "open_alternatives": [
+        "Public Sans"
+      ],
+      "note": "Public Sans only: screen-wide wordmark in near-black on black, large light statement in cream."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#121111",
+      "accent": "#f2efe9",
+      "ink": "#f2efe9",
+      "note": "Warm near-black with cream type and a cream tab; the wordmark is tone-on-tone."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Tone-on-tone giant wordmark above a centred two-line statement; a vertical side tab for contact."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "hero"
+    ],
+    "why": "Warm near-black with cream text and a tone-on-tone wordmark: a dark scheme with temperature, using one open face. Tentative: dark-only and the wordmark has almost no contrast.",
+    "avoid": "Tone-on-tone wordmark (fails contrast) and the dark-only scheme.",
+    "probe": "index/probes/tricota.json",
+    "tentative": true
+  },
+  {
+    "id": "twks",
+    "url": "https://twks.ch/en",
+    "title": "Creative communications agency in Geneva",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/twks-1",
+    "source_score": 7.35,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio"
+    ],
+    "mood": [
+      "minimal",
+      "playful"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "GT Standard"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "One grotesk, lowercase nav at 20px; no visible heading scale on the first screen."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Black and white chrome; colour comes only from project photography."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "image",
+      "note": "Full-bleed project image with a single centred row of lowercase nav."
+    },
+    "motion": 2,
+    "extractable": [
+      "nav",
+      "palette"
+    ],
+    "why": "Tentative: lowercase single-grotesk nav floating over full-bleed work is clean, but the first screens show no type scale or sections to learn from.",
+    "avoid": "The whole first screen is a client image; nothing beyond the nav is reusable.",
+    "probe": "index/probes/twks.json"
+  },
+  {
+    "id": "watson",
+    "url": "https://watson.la/",
+    "title": "Watson",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/watson",
+    "source_score": 7.58,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio"
+    ],
+    "mood": [
+      "editorial",
+      "playful"
+    ],
+    "typography": {
+      "display": "mixed",
+      "body": "sans",
+      "faces": [
+        "ba",
+        "bu",
+        "ca"
+      ],
+      "open_alternatives": [
+        "Archivo",
+        "Newsreader",
+        "Inter"
+      ],
+      "note": "Condensed grotesk wordmark, a bold text serif and a hairline sans mixed inside one sentence; footnote numerals link the nav."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#000000",
+      "note": "Pure black on white; images inline in the headline are the only colour."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "Centred 320px wordmark, then a centred serif sentence with inline images and underlined links."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "nav",
+      "hero"
+    ],
+    "why": "Footnote-numbered nav and a centred sentence that mixes serif and hairline sans with inline thumbnails; a bold editorial voice in black and white.",
+    "avoid": "Three faces (obfuscated as ba/bu/ca) and inline images in headings; probe flags WebGL though the page reads as static.",
+    "probe": "index/probes/watson.json"
+  },
+  {
+    "id": "wedding-s-tmro",
+    "url": "https://wedding.s-tmro.com/",
+    "title": "Wedding Invitation",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/wedding-invitation-yuri-tomo/50515",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "landing"
+    ],
+    "mood": [
+      "minimal",
+      "editorial"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Stack Sans Text",
+        "Stack Sans Headline",
+        "Italianno"
+      ],
+      "open_alternatives": [
+        "Manrope",
+        "Italianno"
+      ],
+      "note": "Geometric Stack Sans headings with a script Italianno word layered in; Zen Old Mincho for Japanese."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#f2f2f2",
+      "accent": "#333333",
+      "ink": "#4d4d4d",
+      "note": "Two near-identical light greys with charcoal text; no chromatic accent."
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "airy",
+      "hero": "image",
+      "note": "Offset photos with curved crops, vertical side labels, large date set in the headline face."
+    },
+    "motion": 2,
+    "extractable": [
+      "section-rhythm",
+      "palette"
+    ],
+    "why": "Tentative: a one-off event page with good grey rhythm and offset photo crops, but four faces and a script overlay are past the profile.",
+    "avoid": "Script overlay word, four faces, letters animating in; a single-event microsite.",
+    "probe": "index/probes/wedding-s-tmro.json"
+  },
+  {
+    "id": "wonder-vision",
+    "url": "https://www.wonder-vision.com/",
+    "title": "Wonder Vision®",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/wonder-vision/50220",
+    "source_score": 8.13,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "studio"
+    ],
+    "mood": [
+      "minimal",
+      "technical"
+    ],
+    "tentative": true,
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "FKGrotesk"
+      ],
+      "open_alternatives": [
+        "Inter"
+      ],
+      "note": "One grotesk at 70px regular for the statement, 16px/24px body."
+    },
+    "color": {
+      "strategy": "monochrome",
+      "dominant": "#ffffff",
+      "accent": "#000000",
+      "ink": "#ffffff",
+      "note": "White and black chrome; probe ink is white because text sits on the showreel."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "balanced",
+      "hero": "video",
+      "note": "Full-bleed CGI reel with a boxed Play Showreel button; mobile shows the statement above the reel."
+    },
+    "motion": 2,
+    "extractable": [
+      "buttons",
+      "hero"
+    ],
+    "why": "Tentative: a plain regular-weight grotesk statement and a square split play button are clean, but the page is a CGI showreel first.",
+    "avoid": "The CGI video hero and coordinate overlays.",
+    "probe": "index/probes/wonder-vision.json"
+  },
+  {
+    "id": "yigua",
+    "url": "https://yigua.art/?lang=en",
+    "title": "一卦",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/yi-gua/50511",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "tool"
+    ],
+    "mood": [
+      "minimal",
+      "editorial",
+      "warm"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "ui-serif",
+        "ui-sans-serif"
+      ],
+      "open_alternatives": [
+        "Source Serif 4",
+        "Inter"
+      ],
+      "note": "System serif headline and subtitle at 57px over system sans UI text; zero webfonts, the contrast still holds."
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#f3f0e8",
+      "accent": "#171815",
+      "ink": "#171815",
+      "note": "Warm paper with near-black ink and a black pill as the only button; muted grey #65645e for secondary text."
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only",
+      "note": "One centred symbol, headline, two-line subtitle and one Cast button; hairline rules frame header and footer."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "buttons",
+      "footer",
+      "spacing-scale"
+    ],
+    "why": "A single-purpose tool reduced to a serif sentence, one black pill and hairline-ruled header and footer on warm paper. Shows a calm serif-plus-sans system built from system fonts.",
+    "avoid": "Soft radial glow behind the symbol; drop it.",
+    "probe": "index/probes/yigua.json"
+  },
+  {
+    "id": "zenarate",
+    "url": "https://www.zenarate.com/",
+    "title": "Zenarate",
+    "source": "awwwards",
+    "source_url": "https://www.awwwards.com/sites/zenarate",
+    "source_score": null,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "product",
+      "landing"
+    ],
+    "mood": [
+      "editorial",
+      "warm",
+      "corporate"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Recital Upright Variable",
+        "Manrope",
+        "Suisseintlmono Webs"
+      ],
+      "open_alternatives": [
+        "Newsreader",
+        "Literata",
+        "Manrope",
+        "IBM Plex Mono"
+      ],
+      "note": "Book-weight variable serif at 64/48px with -1px tracking over a medium-weight Manrope body; mono only for small chips."
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#ffffff",
+      "accent": "#fde173",
+      "ink": "#202121",
+      "note": "White and #f6f6f4 surfaces, near-black ink, #d0d0ce hairlines; butter yellow #fde173 appears only on the logo tile."
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "image",
+      "note": "Full-bleed photo hero with centred serif headline; floating white pill nav; 16px cards and 200px pill buttons."
+    },
+    "motion": 2,
+    "extractable": [
+      "type-pairing",
+      "nav",
+      "buttons",
+      "chips",
+      "palette"
+    ],
+    "why": "A B2B product page that leads with a book-weight serif over a quiet Manrope body, white pill nav and hairline-bordered 16px cards; the serif/sans contrast carries the personality as the taste profile asks.",
+    "avoid": "The full-bleed close-up photo hero and the italic highlighted word in the headline.",
+    "probe": "index/probes/zenarate.json"
+  },
+  {
+    "id": "zrk",
+    "url": "https://www.zrk.technology/",
+    "title": "Shahed interceptor with auto-guidance",
+    "source": "cssda",
+    "source_url": "https://www.cssdesignawards.com/sites/zirka-interceptor/50133",
+    "source_score": 8.27,
+    "added": "2026-10-24",
+    "status": "live",
+    "last_checked": "2026-10-24",
+    "kind": [
+      "product",
+      "landing"
+    ],
+    "mood": [
+      "technical",
+      "minimal"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Inter Display",
+        "Geist Mono"
+      ],
+      "open_alternatives": [
+        "Inter",
+        "Geist Mono"
+      ],
+      "note": "Tight-tracked Inter Display headline against small uppercase Geist Mono HUD labels; mono carries the technical voice."
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#050505",
+      "accent": "#fc4f00",
+      "ink": "#dddddd",
+      "note": "Off-black with warm grey ink; signal orange appears only on the contact button frame and borders."
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "video",
+      "note": "Bottom-left headline over a dim product video, mono telemetry block top-left, hairline-framed nav."
+    },
+    "motion": 3,
+    "extractable": [
+      "type-pairing",
+      "nav",
+      "buttons",
+      "chips"
+    ],
+    "why": "Disciplined sans plus mono pairing with one signal-orange accent reserved for the CTA, a clean model for a technical tool's chrome. Tentative: dark-only, video hero and GSAP scroll scenes.",
+    "avoid": "Defence subject matter, dark-only palette and the scroll-driven video sequence; lift only the mono label system and the accent discipline.",
+    "probe": "index/probes/zrk.json",
+    "tentative": true
+  }
+]

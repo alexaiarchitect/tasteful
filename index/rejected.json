@@ -1,1 +1,207 @@
-[]
+[
+  {
+    "url": "https://www.media-harbour.com/",
+    "reason": "Generic agency template look: gradient glow hero, gradient-highlighted headline word, pill buttons; conflicts with Dislikes.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.arunnm.com/",
+    "reason": "Splash gate (\"I'm in\") for a scroll-driven ride experiment; no sections or reusable system visible, dark only.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://safeertemplate.webflow.io/",
+    "reason": "Webflow template demo (\"Safeer - Webflow HTML Website Template\").",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://siena.film/",
+    "reason": "Both screenshots show only the logo preloader; dark-only three-face identity cannot be verified.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://sloshseltzer.com/unsupported",
+    "reason": "WebGL-only site; the probe landed on the \"browser not supported\" fallback page.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.getty.edu/tracingart",
+    "reason": "Pure WebGL scroll story (webgl true, motion 3); screenshots show only the loader.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://zentry.com/",
+    "reason": "Web3/crypto gaming promo built as a WebGL experience; screenshots show only the logo loader.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.esrbespoke.au/",
+    "reason": "Full-bleed car video is the whole first screen; fonts are hashed (__bodyFont) so no verifiable type system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://huyml.co/",
+    "reason": "Probe timed out with no data and no screenshots (partial, 30 s budget exhausted).",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.thedesignsociety.fr/",
+    "reason": "Screenshots show only the CRT-style loader; faces are TRIAL builds and computed h1 is Arial.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.juanmoraromero.com/",
+    "reason": "Dead render: desktop shows \"This page couldn't load\", mobile is blank.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://grids03.obys.agency/",
+    "reason": "Desktop-only WebGL grid experience; mobile shows \"designed for desktop\" splash, no reusable system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://boombeestudio.com/en",
+    "reason": "Template SaaS layout: three feature cards with icons and 01/02/03 step cards; conflicts with Dislikes.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://usprocreators.com/",
+    "reason": "Showcase community for Impreza/Zephyr theme sites (theme ecosystem), particle background and stock icons.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://emotion-agency.com/",
+    "reason": "WebGL agency experience (webgl true, motion 3); screenshots show only the loading screen.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.undplus.com/",
+    "reason": "Poppins letter-scroll hero on black/yellow is the whole identity; probe colours (white 100%) contradict the black screen.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://a24.raviklaassens.com/",
+    "reason": "WebGL/GSAP concept piece (fan site for A24): capture shows only a loader and a wordmark, no body copy or reusable system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://secure-the-unknown.cyera.com/unsupported",
+    "reason": "Redirects headless browsers to an unsupported-browser page; nothing to verify.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://matteocourquin.com/en",
+    "reason": "Blank grey render on desktop and mobile (WebGL, motion 3); facts cannot be verified.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://neutomni.com/",
+    "reason": "Static probe only: site blocked headless, no screenshots and no font data.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.savoirfaire.nyc/",
+    "reason": "WebGL showpiece: black screen with one star and a tagline, no sections or body copy.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://santionispirits.com/unsupported",
+    "reason": "Redirects to an unsupported-browser page; nothing to verify.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.mariavasilyeva.com/",
+    "reason": "Capture is the 'loading the playlist' intro only; experience-driven portfolio with no readable content system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.3moons.it/",
+    "reason": "Generic 3D mascot render, glow washes and tracked eyebrow labels are the whole identity; dark-only.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.alekseialeinikov.com/en",
+    "reason": "Gold gradient buttons, tracked caps eyebrows on every block, numbered lists and dark-only: conflicts with the taste dislikes.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://wassimnasr.com/",
+    "reason": "Generic 3D avatar render with a chat box over a dark room; no type or colour system to lift.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "http://www.etsy.com/shop/JenniferEsseiva",
+    "reason": "Marketplace shop page; capture is an Etsy bot-verification wall.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://greyscalegorilla.com/",
+    "reason": "3D asset store with a template SaaS hero, promo modal and dark-only lime CTA scheme.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.gwenkeraval.com/",
+    "reason": "Default Cargo template in 12px Verdana; the illustrations are the content, no reusable type or colour system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://uncavestudio.com.br/",
+    "reason": "Maintenance page ('site em manutenção'); no real site to index.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://sankar.work/",
+    "reason": "Glow pills, gradient headline text, four typefaces and dark-only: conflicts with the taste dislikes.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://web-smith.de/",
+    "reason": "Template agency hero: gradient blob, floating 3D icons, eyebrow caps, numbered services and → on every button.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://experience.projetbulles.com/",
+    "reason": "Capture is a 404 page with a gradient wash and 3D bubbles; the WebGL experience itself has no reusable system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.bhavanakulkarni.com/",
+    "reason": "Highlighted word in every headline, gradient blob washes and five loaded faces; conflicts with the taste dislikes.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://charlesleclerc.com/en",
+    "reason": "Video-led driver showcase with an ultra-condensed display face; mobile render is a blank navy screen, no reusable content system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://blue2purple.com/",
+    "reason": "Static probe only (site blocks headless, navigation timed out) and no screenshots, so facts cannot be verified.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://compsych.konpo.co/",
+    "reason": "WebGL sunrise preloader with gradient glow is all that renders; client brand-guidelines microsite with no readable system.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://themonolithproject.net/",
+    "reason": "Pure WebGL piece; both screenshots are a blank grey field and the probe found no text or fonts.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.growthbook.io/",
+    "reason": "Template SaaS hero (centred Inter headline, two CTAs, purple gradient product shot); nothing beyond stock Inter plus violet.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.composites.archi/",
+    "reason": "WebGL scroll experience stuck on a 0% loader in both screenshots; no reusable type or colour system visible.",
+    "date": "2026-10-24"
+  },
+  {
+    "url": "https://www.virugroup.com/en",
+    "reason": "dead: network error (ECONNREFUSED: connect ECONNREFUSED 144.22.53.24:80); https redirects to http on a closed port 80",
+    "date": "2026-10-24"
+  }
+]
