@@ -12,7 +12,7 @@
       "https://www.awwwards.com/websites/typography/",
       "https://www.awwwards.com/websites/portfolio/",
       "https://www.awwwards.com/websites/e-commerce/",
-      "https://www.awwwards.com/websites/editorial/",
+      "https://www.awwwards.com/websites/clean/",
       "https://www.awwwards.com/websites/startup/"
     ],
     "crawler": "scripts/crawl-awwwards.mjs",

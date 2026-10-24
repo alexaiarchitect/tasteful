@@ -57,8 +57,9 @@ export function parseListing(html, now = new Date()) {
   const cards = [];
   for (const raw of parts) {
     const chunk = raw.split(/<\/article>/)[0];
-    const sitePath = chunk.match(/<a href="(\/sites\/[^"]+)"\s+class="sp__full-size-link"/)?.[1]
-      ?? chunk.match(/href="(\/sites\/[^"]+)"/)?.[1];
+    // Award-page links: /sites/<slug>/<id>/ (gallery, WOTD) or /wotm/<slug>/<id>/ (WOTM).
+    const sitePath = chunk.match(/<a href="(\/(?:sites|wotm|wotd)\/[^"]+)"\s+class="sp__full-size-link"/)?.[1]
+      ?? chunk.match(/href="(\/(?:sites|wotm|wotd)\/[^"]+)"/)?.[1];
     if (!sitePath) continue;
     const external = chunk.match(/<a href="(https?:\/\/[^"]+)"[^>]*class="sp__project-link"/)?.[1] ?? null;
     const titleHtml = chunk.match(/class="single-project__title"[^>]*>([\s\S]*?)<\/h3>/)?.[1];
@@ -90,9 +91,10 @@ export function parseSitePage(html) {
   const dm = html.match(/class="single-website__date"[^>]*>([^<]*)</);
   if (dm) {
     const txt = textOf(dm[1]);
-    const m = txt.match(/^(.*?)\s+(\d{4})\s+([A-Za-z]{3})[a-z]*\s+(\d{1,2})/);
+    // "Website Of The Day 2026 Oct 24"; WOTM pages give only "Website Of The Month 2026 Sep" (→ day 01).
+    const m = txt.match(/^(.*?)\s+(\d{4})\s+([A-Za-z]{3})[a-z]*(?:\s+(\d{1,2}))?/);
     if (m) {
-      out.date = isoDate(m[2], m[3], m[4]);
+      out.date = isoDate(m[2], m[3], m[4] ?? 1);
       const kind = m[1].toLowerCase();
       out.award = kind.includes('of the day') ? 'wotd' : kind.includes('of the month') ? 'wotm' : slugTag(m[1]) || null;
     }
@@ -132,8 +134,11 @@ async function main() {
           break;
         }
         const cards = parseListing(await res.text());
+        if (!cards.length) {
+          log.warn(`${col} p${page}: 0 cards parsed from ${url} (layout changed?)`);
+          break;
+        }
         log.info(`${col} p${page}: ${cards.length} cards`);
-        if (!cards.length) break;
         for (const card of cards) {
           const sourceUrl = canonicalUrl(new URL(card.sitePath, BASE).toString());
           // Skip the award-page fetch when the candidate is already a known duplicate.

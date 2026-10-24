@@ -216,7 +216,7 @@ URL comparison ignores the scheme (`http` = `https`), a leading `www.`, the `#fr
 | --- | --- | --- | --- |
 | `--limit <n>` | number | none | Stop after n unique candidates |
 | `--pages <n>` | number | 1 | Listing pages per collection |
-| `--collections <list>` | list | `sotd,sotm,developer,minimal,typography,portfolio,e-commerce,editorial,startup` | `sotd`, `sotm`, `developer`, or any tag collection slug (`/websites/<slug>/`) |
+| `--collections <list>` | list | `sotd,sotm,developer,minimal,typography,portfolio,e-commerce,clean,startup` | `sotd`, `sotm`, `developer`, or any tag collection slug (`/websites/<slug>/`) |
 | `--no-score` | boolean | score on | Skip fetching each award page for its score (faster; `score: null`). The award page is still fetched when the listing card has no external link |
 
 Polite fetching as above. Resolves award pages (`/sites/<slug>`, the `source_url`) to the external site URL; social and awwwards.com links are skipped.
@@ -244,10 +244,11 @@ Polite fetching as above. Resolves award pages (`/sites/<slug>`, the `source_url
 
 Same politeness rules as Awwwards. By default each award page is fetched; known duplicates are skipped before that fetch.
 
-- `score`: mean of the UI, UX and Innovation vote scores on the award page (2 decimals), falling back to the listing's JPANEL score, else `null`.
+- `score`: mean of the UI, UX and Innovation vote scores on the award page (2 decimals), falling back to the listing's JPANEL score (WOTM award pages have no vote scores), else `null`.
 - `award`: the listing card's category as a lowercase slug (e.g. `wotd`), else from the award page.
-- `date`: from the award page, else the listing's month/day date with the current year, rolled back one year if that would be in the future.
+- `date`: from the award page (WOTM pages give only a month → day `01`), else the listing's month/day date with the current year, rolled back one year if that would be in the future.
 - `tags`: lowercase slugs from the award page's TAGS line (`[]` with `--no-score`).
+- `source_url`: the award page the card links to: `/sites/<slug>/<id>` (gallery, WOTD) or `/wotm/<slug>/<id>` (WOTM). A collection page that yields 0 cards logs a warning on stderr.
 
 **Output**: candidate JSONL with `source: "cssda"`; summary on stderr (same counters as Awwwards).
 

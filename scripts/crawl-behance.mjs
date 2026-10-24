@@ -120,13 +120,15 @@ async function main() {
     };
 
     const res = await politeGoto(HOME);
-    log.info(`home feed HTTP ${res?.status() ?? '?'}`);
+    const homeStatus = res?.status() ?? null;
+    log.info(`home feed HTTP ${homeStatus ?? '?'}`);
     try {
       await page.waitForSelector('a[href*="/gallery/"]', { timeout: 20000 });
     } catch {
-      log.warn('no project links rendered on the home feed (bot protection or layout change)');
+      log.warn(`no project links rendered on the home feed (HTTP ${homeStatus ?? '?'}; bot protection or layout change)`);
       return finish('blocked');
     }
+    if (homeStatus === 403) log.warn('home feed HTTP 403; content rendered anyway, continuing');
     for (let i = 0; i < 3; i++) {
       await page.mouse.wheel(0, 2500);
       await sleep(1200);

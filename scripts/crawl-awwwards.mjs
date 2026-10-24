@@ -16,7 +16,7 @@ export const COLLECTION_PATHS = {
   sotm: 'sites_of_the_month',
   developer: 'developer-award',
 };
-const DEFAULT_COLLECTIONS = ['sotd', 'sotm', 'developer', 'minimal', 'typography', 'portfolio', 'e-commerce', 'editorial', 'startup'];
+const DEFAULT_COLLECTIONS = ['sotd', 'sotm', 'developer', 'minimal', 'typography', 'portfolio', 'e-commerce', 'clean', 'startup'];
 const SOCIAL = /(^|\.)(twitter|x|facebook|linkedin|instagram|pinterest|youtube|vimeo|tiktok|dribbble|behance|github|threads)\.(com|net)$|(^|\.)(t\.me|youtu\.be)$/;
 const AWARD_RANK = ['sotm', 'sotd', 'developer', 'honorable', 'nominee'];
 
@@ -172,8 +172,11 @@ async function main() {
           break;
         }
         const cards = parseListing(await res.text());
+        if (!cards.length) {
+          log.warn(`${col} p${page}: 0 cards parsed from ${url} (unknown collection or layout changed?)`);
+          break;
+        }
         log.info(`${col} p${page}: ${cards.length} cards`);
-        if (!cards.length) break;
         for (const card of cards) {
           const sourceUrl = `${BASE}/sites/${card.slug}`;
           let site = null;

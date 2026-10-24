@@ -91,3 +91,22 @@ test('behance: pickExternal prefers the website link and ignores Behance chrome'
   assert.equal(pickExternal(links), 'https://studio.example.com/');
   assert.equal(pickExternal([{ href: 'https://www.behance.net/x', text: 'x' }]), null);
 });
+
+test('cssda WOTM listing: cards link /wotm/<slug>/<id>/ award pages', () => {
+  const cards = cs.parseListing(html('cssda-wotm.html'), new Date('2026-10-24T12:00:00'));
+  assert.equal(cards.length, 3);
+  assert.equal(cards[0].sitePath, '/wotm/farm-minerals/50091/');
+  assert.equal(cards[0].external, 'https://www.farmminerals.com');
+  assert.equal(cards[0].title, 'Farm Minerals');
+  assert.equal(cards[0].award, 'wotm');
+  assert.equal(cards[0].jpanel, 8.61);
+  for (const c of cards) assert.match(c.sitePath, /^\/wotm\/[^/]+\/\d+\/$/);
+});
+
+test('cssda WOTM award page: month-only date, no vote scores (JPANEL fallback applies)', () => {
+  const s = cs.parseSitePage(html('cssda-wotm-site.html'));
+  assert.equal(s.award, 'wotm');
+  assert.equal(s.date, '2026-09-01');
+  assert.equal(s.score, null);
+  assert.ok(s.tags.length > 0);
+});
