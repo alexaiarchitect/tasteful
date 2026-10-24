@@ -14,6 +14,9 @@ Baseline is the current `theme.css`: a neutral warm-grey light scheme, Inter bod
 - Motion that answers an action (hover, open, confirm) and is over in under 300 ms.
 - A dark scheme designed as a peer of the light one, not an inverted afterthought.
 - Navigation that stays quiet: short, plain labels, one row, no mega-menu.
+- A light or book-weight serif display (about 220–400) at large sizes over a plain grotesk body; the weight contrast does the work, not colour.
+- A dark chromatic ink instead of black: navy `#1e305e` or olive `#373f1d` on a warm white or stone surface.
+- Section spacing on a few large, distinct steps (24 / 40 / 120 / 240px) so the page reads as a slow sequence.
 
 ## Dislikes
 
@@ -28,6 +31,8 @@ Baseline is the current `theme.css`: a neutral warm-grey light scheme, Inter bod
 - Numbered 01 / 02 / 03 markers on content that is not a sequence.
 - A warm cream background with a terracotta accent as a default rather than a choice.
 - A `→` appended to every link and button.
+- A preloader or intro animation that gates the content; if the first screen is a loader, there is nothing to learn from it.
+- "Browser not supported" or WebGL-only gates that show no page at all without a specific setup.
 
 ## Non-negotiables
 
@@ -39,7 +44,16 @@ Baseline is the current `theme.css`: a neutral warm-grey light scheme, Inter bod
 
 ## Upper bar
 
-Filled by the seeding step with the top juried picks: the handful of anchor entries in `index/sites.json` (`anchor: true`) that define the quality ceiling. A candidate that does not stand next to them comfortably does not enter the index.
+The bar is set by the strongest juried entries in `index/sites.json`; no entry carries `anchor: true` yet, and `/tasteful:add <url> --anchor` promotes a site to an explicit anchor. A candidate that does not stand next to these comfortably does not enter the index.
+
+- **runtimewire** — https://runtimewire.com/ — Newsreader headlines over Inter UI on cool grey `#f9fafb` with blue-black ink and one burnt-orange `#bb4d00` kicker, plus a designed light/dark/terminal theme switch, all on open faces.
+- **terakawaoffice** — https://www.terakawaoffice.com/en — EB Garamond for headings and body at about 1.8 leading on warm off-white `#fbfaf7`, with a single bronze `#6d5a33` for italics, rules and outline buttons, so long copy reads like a book.
+- **tengilemalamala** — https://tengilemalamala.com/ — a 220-weight serif display at 120px over plain Inter, olive `#5c6e21` as both accent and link with dark-olive ink and no black, and section gaps stepping 100 to 196px.
+- **odysseeclinic** — https://www.odysseeclinic.com.au/ — navy `#1e305e` replaces black as ink on warm white `#fffcf8`, a light serif pairs with small grotesk caps, and spacing runs on a clear 24/40/120/240 scale.
+- **aestudio** — https://aestudio.studio/goshuin/en — an app landing set as a paged book: Georgia title page, hairline bronze rules on paper `#f8f3e7`, underlined text links instead of filled buttons, and a pause-motion control.
+- **zenarate** — https://www.zenarate.com/ — a book-weight variable serif at 64/48px over a medium Manrope body, `#d0d0ce` hairlines and 16px cards, with its only colour (butter `#fde173`) kept to the logo tile.
+- **estudioniksen** — https://estudioniksen.com/ — one grotesk (Neue Montreal, 42px headings, 16/24 body) in black on light grey `#f0f0f0`, 2px radii and a one-row nav, letting the photography carry all the colour.
+- **aat-architecten** — https://www.aat-architecten.be/ — a single grotesk at two sizes (40px statement, 16px body), warm black `#1d1d1b` on white with grey `#ababab` nav, and a statement-plus-photo split that stacks cleanly on mobile.
 
 ## Weights
 

@@ -88,4 +88,45 @@ To add a source: add an object to `index/sources.json` (id, role, entry url, col
 
 ## Seeding log
 
-<!-- filled by the seeding step: date, crawls run (collections, pages, candidates), probes, kept / rejected counts per source, anchors, and anything that could not be crawled and why -->
+Seeded on **2026-10-24**. Working files stay in `index/staging/` (gitignored); `index/staging/SEEDING-LOG.md` has the full command log.
+
+**Sources crawled.**
+
+- Awwwards: `sotd`, `sotm`, `minimal`, `typography`, `portfolio` and `editorial`, page 1 each. `editorial` turned out to be the tag "Websites using editorial font" (2 sites), not an editorial category, so `clean` was crawled afterwards as an extra collection.
+- CSSDA: website gallery pages 1–2, WOTD pages 1–2 and WOTM. WOTM returned 0 cards on the first run because `parseListing()` only accepted `/sites/...` hrefs while WOTM cards link to `/wotm/...`; it was crawled again as an extra (18 cards).
+- Behance: the home feed via Playwright (`--limit 15 --max-minutes 10`). 35 project links were opened, 24 had no website link and 3 linked a dead site, leaving 8 candidates.
+
+**Candidates.** 213 crawled (awwwards 133, cssda 72, behance 8), 208 unique after deduping by registrable domain, then 185 live, 22 unreachable from this network and 1 dead. The 22 all sit behind the same Cloudflare addresses and time out at TCP connect from this machine, including known-live sites, so they are recorded as a network block, not as dead. The dead one is virugroup.com (an https→http redirect to a refused port). The extra `clean` and `wotm` crawls added 49 candidates; 25 were new hosts and 24 of those were live.
+
+**Probes and tagging.** 96 sites were deep-probed: the 80-entry shortlist (quotas of 40 awwwards and 20 cssda plus all behance, filled by rank) and a second shortlist of 16 from the extra crawl. Three independent taggers each took one batch and tagged it with `index/staging/TAGGING-RUBRIC.md`, reading the probe JSON and then checking both screenshots before writing any tag.
+
+**Result.** 56 kept: 24 firm and 32 `tentative`. 41 rejected, each with a reason in `rejected.json`.
+
+| Source | Kept | Rejected |
+| --- | --- | --- |
+| awwwards | 33 | 17 |
+| cssda | 19 | 20 |
+| behance | 4 | 4 |
+| total | 56 | 41 |
+
+Kept entries by kind (an entry can have several): portfolio 20, studio 19, landing 18, editorial 9, product 8, ecommerce 5, tool 3, docs 1. By mood: minimal 30, editorial 25, technical 11, warm 11, playful 10, luxury 9, brutalist 7, corporate 7, organic 4, retro 1. All 56 are `status: "live"`.
+
+The most common reasons for rejection were WebGL experiences and preloader-only captures with no readable system (9 rejections cite a loader), "browser not supported" pages (3; the crawler had stored the `/unsupported` redirect target as the url), template agency or SaaS looks, generic 3D renders, blank or dead renders, a Webflow template demo and a marketplace shop.
+
+**Anchors.** No studio "anchor" source was seeded, so no entry has `anchor: true`. The juries reward what they reward, and that is not the same as this profile's taste. The `anchor` flag exists so that the user can pin, by hand, the few sites that define the quality ceiling (`/tasteful:add <url> --anchor`), and `rank.mjs` gives them `anchor_bonus`. Until then, the Upper bar in `index/taste.md` lists the strongest juried entries instead.
+
+**Probe limitations seen during seeding.**
+
+- Preloader screenshots: several sites showed only a loader at capture time, so their colour and type facts describe the loader. Waiting longer before the screenshot would rescue some of them.
+- Background area skew: video heroes and stacked full-viewport layers distort `colors.backgrounds` area percentages (white or black splits that do not match the render), and text weight can pick white text over video as ink.
+- Hashed or obfuscated font names (Next.js `__bodyFont_…`, Shopify aliases, `ctfp`-style names), plus Webflow lowercased and `PP`-prefixed names that `fonts.mjs` did not map. Taggers resolved these by hand.
+- The WebGL flag fires on static, readable pages (for example a news front with one embedded video), which overstates `motion.level_guess`.
+- Radii overflow: Tailwind `rounded-full` came back as `3.35544e+07px`.
+
+Pill radii normalisation and font-name cleaning (prefix, spacing and case handling) were fixed in the scripts afterwards.
+
+**Follow-ups.**
+
+- Run `/tasteful:refresh` over the longlist: 105 live candidates have not been probed yet.
+- Re-probe the 22 unreachable hosts from a different network.
+- Run an assisted Behance session (`/tasteful:add behance`), since the automated home-feed crawl yields little.
