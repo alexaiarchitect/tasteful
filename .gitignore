@@ -1,0 +1,11 @@
+node_modules/
+.tasteful/
+index/shots/
+index/staging/
+plugin-evals/results/
+fixtures/runs/**/*.tmp
+.DS_Store
+.idea/
+.env
+.env.*
+*.log

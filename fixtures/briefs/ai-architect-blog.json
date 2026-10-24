@@ -1,0 +1,13 @@
+{
+  "slug": "ai-architect-blog",
+  "title": "AI architect blog + landing",
+  "kind": ["editorial", "landing"],
+  "audience": "CTOs and engineering leads evaluating an independent AI-architecture consultant",
+  "tone": ["calm", "precise", "warm"],
+  "density": "text-heavy",
+  "motion": 1,
+  "dark_mode": "both",
+  "must_have": ["prose", "nav", "card-system", "buttons"],
+  "mood": ["editorial", "minimal", "warm"],
+  "languages": ["en", "ru", "es"]
+}

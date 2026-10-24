@@ -1,0 +1,15 @@
+{
+  "name": "alexaiarchitect-tasteful",
+  "description": "Marketplace for tasteful, a taste-driven design-reference system for Astro + Tailwind sites.",
+  "owner": {
+    "name": "Alex",
+    "email": "alex@alexaiarchitect.com"
+  },
+  "plugins": [
+    {
+      "name": "tasteful",
+      "source": "./",
+      "description": "Find juried reference sites for a brief, approve a selection, and extract a contract-preserving theme.css."
+    }
+  ]
+}

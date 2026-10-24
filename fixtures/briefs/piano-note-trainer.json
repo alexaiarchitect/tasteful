@@ -1,0 +1,13 @@
+{
+  "slug": "piano-note-trainer",
+  "title": "Piano note-reading trainer",
+  "kind": ["tool"],
+  "audience": "Adult beginners and children learning to read sheet music in short daily sessions",
+  "tone": ["playful", "calm", "encouraging"],
+  "density": "balanced",
+  "motion": 1,
+  "dark_mode": "light-first",
+  "must_have": ["buttons", "chips", "card-system"],
+  "mood": ["playful", "minimal", "warm"],
+  "languages": ["en"]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "tasteful",
+  "displayName": "Tasteful",
+  "version": "0.1.0",
+  "description": "Taste-driven design-reference system: find juried reference sites for a brief, approve a selection, and extract a contract-preserving theme.css.",
+  "author": {
+    "name": "Alex",
+    "email": "alex@alexaiarchitect.com"
+  },
+  "homepage": "https://github.com/alexaiarchitect/tasteful",
+  "repository": "https://github.com/alexaiarchitect/tasteful",
+  "license": "Apache-2.0",
+  "keywords": [
+    "design",
+    "design-system",
+    "tailwind",
+    "astro",
+    "theme",
+    "css",
+    "awwwards",
+    "references",
+    "accessibility"
+  ],
+  "agents": ["./agents/critic.md"],
+  "userConfig": {
+    "theme_path": {
+      "type": "string",
+      "title": "Theme path",
+      "description": "Path, relative to the project root, of the theme.css whose token and class contract extract must preserve.",
+      "default": "packages/theme/src/styles/theme.css"
+    },
+    "output_dir": {
+      "type": "string",
+      "title": "Output directory",
+      "description": "Project folder where proposals, approvals and generated themes are written.",
+      "default": ".tasteful"
+    },
+    "max_candidates": {
+      "type": "number",
+      "title": "Maximum candidates",
+      "description": "How many reference sites find returns for a brief.",
+      "default": 5,
+      "min": 3,
+      "max": 8
+    }
+  },
+  "experimental": {
+    "evals": "plugin-evals"
+  }
+}
