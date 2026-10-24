@@ -1,0 +1,64 @@
+[
+  {
+    "id": "awwwards",
+    "name": "Awwwards",
+    "role": "primary, juried; award pages carry a jury score (0-10), award type and tags",
+    "url": "https://www.awwwards.com/websites/",
+    "entry_points": [
+      "https://www.awwwards.com/websites/sites_of_the_day/",
+      "https://www.awwwards.com/websites/sites_of_the_month/",
+      "https://www.awwwards.com/websites/developer-award/",
+      "https://www.awwwards.com/websites/minimal/",
+      "https://www.awwwards.com/websites/typography/",
+      "https://www.awwwards.com/websites/portfolio/",
+      "https://www.awwwards.com/websites/e-commerce/",
+      "https://www.awwwards.com/websites/editorial/",
+      "https://www.awwwards.com/websites/startup/"
+    ],
+    "crawler": "scripts/crawl-awwwards.mjs",
+    "politeness": { "rps": 1, "user_agent": "browser" },
+    "robots_notes": "User-agent * disallows /websites/? (query strings on the root listing only), /tag/, /gallery/, /search-websites, /preview/, /vote/ and a few profile paths. Collection listings with ?page=N and /sites/<slug> award pages are allowed. Checked 2026-10-24.",
+    "status": "active",
+    "notes": "Listings are plain HTML (~600 KB, ~31 cards per page). Each card carries the slug, title, tags and the live-site link; the award page /sites/<slug> carries the score badge (box-score__note) and 'Site of the Day - <date>'. --no-score skips award pages."
+  },
+  {
+    "id": "cssda",
+    "name": "CSS Design Awards",
+    "role": "primary, juried; award pages carry UI / UX / Innovation scores (0-10)",
+    "url": "https://www.cssdesignawards.com/",
+    "entry_points": [
+      "https://www.cssdesignawards.com/website-gallery?page=1",
+      "https://www.cssdesignawards.com/wotd-award-winners?page=1",
+      "https://www.cssdesignawards.com/wotm-award-winners?page=1"
+    ],
+    "crawler": "scripts/crawl-cssda.mjs",
+    "politeness": { "rps": 1, "user_agent": "browser" },
+    "robots_notes": "robots.txt only disallows DotBot. Checked 2026-10-24.",
+    "status": "active",
+    "notes": "Listing cards (article.single-project) carry category (NOMINEE / WOTD / WOTM), a month-day date, the award page link, the live-site link and, for winners, the JPANEL score. Award pages /sites/<slug>/<id>/ add the three vote scores (score = their mean), the full date and tags."
+  },
+  {
+    "id": "behance",
+    "name": "Behance (home feed)",
+    "role": "volume source, noisy; only projects that link a live external website are kept",
+    "url": "https://www.behance.net/",
+    "entry_points": ["https://www.behance.net/"],
+    "crawler": "scripts/crawl-behance.mjs",
+    "politeness": { "rps": 1, "user_agent": "browser" },
+    "robots_notes": "robots.txt disallows anthropic-ai, ClaudeBot and Claude-Web entirely, and for all agents disallows search URLs such as /search/*?*field=* (so the Product Design category search is off limits). The home page and /gallery/<id>/<slug> project pages are allowed for User-agent *. Checked 2026-10-24.",
+    "status": "assisted",
+    "notes": "The page is JS-rendered and bot-protected: the home feed answers HTTP 403 to automation while still rendering project cards (a[href*=\"/gallery/\"]) in Playwright with a Chrome UA. The crawler therefore uses the home feed only, never search or category URLs, and keeps a project only when its page links an external website (url = that site, source_url = the project). Yield is low and unstable, so the supported path for Behance finds is /tasteful:add <url> [behance-project-url], including the assisted mode where Claude in Chrome reads the project page open in the user's own browser."
+  },
+  {
+    "id": "manual",
+    "name": "Manual additions",
+    "role": "entries added with /tasteful:add",
+    "url": null,
+    "entry_points": [],
+    "crawler": null,
+    "politeness": { "rps": 1, "user_agent": "browser" },
+    "robots_notes": "Not crawled; the user supplies the URL and probe.mjs fetches only that site.",
+    "status": "active",
+    "notes": "Anything found elsewhere (including Behance) goes through /tasteful:add <url> [source-url], which probes the site, proposes a tagged entry and asks before writing."
+  }
+]
