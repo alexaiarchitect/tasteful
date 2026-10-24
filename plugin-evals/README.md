@@ -8,23 +8,36 @@ Each case is a directory:
 
 ```
 plugin-evals/<case-name>/
-├── case.yaml       # metadata: which skill it exercises, setup, files to seed, expected artifacts
-├── prompt.md       # the user prompt sent to Claude with the plugin loaded
+├── case.yaml       # schema_version "1.1", name, context.scaffold_script
+├── scaffold.sh     # calls ../scaffold.sh <case> with the eval workspace as cwd
+├── prompt.md       # frontmatter: max_turns, allowed_tools, tags; body = the user prompt
 └── graders/
-    └── *.md        # one rubric per file, scored by the judge model
+    └── *.md        # one grader per file: tool_used, regex, file_exists or llm
 ```
+
+`plugin-evals/scaffold.sh <case>` is shared: it copies `fixtures/theme.reference.css` to `packages/theme/src/styles/theme.css` in the workspace (the default `theme_path`) and writes each case's fixtures. The eval sandbox has no Playwright, so every case works with static or quick probes and the dependency-free `contract.mjs` / `contrast.mjs`.
+
+| Case | Skill | What it checks |
+| --- | --- | --- |
+| `find-brief` | find | Full brief, no questions: `rank.mjs` and `probe.mjs --quick` run, `brief.json` + `proposal.md` written, 3–5 candidates with take/leave, combinations, the approval sentence, no extraction |
+| `extract-refuses-without-approval` | extract | A proposal exists but no approval: no deep probe, no theme, no `approval.md`; asks for approval |
+| `contract-rename-detected` | extract (verify) | One token renamed: `contract.mjs` reports `--color-accent-soft` → `--color-accent-tint`; file not edited |
+| `contrast-floor` | extract (verify) | Light `--color-muted` at ≈ 2.44:1: `contrast.mjs` failure reported with ratio and fix; file not edited |
+| `add-confirms-before-writing` | add | Probes the url, drafts the entry and asks; never runs `index-edit.mjs upsert` without confirmation |
 
 Results are written to `plugin-evals/results/` (gitignored).
 
 ## Running
 
 ```sh
-claude plugin eval . --allow-tools Bash Write Edit --judge-model claude-sonnet-5-5 --runs 1
+claude plugin eval . --scaffold --allow-tools Bash Write Edit --judge-model claude-sonnet-5-5 --runs 1 --max-cost-usd 5
 ```
+
+`--scaffold` is required (the cases' fixtures come from their scaffold scripts), and `--allow-tools` must grant `Bash`, `Write` and `Edit`: inside an eval run a skill's own `allowed-tools` does not grant anything.
 
 **Run evals from a copy outside `~/Documents`.** On macOS, `--scaffold` hits `EPERM` when the plugin lives under `~/Documents` (a sandbox/TCC restriction), so copy the repo first:
 
 ```sh
 rsync -a --exclude .git --exclude node_modules ~/Documents/Business/alexaiarchitect/tasteful/ /tmp/tasteful-eval/
-cd /tmp/tasteful-eval && claude plugin eval . --allow-tools Bash Write Edit --judge-model claude-sonnet-5-5 --runs 1
+cd /tmp/tasteful-eval && claude plugin eval . --scaffold --allow-tools Bash Write Edit --judge-model claude-sonnet-5-5 --runs 1 --max-cost-usd 5
 ```
