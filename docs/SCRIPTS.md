@@ -16,14 +16,14 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/<name>.mjs" … --data "${CLAUDE_PLUGIN_DATA
 | --- | --- | --- | --- |
 | `--help`, `-h` | boolean | false | Print usage to stdout, exit 0 |
 | `--json` | boolean | false | Print the result as JSON (or JSONL for streaming outputs) on stdout |
-| `--data <dir>` | string | `$CLAUDE_PLUGIN_DATA` → `~/.claude/plugins/data/tasteful` | Plugin data dir holding `deps/` (npm deps) and `browsers/` (Playwright) |
+| `--data <dir>` | string | `$CLAUDE_PLUGIN_DATA` → `~/.claude/plugins/data/tasteful` | Plugin data dir holding `deps/` (npm deps) and, optionally, `browsers/` (Playwright) |
 
-- **stdout carries only the result**: JSON with `--json`, otherwise a human-readable table. Crawlers and `probe --batch` always emit JSONL.
+- **stdout carries only the result**: JSON with `--json`, otherwise a human-readable table. Some outputs ignore `--json` and are always machine-readable: crawlers and `probe --batch` emit JSONL, `index-edit diff` emits JSONL, `rank` and `fonts` always print JSON.
 - **All logs, progress and warnings go to stderr** (`scripts/lib/log.mjs`, prefix `[tasteful]`; `TASTEFUL_DEBUG=1` enables debug lines).
 - **Exit codes**: `0` success · `1` check failed / violation found · `2` usage or environment error (bad flags, unreadable input, Playwright unavailable where it is required).
-- Flag forms: `--k v`, `--k=v`, `--no-<bool>`, repeated list flags (`--x a --x b`) or comma lists (`--x a,b`).
-- Network scripts send a real User-Agent string, never hang (every request has a timeout), and are polite (≤ 1 req/s per host unless stated).
-- Default file paths are relative to the plugin root (`index/sites.json`, `index/rejected.json`, `index/schema.json`, `index/taste.md`, `index/fonts.json`).
+- Flag forms: `--k v`, `--k=v`, `--no-<bool>`, repeated list flags (`--x a --x b`) or comma lists (`--x a,b`); `--` ends flag parsing.
+- Network scripts send a real Chrome User-Agent string, never hang (every request has a timeout), and are polite (≤ 1 req/s per host unless stated).
+- Default file paths (`index/sites.json`, `index/rejected.json`, `index/schema.json`, `index/taste.md`, `index/fonts.json`, `index/shots/`) resolve against the plugin root, whatever the cwd. Paths given explicitly on the command line resolve against the cwd.
 
 ## Shared data shapes
 
@@ -55,7 +55,15 @@ One object per line:
 {"url":"https://…","source":"awwwards","source_url":"https://…","score":7.4,"tags":["minimal"],"award":"sotd","date":"2026-10-01","title":"…"}
 ```
 
-`source` is one of `awwwards`, `cssda`, `behance`, `manual`. `score`, `award`, `date`, `title` may be `null` when the source does not provide them. `url` is canonical (no tracking params, no trailing `#…`).
+- `source` is one of `awwwards`, `cssda`, `behance`, `manual`.
+- `score`, `award`, `date`, `title` may be `null` when the source does not provide them; `tags` is always an array (possibly empty).
+- `tags` are lowercase slugs (`"Web & Interactive"` → `"web-interactive"`).
+- `url` is canonical: lowercase host, no tracking params (`utm_*`, `fbclid`, `gclid`, `ref`), no `#…`, no trailing slash except on the root path (`https://example.com/` keeps its slash).
+- Crawlers dedupe by host + path, ignoring the scheme and a leading `www.`.
+
+### Polite fetching (crawlers)
+
+`scripts/lib/fetch.mjs`: per-host token bucket at 1 req/s, 15 s timeout per request, redirects followed. A 403 or 429 waits 30 s (`TASTEFUL_BACKOFF_MS`) and retries; three consecutive 403/429 from one host stop the crawl (`stopped: blocked`). `robots.txt` is fetched once per origin and evaluated as `User-agent: *` (longest match wins, Allow wins ties); an unreachable `robots.txt` counts as allow-all.
 
 ---
 
@@ -65,40 +73,58 @@ One object per line:
 
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| `<url>` | string | — | Site to probe (required unless `--batch`) |
-| `--quick` | boolean | false | Plain `fetch` liveness only: status, final_url, title, elapsed_ms. No browser. `mode: "quick"` |
+| `<url>` | string | — | Site to probe (required unless `--batch`); a bare host gets `https://` |
+| `--quick` | boolean | false | Plain `fetch` liveness only (8 s cap): status, final_url, title, elapsed_ms. No browser. `mode: "quick"`. Mutually exclusive with `--deep` |
 | `--deep` | boolean | false | Also write screenshots `desktop.jpg` (1440×900) and `mobile.jpg` (390×844), each ≤ 300 KB, into `--out` |
-| `--out <dir>` | string | `index/shots/<host>` | Screenshot directory (created if missing) |
-| `--timeout <ms>` | number | 30000 | Per-page budget; the probe never hangs past it |
-| `--batch <file>` | string | — | File of URLs, one per line or JSONL with a `url` field; emits one JSONL result per URL |
+| `--out <dir>` | string | `index/shots/<host>` (plugin root) | Screenshot directory (created if missing); with `--batch`, shots go to `<out>/<host>/` |
+| `--timeout <ms>` | number | 30000 | Per-page budget; the probe never hangs past it (a watchdog exits 1 if the whole run overruns) |
+| `--batch <file>` | string | — | File of URLs, one per line, or JSONL objects with a `url` field (other fields are ignored; `#` lines skipped); emits one JSONL result per URL, each carrying its `url` |
 | `--concurrency <n>` | number | 3 | Parallel pages in `--batch` mode |
 
-Default mode (neither `--quick` nor `--deep`) is a browser probe of computed design facts: dismisses common cookie banners by text, waits for `document.fonts.ready`. If Playwright is unavailable or the site blocks headless, falls back to fetch + HTML/CSS parsing with `mode: "static"` (and `partial: true` where facts are missing).
+Env: `TASTEFUL_FORCE_STATIC=1` skips the browser and forces the static fallback (used by tests).
 
-**Output** (JSON object; JSONL with `--batch`):
+Default mode (neither `--quick` nor `--deep`) is a browser probe of computed design facts: dismisses common cookie banners by text, waits for `document.fonts.ready`, scrolls through the first three viewports so lazy content settles, then samples up to 4000 visible elements. If Playwright is unavailable or the site blocks headless, falls back to fetch + HTML/CSS parsing with `mode: "static"` and `partial: true`.
+
+**Blocked is never dead.** HTTP 403, 429 or 503, or a challenge page ("Just a moment", "Access denied", "Verify you are human", "Attention required") that does not clear within 4 s, switches to the static fallback and exits 0. Dead means HTTP ≥ 400 that is not a block, a network-level failure (DNS, refused, TLS, reset, timeout), or no response at all within the budget.
+
+**Output** (JSON object with `--json`, otherwise a human key/value list; JSONL with `--batch`):
 
 ```jsonc
 {
   "url", "final_url", "status", "mode": "browser|static|quick", "probed_at", "elapsed_ms",
-  "title", "lang", "color_scheme",
-  "fonts": { "loaded": [], "computed": { "body", "h1", "h2", "p", "nav", "button" }, "faces": [], "google_fonts": false, "self_hosted": true },
-  "type": { "h1": {"size","lineHeight","letterSpacing","weight"}, "h2": {…}, "body": {…} },
-  "colors": { "backgrounds": [{"hex","area_pct"}], "texts": [{"hex","weight"}], "borders": [] },
-  "radii": { "histogram": {} },
-  "shadows": [], "buttons": [], "cards": [],
+  "title", "lang", "color_scheme": "light|dark",
+  "sampled_elements": 0,                    // browser mode: elements sampled
+  "fonts": { "loaded": [{"family","weight","style"}], "computed": { "body", "h1", "h2", "p", "nav", "button" },
+             "faces": [], "google_fonts": false, "self_hosted": true },
+  "type": { "h1": {"size","lineHeight","letterSpacing","weight","family"}, "h2": {…}, "body": {…} },
+  "colors": {
+    "backgrounds": [{"hex","area_pct"}],    // up to 8
+    "texts": [{"hex","weight"}],            // up to 8; weight = 0–1 share of characters × font size
+    "borders": [{"hex","count"}]            // up to 5
+  },
+  "radii": { "histogram": {"8px": 12} },
+  "shadows": [{"value","count"}],           // up to 5
+  "buttons": [{"text","bg","color","radius","padding","border","fontFamily","fontWeight","fontSize","height"}],  // up to 5 distinct
+  "cards": [{"bg","border","radius","shadow","width","height"}],  // up to 5 distinct, 240–720 × 120–720 px
   "nav": { "height" }, "container": { "maxWidth" },
-  "rhythm": { "section_gaps": [] },
-  "motion": { "transition_durations": [], "easings": [], "animated_count", "canvas_count", "webgl", "level_guess" },
+  "rhythm": { "section_gaps": [] },        // px, up to 10
+  "motion": { "transition_durations": [], "easings": [], "animated_count", "canvas_count", "webgl",
+              "libs": [],                   // any of gsap, ScrollTrigger, lenis, locomotive
+              "level_guess": 0 },           // 0–3
   "cookie_banner_dismissed": false,
-  "screenshots": { "desktop", "mobile" },   // paths, only with --deep
+  "screenshots": { "desktop", "mobile" },   // paths, only with --deep (null when the site blocks headless)
   "partial": false,
   "errors": []
 }
 ```
 
+- `area_pct`: share of the sampled area, which is the viewport width × min(page height, 3 viewports). Each element's own background is counted where it differs from its parent's, and its area is subtracted from the parent, so shares do not double count and never sum past 100.
+- `motion.webgl` is detected by intercepting `HTMLCanvasElement.getContext` (plus three.js globals or script URLs). Scroll libraries (gsap, ScrollTrigger, lenis, locomotive) raise `level_guess` to 2, never to 3; level 3 needs WebGL or an animated canvas.
+- **Static mode** fills what CSS can tell: `fonts.computed` has only `body`, `type.*` are `null`, `backgrounds` carry `area_pct: null` plus a `count`, and two extra fields appear: `fonts.family_counts` (family → declarations, top 12) and `stylesheets: {inline, fetched}` (up to 5 same-origin stylesheets are fetched).
+
 `--quick` output contains only `url, final_url, status, mode, probed_at, elapsed_ms, title, errors`.
 
-**Exit codes**: 0 probed (including static fallback); 1 site dead/unreachable (status ≥ 400 or network error — JSON still printed); 2 usage error, or `--deep` requested without Playwright. In `--batch` mode exit 1 if any URL was dead.
+**Exit codes**: 0 probed (including static fallback for blocked sites); 1 site dead (JSON still printed) or the watchdog fired; 2 usage error (`--quick` with `--deep`, bad url, unreadable `--batch` file), or `--deep` requested without Playwright. In `--batch` mode exit 1 if any URL was dead.
 
 ---
 
@@ -109,10 +135,10 @@ Default mode (neither `--quick` nor `--deep`) is a browser probe of computed des
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `<theme.css>` | string | — | Theme file to check |
-| `--extended` | boolean | false | Also report advisory pairs: ink/panel, muted/panel, ok/ok-soft, bad/bad-soft, warn/warn-soft, accent/panel (never affect exit code) |
-| `--suggest` | boolean | false | For each failing pair, print the nearest passing colour (same hue, adjusted lightness) |
+| `--extended` | boolean | false | Also report advisory pairs (never affect the exit code; skipped with a warning when a token is missing) |
+| `--suggest` | boolean | false | For each failing pair, the nearest passing colour: same hue, lightness adjusted, **foreground only** |
 
-Schemes: **light** = `@theme`; **dark** = `:root[data-theme="dark"]` (tokens not overridden there inherit from `@theme`). The `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` block must declare the same values as the data-theme block; any difference is an error.
+Schemes: **light** = `@theme`; **dark** = `:root[data-theme="dark"]` (tokens not overridden there inherit from `@theme`). The `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` block must declare the same values as the data-theme block (`color-scheme` is ignored); any difference, or either dark block missing, is an error. `var(--x[, fallback])` references are resolved (up to 10 levels). Translucent colours are compared with alpha ignored (warning on stderr).
 
 Required pairs (WCAG 2.x, both schemes):
 
@@ -123,9 +149,13 @@ Required pairs (WCAG 2.x, both schemes):
 | `--color-accent-ink` | `--color-accent` | 4.5:1 |
 | `--color-accent` | `--color-bg` | 3:1 |
 
-**Output**: table `scheme | pair | ratio | min | pass` on stdout; with `--json`: `{file, ok, pairs:[{scheme, fg, bg, fg_hex, bg_hex, ratio, min, pass, required, suggest?}], errors:[]}`.
+Advisory pairs (`--extended`): `ink/panel` 7:1, `muted/panel` 4.5:1, `ok/ok-soft` 4.5:1, `bad/bad-soft` 4.5:1, `warn/warn-soft` 4.5:1, `accent/panel` 3:1.
 
-**Exit codes**: 0 all required pairs pass and dark blocks agree; 1 any required violation or dark-block mismatch; 2 unreadable/unparseable file or a required token missing.
+Pass/fail is decided on the unrounded ratio; `ratio` in the output is rounded to 2 decimals (so 6.996 shows as `7.00` and still fails 7:1).
+
+**Output**: table `scheme | pair | ratio | min | pass`, then suggestions and errors, on stdout; with `--json`: `{file, ok, pairs:[{scheme, fg, bg, fg_hex, bg_hex, ratio, min, pass, required, suggest?: {hex, ratio} | null}], errors:[]}` (`suggest` is `null` when no lightness of the hue reaches the minimum).
+
+**Exit codes**: 0 all required pairs pass and both dark blocks exist and agree; 1 any required violation, a missing dark block or a dark-block mismatch; 2 unreadable/unparseable file, a required token missing from `@theme`, or a required colour that cannot be resolved or parsed.
 
 ---
 
@@ -141,19 +171,19 @@ Required pairs (WCAG 2.x, both schemes):
 
 Checks, each reported as a finding with a clear message:
 
-1. `@theme` tokens (`--font-*`, `--color-*`, `--radius-*`, `--shadow-*`, `--ease-*`) present in reference but missing in candidate; likely renames (missing name with a new name of the same prefix and value).
-2. Classes defined in `@layer components` and `@layer base` of the reference but missing in the candidate.
+1. `@theme` tokens (`--font-*`, `--color-*`, `--radius-*`, `--shadow-*`, `--ease-*`) present in reference but missing in candidate. Each missing token gets a likely rename when possible: first a new candidate token with the same prefix **and** the same value, then the remaining new tokens matched 1:1 by prefix in order. A rename is still a missing token (it fails `--check`).
+2. Classes defined in `@layer components` and `@layer base` of the reference but not defined anywhere in the candidate (any layer or top level counts).
 3. `@utility` names missing.
-4. Dark-selector coverage: every `--color-*` and `--shadow-*` overridden in both `:root[data-theme="dark"]` and the `prefers-color-scheme` fallback.
-5. First-two-lines rule: the first two statements (ignoring comments and blank lines) are `@import "tailwindcss";` and `@source "../";`.
-6. `!important` anywhere outside the `prefers-reduced-motion` block.
+4. Dark-selector coverage: every `--color-*` and `--shadow-*` token of the **candidate's own** `@theme` is overridden in both `:root[data-theme="dark"]` and the `prefers-color-scheme` fallback.
+5. First-two-lines rule: the first two statements (ignoring comments and blank lines) are `@import "tailwindcss";` and `@source "../";` (single quotes accepted). A block statement is reported by its prelude, e.g. `@theme {`.
+6. `!important` anywhere outside a `prefers-reduced-motion` block.
 7. External `@import` (`http(s)://`, `//`, Google Fonts) — only bare package imports are allowed.
 
 Additions (new tokens/classes) are listed as info, never failures.
 
-**Output**: human list grouped by check; with `--json`: `{ok, missing:{tokens[], classes[], utilities[]}, renamed:[{from,to}], dark_missing:{data_theme[], media[]}, first_lines_ok, important:[{line,text}], external_imports:[], added:{tokens[], classes[]}}`.
+**Output**: human list grouped by check (`ok` / `FAIL` per check); with `--json`: `{ok, missing:{tokens[], classes[], utilities[]}, renamed:[{from,to}], dark_missing:{data_theme[], media[]}, first_lines_ok, important:[{line,text}], external_imports:[], added:{tokens[], classes[]}}`.
 
-**Exit codes**: 0 contract preserved (or without `--check`, always 0 if both files parsed); 1 with `--check` and any finding; 2 unreadable file.
+**Exit codes**: 0 contract preserved (or without `--check`, always 0 if both files parsed); 1 with `--check` and any finding; 2 unreadable file or CSS parser error.
 
 ---
 
@@ -163,16 +193,18 @@ Additions (new tokens/classes) are listed as info, never failures.
 
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| `--index <path>` | string | `index/sites.json` | Index to validate |
-| `--schema <path>` | string | `index/schema.json` | JSON Schema (draft 2020-12 subset, validated with a stdlib validator) |
-| `--rejected <path>` | string | `index/rejected.json` | Rejected list to cross-check against |
-| `--live` | boolean | false | Also run `probe --quick` on every entry and report dead ones |
+| `--index <path>` | string | `index/sites.json` (plugin root) | Index to validate |
+| `--schema <path>` | string | `index/schema.json` (plugin root) | JSON Schema (draft 2020-12 subset, validated with the stdlib validator in `scripts/lib/schema.mjs`) |
+| `--rejected <path>` | string | `index/rejected.json` (plugin root) | Rejected list to cross-check against; a missing file (warning) or an empty file such as `/dev/null` counts as `[]` |
+| `--live` | boolean | false | Also run `probe.mjs --quick` on every entry not already `dead` (sequential, `--timeout 8000`, killed after 10 s) and report dead ones |
 
-Checks: schema conformance, unique `id`, unique canonical `url`, entries with `status: "dead"` flagged, any url also present in `rejected.json`.
+Checks: schema conformance, unique `id`, unique canonical `url`, entries with `status: "dead"` flagged, any url also present in `rejected.json`. Rejected entries may be `{url, reason, date}` objects or plain url strings.
 
-**Output**: table of violations then a summary line; with `--json`: `{ok, entries, violations:[{id, url, rule, message}], dead:[id], live_checked?: n}`.
+URL comparison ignores the scheme (`http` = `https`), a leading `www.`, the `#fragment`, tracking params (`utm_*`, `gclid`, `fbclid`, `mc_cid`, `mc_eid`, `ref`, `ref_src`, `igshid`, `_ga`), query-param order and a trailing slash.
 
-**Exit codes**: 0 valid; 1 any violation (dead entries are a violation); 2 unreadable file or invalid schema.
+**Output**: table `id | rule | message` of violations then a summary line; with `--json`: `{ok, entries, violations:[{id, url, rule, message}], dead:[id], live_checked?: n}`. `rule` is one of `schema`, `unique-id`, `unique-url`, `rejected`, `dead`, `live`.
+
+**Exit codes**: 0 valid; 1 any violation (dead entries are a violation); 2 unreadable file, invalid JSON or schema, or `probe.mjs` exiting 2 under `--live`.
 
 ---
 
@@ -184,12 +216,16 @@ Checks: schema conformance, unique `id`, unique canonical `url`, entries with `s
 | --- | --- | --- | --- |
 | `--limit <n>` | number | none | Stop after n unique candidates |
 | `--pages <n>` | number | 1 | Listing pages per collection |
-| `--collections <list>` | list | `sotd,sotm,developer,minimal,typography,portfolio,e-commerce,editorial,startup` | Award collections and tags to crawl |
-| `--no-score` | boolean | — | Skip fetching each award page for its score (faster; `score: null`) |
+| `--collections <list>` | list | `sotd,sotm,developer,minimal,typography,portfolio,e-commerce,editorial,startup` | `sotd`, `sotm`, `developer`, or any tag collection slug (`/websites/<slug>/`) |
+| `--no-score` | boolean | score on | Skip fetching each award page for its score (faster; `score: null`). The award page is still fetched when the listing card has no external link |
 
-1 req/s, real UA, respects `robots.txt` disallows. Resolves award pages to the external site URL.
+Polite fetching as above. Resolves award pages (`/sites/<slug>`, the `source_url`) to the external site URL; social and awwwards.com links are skipped.
 
-**Output**: candidate JSONL with `source: "awwwards"` on stdout; summary (pages fetched, candidates, skipped by robots, errors) on stderr.
+- `award`: `sotm` \| `sotd` \| `developer` \| `honorable` \| `nominee` \| `null`; with several badges the first in that order wins.
+- `score`: the award page's `box-score__note`, then `c-heading-score__note`, then a nearby `d.dd` number; kept only when 0–10.
+- `date`: the award date from the card or the award page; `tags` from the listing card, else from the award page.
+
+**Output**: candidate JSONL with `source: "awwwards"` on stdout; summary (pages fetched, award pages, candidates, duplicates, skipped by robots, no external link, errors, `stopped: done|limit|blocked`) on stderr.
 
 **Exit codes**: 0 at least one candidate; 1 zero candidates (blocked or layout changed); 2 usage error.
 
@@ -197,19 +233,25 @@ Checks: schema conformance, unique `id`, unique canonical `url`, entries with `s
 
 ## `crawl-cssda.mjs`
 
-`crawl-cssda.mjs [--limit <n>] [--pages <n>] [--collections <list>]`
+`crawl-cssda.mjs [--limit <n>] [--pages <n>] [--collections <list>] [--no-score]`
 
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `--limit <n>` | number | none | Stop after n unique candidates |
 | `--pages <n>` | number | 1 | Listing pages per collection |
-| `--collections <list>` | list | `gallery,wotd,wotm` | CSS Design Awards collections |
+| `--collections <list>` | list | `gallery,wotd,wotm` | CSS Design Awards collections (no others accepted) |
+| `--no-score` | boolean | score on | Skip the award-page fetch (no vote scores, no tags); the listing's JPANEL score is used if present. The award page is still fetched when the card has no external link |
 
-Same politeness rules as Awwwards.
+Same politeness rules as Awwwards. By default each award page is fetched; known duplicates are skipped before that fetch.
 
-**Output**: candidate JSONL with `source: "cssda"`; summary on stderr.
+- `score`: mean of the UI, UX and Innovation vote scores on the award page (2 decimals), falling back to the listing's JPANEL score, else `null`.
+- `award`: the listing card's category as a lowercase slug (e.g. `wotd`), else from the award page.
+- `date`: from the award page, else the listing's month/day date with the current year, rolled back one year if that would be in the future.
+- `tags`: lowercase slugs from the award page's TAGS line (`[]` with `--no-score`).
 
-**Exit codes**: 0 at least one candidate; 1 zero candidates; 2 usage error.
+**Output**: candidate JSONL with `source: "cssda"`; summary on stderr (same counters as Awwwards).
+
+**Exit codes**: 0 at least one candidate; 1 zero candidates; 2 usage error (including an unknown collection).
 
 ---
 
@@ -220,13 +262,15 @@ Same politeness rules as Awwwards.
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `--limit <n>` | number | none | Stop after n kept candidates |
-| `--max-minutes <n>` | number | 15 | Hard wall-clock budget |
+| `--max-minutes <n>` | number | 15 | Hard wall-clock budget; the browser is closed and the script exits when it is reached |
 
-Home feed only. Requires Playwright. Skips any URL disallowed by Behance's `robots.txt`. Keeps only projects whose page links a live external website (the external site becomes `url`, the project page `source_url`).
+Home feed only. Requires Playwright (bundled Chromium, falling back to the installed Chrome channel). Opens project pages at 1 page/s. Skips any URL disallowed by Behance's `robots.txt`, evaluated as `User-agent: *`. Keeps only projects whose page links an external website (the external site becomes `url`, the project page `source_url`): Behance redirect links (`?url=`, `?u=`, `?target=`) are unwrapped, nav/footer and social/Adobe links ignored. The site counts as live when it answers below 400, or with 403/429 (blocking bots is not death).
 
-**Output**: candidate JSONL with `source: "behance"`; stderr summary including why it stopped (budget, blocked, limit).
+Candidates always have `score: null`, `tags: []`, `award: null`, `date: null`.
 
-**Exit codes**: 0 at least one candidate; 1 ran but kept zero candidates; 2 usage error or Playwright unavailable (reason on stderr).
+**Output**: candidate JSONL with `source: "behance"`; stderr summary including why it stopped (`done`, `budget`, `blocked`, `limit`).
+
+**Exit codes**: 0 at least one candidate; 1 ran but kept zero candidates; 2 usage error, Playwright unavailable or Chromium failed to launch (reason on stderr).
 
 ---
 
@@ -237,57 +281,62 @@ Home feed only. Requires Playwright. Skips any URL disallowed by Behance's `robo
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `--brief <brief.json>` | string | — (required) | Brief JSON (shape above) |
-| `--index <path>` | string | `index/sites.json` | Index to rank |
-| `--taste <path>` | string | `index/taste.md` | Taste profile; weights are read from the ` ```json ` fence under `## Weights` |
+| `--index <path>` | string | `index/sites.json` (plugin root) | Index to rank |
+| `--taste <path>` | string | `index/taste.md` (plugin root) | Taste profile; weights are read from the ` ```json ` fence under `## Weights` (must contain `tag_overlap`, `taste`, `penalty`) |
 | `--n <n>` | number | 5 | Number of candidates (skills pass `${user_config.max_candidates}`) |
 
-Scores every `live` entry: tag overlap, taste weights, source score, recency, penalties for `avoid` conflicts and motion above budget. Diversity: never two candidates with the same mood + typography combination; prefers one safe and one bolder pick. **Deterministic**: same inputs, same output (ties broken by `id`).
+Scores every `live` entry: tag overlap (kind, mood, extractable vs `must_have`), taste prefer/avoid matches, `anchor_bonus`, source score (`null` counts as 5), recency (full weight when `added` is within 365 days of today, half otherwise), penalties for motion above budget (per level), `tentative`, an `avoid` note naming a must-have, and a dark-first palette when the brief is not dark-first.
 
-**Output** (JSON on stdout regardless of `--json`):
+Diversity: only the best entry per `mood[0]` + `typography.display` combination is kept. With at least 4 eligible entries, one **safe** pick (highest taste match) and one **bold** pick (best entry outside the preferred moods, or exactly one motion level above the budget) are guaranteed a place. **Deterministic**: same inputs and same day, same output (ties broken by `id`).
+
+`take` per candidate: the brief's `must_have`, then per brief kind (`landing`/`product`: hero, buttons · `editorial`/`docs`: type-pairing, section-rhythm, spacing-scale, chips · `tool`: buttons, chips, card-system, spacing-scale · `portfolio`/`studio`: type-pairing, hero, section-rhythm · `ecommerce`: card-system, buttons, nav), then `palette` — each only if the entry lists it in `extractable`. `leave` joins the entry's `avoid` note with a motion-over-budget line and a dark-first line, or says "nothing specific; take only what is listed".
+
+**Output** (JSON on stdout regardless of `--json`, also on exit 1):
 
 ```jsonc
 {
-  "candidates": [{ "id", "score", "reasons": [], "take": [], "leave": "…" }],
-  "combinations": [{ "label": "A", "parts": [{"id","take":[]}], "character": "…" }],
-  "excluded": [{ "id", "reason" }]
+  "candidates": [{ "id", "score", "role": "safe|bold|null", "reasons": [], "take": [], "leave": "…" }],
+  "combinations": [{ "label": "A", "parts": [{"id","take":[]}], "character": "…" }],  // A: top pick as-is; B: type + palette + cards/hero from three picks; C (or B): structure of one + colour of the bold pick
+  "excluded": [{ "id", "reason" }]   // non-live entries and diversity duplicates
 }
 ```
 
-**Exit codes**: 0 ranked; 1 fewer than 3 eligible candidates; 2 unreadable brief/index/taste or missing weights fence.
+**Exit codes**: 0 ranked; 1 fewer than 3 eligible (live) entries; 2 unreadable brief/index/taste, index not an array, or missing/invalid weights fence.
 
 ---
 
 ## `index-edit.mjs`
 
-`index-edit.mjs <command> [options] [--index <path>] [--rejected <path>]`
+`index-edit.mjs <command> [options] [--index <path>] [--rejected <path>] [--schema <path>]`
 
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `<command>` | string | — | One of the commands below |
-| `--index <path>` | string | `index/sites.json` | Index file |
-| `--rejected <path>` | string | `index/rejected.json` | Rejected list |
-| `--entry <file\|->` | string | — | `upsert`: entry JSON from a file or `-` for stdin |
+| `--index <path>` | string | `index/sites.json` (plugin root) | Index file (a missing file counts as `[]`) |
+| `--rejected <path>` | string | `index/rejected.json` (plugin root) | Rejected list (a missing or empty file counts as `[]`) |
+| `--schema <path>` | string | `index/schema.json` (plugin root) | JSON Schema every write is validated against |
+| `--entry <file\|->` | string | — | `upsert`: entry JSON (object, array or JSONL) from a file or `-` for stdin |
 | `--id <id>` | string | — | `set-status`: entry id |
 | `--status <s>` | string | — | `set-status`: `live` \| `dead` \| `unchecked` (also sets `last_checked` to today) |
 | `--url <u>` | string | — | `reject`: url to reject (removed from the index if present) |
 | `--reason <text>` | string | — | `reject`: one-line reason |
-| `--candidates <jsonl>` | string | — | `diff`: candidate JSONL file (or `-`) |
-| `--from <glob>` | string | — | `merge`: glob of JSON/JSONL entry files to merge into the index |
+| `--candidates <jsonl\|->` | string | — | `diff`: candidate JSONL file (or `-`) |
+| `--from <glob>` | string | — | `merge`: glob of JSON/JSONL entry files; `*` and `?` match within one path segment |
 
 Commands:
 
-- `upsert --entry <json-file|->` — insert or replace by `id`; validates against the schema before writing.
+- `upsert --entry <json-file|->` — insert or replace by `id`; the url is canonicalised. A url already indexed under **another** id is a conflict: nothing is written, exit 1.
 - `set-status --id <id> --status live|dead|unchecked`
-- `reject --url <u> --reason <text>` — append `{url, reason, date}` to `rejected.json`.
-- `diff --candidates <jsonl>` — print (JSONL) candidates whose url is in neither `sites.json` nor `rejected.json`.
-- `stats` — counts per source, kind, mood, status, anchors.
-- `merge --from <glob>` — upsert every entry found; reports conflicts.
+- `reject --url <u> --reason <text>` — append `{url, reason, date}` to `rejected.json` (skipped if the url is already rejected) and remove matching entries from `sites.json`.
+- `diff --candidates <jsonl|->` — print (JSONL) candidates whose url is in neither `sites.json` nor `rejected.json`, deduplicated within the input.
+- `stats` — counts per source, kind, mood, status, plus entries, anchors, tentative, rejected.
+- `merge --from <glob>` — upsert every entry found (a later file wins for the same id). Same-id entries that differ are `replaced`; entries whose url is indexed under another id are skipped and listed as `conflicts` (warning, not a failure).
 
-Writes are atomic (temp file + rename) and keep the file sorted by `id` with 2-space indentation.
+Every write validates the whole index against the schema plus unique `id` and unique url (scheme and `www.` ignored) before writing. Writes are atomic (temp file + rename) and keep the file sorted by `id` with 2-space indentation.
 
-**Output**: human summary; with `--json` a `{ok, changed, …}` object (`diff` always JSONL).
+**Output**: human summary; with `--json` a `{ok, changed, …}` object (`upsert`/`merge`: `inserted`, `replaced`, `unchanged`, plus `conflicts` and `files` for merge; validation failures: `errors`). `diff` always JSONL.
 
-**Exit codes**: 0 done; 1 validation failed (nothing written) or id not found; 2 usage error.
+**Exit codes**: 0 done; 1 validation failed (nothing written), upsert conflict, or id not found; 2 usage error, unreadable input or schema, or no file matching `--from`.
 
 ---
 
@@ -298,14 +347,16 @@ Writes are atomic (temp file + rename) and keep the file sorted by `id` with 2-s
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `<theme.css>` | string | — | Generated theme |
-| `--out <dir>` | string | — (required) | Output directory |
+| `--out <dir>` | string | — (required) | Output directory (created if missing) |
 | `--html-only` | boolean | false | Write `preview.html` only; skip screenshots (no Playwright needed) |
 
-Writes `preview.html` (self-contained, no external requests: tokens + component classes inlined as plain CSS; hero with eyebrow/display/lead, two `.btn`, chips, three `.card-link`, a `.prose` block, light and dark), plus `preview-light.jpg` and `preview-dark.jpg`, each ≤ 300 KB.
+Writes `preview.html`: self-contained, no external requests. The theme is flattened to plain CSS (`@theme` → `:root`, `@layer` unwrapped, `@utility x` → `.x`, Tailwind at-rules dropped); `html` and `:root` rules also apply to `[data-theme]`, and the dark selectors are scoped to the panels, so light and dark render side by side. `@font-face` rules and declarations with an external `url()` are dropped (warning on stderr), so the font stacks fall back to installed families. Each panel has a hero with eyebrow/display/lead, `.btn` variants, chips, three `.card-link`, colour swatches for every `--color-*` token, a `.prose` block (with Cyrillic and Spanish lines) and the list of font stacks.
 
-**Output**: paths written (JSON with `--json`: `{html, light, dark}`).
+Then screenshots each panel (1280 px wide, full panel height up to 8000 px) to `preview-light.jpg` and `preview-dark.jpg`, each ≤ 300 KB; any network request is blocked.
 
-**Exit codes**: 0 written; 1 theme could not be rendered; 2 usage error, or Playwright unavailable without `--html-only`.
+**Output**: paths written (JSON with `--json`: `{html, light, dark}`; `light`/`dark` are `null` with `--html-only` or when screenshots failed).
+
+**Exit codes**: 0 written; 1 theme could not be parsed or rendered; 2 usage error, or Playwright unavailable / Chromium failed to launch without `--html-only` (`preview.html` is still written).
 
 ---
 
@@ -316,20 +367,27 @@ Writes `preview.html` (self-contained, no external requests: tokens + component 
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `<family...>` | string(s) | — | One or more observed font-family names |
-| `--map <path>` | string | `index/fonts.json` | Proprietary → open-alternative map |
-| `--verify` | boolean | false | Query the npm registry to confirm each package exists and read its subsets |
+| `--map <path>` | string | `index/fonts.json` (plugin root) | Proprietary → open-alternative map |
+| `--verify` | boolean | false | Query the npm registry (and Fontsource `metadata.json` via jsDelivr when needed) at 1 req/s to confirm each package exists and read its subsets |
 
-**Output** (JSON on stdout):
+Matching normalises the name (quotes, Next.js hashed names like `__Inter_d65c78`, diacritics, case, camel case, numeric weights) and strips weight/width/style words (`Bold`, `Italic`, `Pro`, `Display`, `Condensed`, …) until a map entry matches.
+
+**Output** (JSON array on stdout, regardless of `--json`):
 
 ```jsonc
 [{ "observed": "GT America", "family": "Inter", "package": "@fontsource-variable/inter",
-   "variable": true, "cyrillic": true, "import": "@import \"@fontsource-variable/inter/wght.css\";",
-   "alternative": true, "verified": true }]
+   "variable": true, "cyrillic": true, "latin_ext": true,
+   "import": "@import \"@fontsource-variable/inter/wght.css\";",
+   "alternative": true, "verified": null, "note": "…" }]
 ```
 
-Variable packages are preferred; `cyrillic` reports subset coverage.
+- `cyrillic` / `latin_ext` come from the map; `note` appears when the map entry has one; `alternative` is true when the observed face is not the package's own family.
+- `verified` is `null` without `--verify`. With `--verify` it is a boolean, and each result adds `registry: {latest, subsets, variable_axes}` and, on failure, `problems: []` (package missing, subset mismatch with the map, no `wght` axis on a variable package, subsets unknown).
+- Unmapped names give `{observed, family: null, package: null, …, error: "unmapped"}`.
 
-**Exit codes**: 0 every family mapped; 1 some family unmapped or failed verification; 2 usage error or registry unreachable with `--verify`.
+Variable packages are preferred when several map entries match.
+
+**Exit codes**: 0 every family mapped (and verified with `--verify`); 1 some family unmapped or failed verification; 2 usage error, unreadable map, or registry unreachable with `--verify`.
 
 ---
 
@@ -341,27 +399,31 @@ Variable packages are preferred; `cyrillic` reports subset coverage.
 | --- | --- | --- | --- |
 | `<plugin-root>` | string | — | `${CLAUDE_PLUGIN_ROOT}` |
 | `<data-dir>` | string | — | `${CLAUDE_PLUGIN_DATA}` |
-| `--browsers` | boolean | false | Also install Playwright `chromium-headless-shell` into `<data-dir>/browsers` |
-| `--json` | boolean | false | Print a JSON status object on stdout |
+| `--browsers` | boolean | false | Also make sure Playwright `chromium-headless-shell` launches (`--no-browsers` accepted) |
+| `--json` | boolean | false | Print a JSON status object on stdout (otherwise a key/value list) |
 
-Copies `scripts/package.json` + `package-lock.json` into `<data-dir>/deps` and runs `npm ci` there once, stamped by the lock-file hash (re-runs only when the lock changes). Never installs into the plugin root.
+Copies `scripts/package.json` + `package-lock.json` into `<data-dir>/deps` and runs `npm ci --omit=dev --ignore-scripts` there once, stamped by the lock-file hash (re-runs only when the lock changes or Playwright is missing). Never installs into the plugin root.
+
+With `--browsers`, the browser is checked by actually launching it (20 s limit): a non-empty `<data-dir>/browsers` is tried first; otherwise Playwright's default cache is tried, and when that works nothing is installed and `<data-dir>/browsers` is not created. Only if both fail is `chromium-headless-shell` installed into `<data-dir>/browsers` and launched again; on failure the empty directory is removed.
 
 **Output** (`--json`): `{"deps":"ok|installed|failed","browsers":"ok|installed|failed|skipped","fallback":null|"static","data":"…"}`.
 
-**Exit codes**: 0 deps ready (browser-install failure still exits 0 and reports `fallback: "static"`); 1 `npm ci` failed; 2 usage error or npm/node missing.
+**Exit codes**: 0 deps ready (browser failure still exits 0 and reports `fallback: "static"`); 1 `npm ci` failed (status still printed, `fallback: "static"`); 2 usage error, missing `package.json`/lock in the plugin root, or npm/node missing.
 
 ---
 
 ## `test.sh`
 
-`bash scripts/test.sh` (bash, no flags)
+`bash scripts/test.sh` (bash, no flags; runs from the plugin root whatever the cwd)
 
 Runs in order and stops on the first failure:
 
 1. `claude plugin validate . --strict` (skipped with a notice when the `claude` CLI is not installed, e.g. in CI)
-2. `node --test 'tests/**/*.test.mjs'`
+2. `node --test 'tests/**/*.test.mjs'` — the quoted glob is required: Node ≥ 22 (including Node 24) does not expand a bare directory argument such as `node --test tests/`
 3. `node scripts/validate-index.mjs`
 4. `node scripts/contrast.mjs fixtures/theme.reference.css`
-5. `node scripts/contract.mjs fixtures/theme.reference.css fixtures/theme.reference.css --check`, then against a copy with one token renamed — must exit 1
+5. `node scripts/contract.mjs fixtures/theme.reference.css fixtures/theme.reference.css --check`, then against `tests/fixtures/renamed-token.css` (one token renamed) — must exit 1 and mention `--color-ink`
+
+To run only the unit tests: `node --test 'tests/**/*.test.mjs'`.
 
 **Exit codes**: 0 all passed; 1 any check failed.

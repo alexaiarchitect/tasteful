@@ -1,6 +1,6 @@
 # The reference index
 
-`index/sites.json` is a JSON array of reference-site entries, sorted by `id`. Its machine schema is `index/schema.json` (JSON Schema 2020-12 subset), enforced by `scripts/validate-index.mjs`, which also checks unique ids, unique canonical urls, dead entries and overlap with `index/rejected.json`. All writes go through `scripts/index-edit.mjs`, which validates before writing and writes atomically.
+`index/sites.json` is a JSON array of reference-site entries, sorted by `id`. Its machine schema is `index/schema.json` (JSON Schema 2020-12 subset: only the keywords supported by the stdlib validator in `scripts/lib/schema.mjs`), enforced by `scripts/validate-index.mjs`, which also checks unique ids, unique canonical urls, dead entries and overlap with `index/rejected.json`. All writes go through `scripts/index-edit.mjs`, which validates before writing and writes atomically.
 
 Every entry was probed live when it was added. Nothing is invented: tags come from probe facts first and from reading the screenshots second.
 
@@ -8,41 +8,45 @@ Every entry was probed live when it was added. Nothing is invented: tags come fr
 
 | Field | Type | Allowed values / format | Required | How it is assigned |
 | --- | --- | --- | --- | --- |
-| `id` | string | kebab-case, ≤ 80 chars, unique | yes | From the site or studio name |
-| `url` | string | canonical https url, no tracking params, no `#…` | yes | The site itself, after redirects (`final_url`) |
+| `id` | string | kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`), ≤ 80 chars, unique | yes | From the site or studio name |
+| `url` | string | format `uri`; by convention the canonical https url, no tracking params, no `#…` (`index-edit.mjs` canonicalises it); unique ignoring scheme, `www.`, fragment, tracking params and trailing slash | yes | The site itself, after redirects (`final_url`) |
 | `title` | string | 1–200 chars | yes | The page `<title>`, trimmed of taglines |
 | `source` | enum | `awwwards`, `cssda`, `behance`, `manual` | yes | Where it was found; anything added by hand without an award page is `manual` |
-| `source_url` | string | url | yes | The award or project page; for `manual` without one, the url itself |
-| `source_score` | number \| null | 0–10 | no | The source's own score when it publishes one, else `null` |
+| `source_url` | string | format `uri` | yes | The award or project page; for `manual` without one, the url itself |
+| `source_score` | number \| null | 0–10, or `null` | no | The source's own score when it publishes one, else `null` |
 | `added` | date | `YYYY-MM-DD` | yes | Day the entry was written |
 | `status` | enum | `live`, `dead`, `unchecked` | yes | From the last probe; `find` only ranks `live` |
 | `last_checked` | date | `YYYY-MM-DD` | yes | Set by every `set-status` |
-| `kind` | array | 1–3 of `landing`, `product`, `portfolio`, `editorial`, `ecommerce`, `tool`, `docs`, `studio` | yes | What the site is, from its content |
-| `mood` | array | 1–3 of `minimal`, `editorial`, `brutalist`, `playful`, `luxury`, `technical`, `warm`, `corporate`, `retro`, `organic` | yes | Reading of the screenshots, checked against palette and type facts |
+| `kind` | array | 1–3 unique of `landing`, `product`, `portfolio`, `editorial`, `ecommerce`, `tool`, `docs`, `studio` | yes | What the site is, from its content |
+| `mood` | array | 1–3 unique of `minimal`, `editorial`, `brutalist`, `playful`, `luxury`, `technical`, `warm`, `corporate`, `retro`, `organic` | yes | Reading of the screenshots, checked against palette and type facts |
 | `typography.display` | enum | `serif`, `sans`, `mono`, `display`, `mixed` | yes | Class of the computed `h1`/`h2` family |
 | `typography.body` | enum | `serif`, `sans`, `mono` | yes | Class of the computed `body`/`p` family |
-| `typography.faces` | array | 1–3 family names | yes | `fonts.computed` and `fonts.loaded` from the probe, as observed |
-| `typography.open_alternatives` | array | Fontsource family names | no | `scripts/fonts.mjs` on the observed faces (variable and Cyrillic preferred) |
-| `typography.note` | string | one line | no | What makes the pairing work |
+| `typography.faces` | array | 1–3 unique, non-empty family names | yes | `fonts.computed` and `fonts.loaded` from the probe, as observed |
+| `typography.open_alternatives` | array | unique, non-empty Fontsource family names | no | `scripts/fonts.mjs` on the observed faces (variable and Cyrillic preferred) |
+| `typography.note` | string | one line, 1–300 chars | no | What makes the pairing work |
 | `color.strategy` | enum | `monochrome`, `accent-on-neutral`, `duotone`, `vivid`, `dark-first`, `warm-neutral`, `cold-neutral` | yes | From `colors.backgrounds` by area and the number of saturated hues |
 | `color.dominant` | hex | lowercase `#rrggbb` | yes | Largest background by `area_pct` |
 | `color.accent` | hex | lowercase `#rrggbb` | yes | Most-used saturated colour on buttons/links |
 | `color.ink` | hex | lowercase `#rrggbb` | yes | Heaviest text colour by `weight` |
-| `color.note` | string | one line | no | |
+| `color.note` | string | one line, 1–300 chars | no | |
 | `layout.grid` | enum | `single-column`, `12-col`, `asymmetric`, `bento`, `full-bleed` | yes | Screenshots plus `container.maxWidth` |
 | `layout.density` | enum | `airy`, `balanced`, `dense` | yes | `rhythm.section_gaps` and screenshots |
 | `layout.hero` | enum | `type-only`, `image`, `video`, `product-shot`, `split`, `wash` | yes | The desktop screenshot's first viewport |
-| `layout.note` | string | one line | no | |
+| `layout.note` | string | one line, 1–300 chars | no | |
 | `motion` | integer | 0 none · 1 subtle hover/fade · 2 scroll-driven · 3 heavy/WebGL | yes | `motion.level_guess`, corrected by `canvas_count`, `webgl` and the transitions seen |
-| `extractable` | array | 1–8 of `type-pairing`, `palette`, `card-system`, `hero`, `section-rhythm`, `nav`, `footer`, `buttons`, `chips`, `motion`, `spacing-scale` | yes | What is distinctive *and* reusable in a token/class theme |
+| `extractable` | array | 1–8 unique of `type-pairing`, `palette`, `card-system`, `hero`, `section-rhythm`, `nav`, `footer`, `buttons`, `chips`, `motion`, `spacing-scale` | yes | What is distinctive *and* reusable in a token/class theme |
 | `why` | string | 10–600 chars | yes | One or two concrete sentences: why it is in the index |
-| `avoid` | string | ≤ 300 chars | no | What not to copy; also set by `/tasteful:rate <id> -` |
+| `avoid` | string | 1–300 chars | no | What not to copy; also set by `/tasteful:rate <id> -` |
 | `anchor` | boolean | | no | `true` for the taste-anchor entries that define the upper bar; `rank.mjs` adds `anchor_bonus` |
 | `tentative` | boolean | | no | `true` when it is unclear the entry passes the taste profile; `rank.mjs` subtracts `penalty.tentative` |
-| `screenshots` | object | `{ desktop, mobile }` paths | no | Written by `probe.mjs --deep` (1440×900 and 390×844 JPEG, ≤ 300 KB) under `index/shots/<id>/` (gitignored) |
-| `probe` | string | `index/probes/<id>.json` | no | The stored probe result the tags were derived from; `extract` reuses it when fresh |
+| `screenshots` | object | `{ desktop?, mobile? }` non-empty path strings, no other keys | no | Written by `probe.mjs --deep` (1440×900 and 390×844 JPEG, ≤ 300 KB) under `index/shots/<id>/` (gitignored) |
+| `probe` | string | `index/probes/<id>.json` (pattern `^index/probes/<kebab-id>\.json$`) | no | The stored probe result the tags were derived from; `extract` reuses it when fresh |
 
-No other fields are allowed (`additionalProperties: false`).
+The objects `typography` (required: `display`, `body`, `faces`), `color` (required: `strategy`, `dominant`, `accent`, `ink`) and `layout` (required: `grid`, `density`, `hero`) are themselves required; their `note` is optional.
+
+No other fields are allowed (`additionalProperties: false` on the entry and on `typography`, `color`, `layout` and `screenshots`).
+
+The vocabularies and shapes live under `$defs` in `index/schema.json`, so tools and other schemas can reference them: `source`, `status`, `kind`, `mood`, `extractable`, `typography_display`, `typography_body`, `color_strategy`, `layout_grid`, `layout_density`, `layout_hero`, `motion` (enums and the 0–3 integer), `id`, `date`, `url`, `hex`, `line` (formats), and `typography`, `color`, `layout`, `screenshots`, `entry` (objects).
 
 ## How tags are assigned
 
@@ -55,7 +59,7 @@ Drop rules (recorded in `rejected.json` instead of indexed): the site is dead; i
 
 ## `rejected.json`
 
-A JSON array of `{ "url", "reason", "date" }`, appended by `index-edit.mjs reject --url <u> --reason <text>` (which also removes the url from `sites.json` if present). Its role is memory: `index-edit.mjs diff` drops every rejected url from crawler output, so `/tasteful:refresh` never proposes it again, and `validate-index.mjs` fails if a url is in both files. To give a site a second chance, delete its line and run `/tasteful:add <url>`.
+A JSON array of `{ "url", "reason", "date" }` (plain url strings are also accepted by `validate-index.mjs`; a missing or empty file counts as `[]`), appended by `index-edit.mjs reject --url <u> --reason <text>` (which also removes the url from `sites.json` if present). Its role is memory: `index-edit.mjs diff` drops every rejected url from crawler output, so `/tasteful:refresh` never proposes it again, and `validate-index.mjs` fails if a url is in both files. To give a site a second chance, delete its line and run `/tasteful:add <url>`.
 
 ## Behance
 
@@ -74,7 +78,7 @@ Mirrors `index/sources.json`, which is where sources are configured. Template ma
 | Source id | Role | Entry points | Crawler | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `awwwards` | primary, juried; award pages carry a jury score (0–10), award type and tags | https://www.awwwards.com/websites/ — Sites of the Day, Sites of the Month, Developer Award, and the `minimal`, `typography`, `portfolio`, `e-commerce`, `editorial`, `startup` listings | `crawl-awwwards.mjs` | active | Listings are plain HTML; the award page `/sites/<slug>` carries the score. `robots.txt` disallows `/tag/`, `/gallery/`, search and query strings on the root listing; collection pages and award pages are allowed |
-| `cssda` | primary, juried; UI / UX / Innovation scores (0–10) | https://www.cssdesignawards.com/ — website gallery, WOTD and WOTM winners | `crawl-cssda.mjs` | active | Score = mean of the three vote scores on the award page. `robots.txt` only disallows DotBot |
+| `cssda` | primary, juried; UI / UX / Innovation scores (0–10) | https://www.cssdesignawards.com/ — website gallery, WOTD and WOTM winners | `crawl-cssda.mjs` | active | Score = mean of the three vote scores on the award page, falling back to the listing's JPANEL score. `robots.txt` only disallows DotBot |
 | `behance` | volume source, noisy; only projects linking a live external site are kept | https://www.behance.net/ (home feed only) | `crawl-behance.mjs` | assisted | See Behance above; `/tasteful:add behance` is the supported path |
 | `manual` | anything added with `/tasteful:add` | — | none | active | The user supplies the url; `probe.mjs` fetches only that site |
 
