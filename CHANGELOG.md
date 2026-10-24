@@ -9,3 +9,4 @@
 - Index: `sites.json` with JSON Schema, `rejected.json`, `sources.json`, `fonts.json` (proprietary → open alternatives) and the taste profile `taste.md` with ranking weights.
 - Docs: `WORKFLOW.md`, `INDEX-SCHEMA.md` (including Behance findings), `SITES-INTEGRATION.md`, `SCRIPTS.md`.
 - Tests (`node --test`), five `claude plugin eval` cases in `plugin-evals/`, and a GitHub Actions workflow running the node checks.
+- Verification on 2026-10-24: `scripts/test.sh` green (93 node tests), `claude plugin validate --strict` clean, `claude plugin eval` 5/5 cases pass (score 1.0 with the plugin vs 0.14–1.0 baseline), end-to-end find × 3 and extract × 1 recorded under `fixtures/runs/`.
