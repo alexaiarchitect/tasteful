@@ -1,0 +1,281 @@
+[
+  {
+    "id": "calm-serif-journal",
+    "url": "https://calm-serif-journal.example.com/",
+    "title": "Calm Serif Journal",
+    "source": "awwwards",
+    "source_url": "https://awards.example.com/sites/calm-serif-journal",
+    "source_score": 7.4,
+    "added": "2026-09-01",
+    "status": "live",
+    "last_checked": "2026-10-20",
+    "kind": [
+      "editorial"
+    ],
+    "mood": [
+      "editorial",
+      "minimal",
+      "warm"
+    ],
+    "typography": {
+      "display": "serif",
+      "body": "sans",
+      "faces": [
+        "Source Serif 4",
+        "Inter"
+      ]
+    },
+    "color": {
+      "strategy": "warm-neutral",
+      "dominant": "#f5f1ea",
+      "accent": "#2b59c3",
+      "ink": "#1d1b18"
+    },
+    "layout": {
+      "grid": "single-column",
+      "density": "airy",
+      "hero": "type-only"
+    },
+    "motion": 1,
+    "extractable": [
+      "type-pairing",
+      "palette",
+      "section-rhythm",
+      "spacing-scale",
+      "nav"
+    ],
+    "why": "Synthetic: a quiet serif-led reading layout with a warm neutral ground."
+  },
+  {
+    "id": "playful-practice-app",
+    "url": "https://playful-practice-app.example.com/",
+    "title": "Playful Practice App",
+    "source": "cssda",
+    "source_url": "https://awards.example.com/sites/playful-practice-app",
+    "source_score": 8.0,
+    "added": "2026-09-01",
+    "status": "live",
+    "last_checked": "2026-10-20",
+    "kind": [
+      "tool",
+      "product"
+    ],
+    "mood": [
+      "playful",
+      "warm"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Nunito"
+      ]
+    },
+    "color": {
+      "strategy": "accent-on-neutral",
+      "dominant": "#fbf8f3",
+      "accent": "#e4572e",
+      "ink": "#22201c"
+    },
+    "layout": {
+      "grid": "bento",
+      "density": "balanced",
+      "hero": "product-shot"
+    },
+    "motion": 1,
+    "extractable": [
+      "buttons",
+      "chips",
+      "card-system",
+      "palette",
+      "hero"
+    ],
+    "why": "Synthetic: friendly rounded buttons and chips for a practice tool."
+  },
+  {
+    "id": "bright-kids-lab",
+    "url": "https://bright-kids-lab.example.com/",
+    "title": "Bright Kids Lab",
+    "source": "cssda",
+    "source_url": "https://awards.example.com/sites/bright-kids-lab",
+    "source_score": 7.0,
+    "added": "2026-09-01",
+    "status": "live",
+    "last_checked": "2026-10-20",
+    "kind": [
+      "tool"
+    ],
+    "mood": [
+      "playful",
+      "minimal"
+    ],
+    "typography": {
+      "display": "sans",
+      "body": "sans",
+      "faces": [
+        "Poppins"
+      ]
+    },
+    "color": {
+      "strategy": "vivid",
+      "dominant": "#ffffff",
+      "accent": "#7b2ff7",
+      "ink": "#111111"
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "balanced",
+      "hero": "image"
+    },
+    "motion": 2,
+    "extractable": [
+      "buttons",
+      "chips",
+      "card-system",
+      "palette"
+    ],
+    "why": "Synthetic: same mood and typography combination as the practice app, louder colour."
+  },
+  {
+    "id": "heavy-webgl-studio",
+    "url": "https://heavy-webgl-studio.example.com/",
+    "title": "Heavy WebGL Studio",
+    "source": "awwwards",
+    "source_url": "https://awards.example.com/sites/heavy-webgl-studio",
+    "source_score": 8.6,
+    "added": "2026-09-01",
+    "status": "live",
+    "last_checked": "2026-10-20",
+    "kind": [
+      "studio",
+      "portfolio"
+    ],
+    "mood": [
+      "luxury",
+      "editorial"
+    ],
+    "typography": {
+      "display": "display",
+      "body": "sans",
+      "faces": [
+        "Neue Machina",
+        "Inter"
+      ]
+    },
+    "color": {
+      "strategy": "dark-first",
+      "dominant": "#0b0b0c",
+      "accent": "#c9a86a",
+      "ink": "#f2f0ea"
+    },
+    "layout": {
+      "grid": "full-bleed",
+      "density": "airy",
+      "hero": "video"
+    },
+    "motion": 3,
+    "extractable": [
+      "type-pairing",
+      "hero",
+      "palette",
+      "motion"
+    ],
+    "why": "Synthetic: dramatic dark showcase with heavy motion; bold but over budget for most briefs."
+  },
+  {
+    "id": "quiet-docs-kit",
+    "url": "https://quiet-docs-kit.example.com/",
+    "title": "Quiet Docs Kit",
+    "source": "manual",
+    "source_url": "https://awards.example.com/sites/quiet-docs-kit",
+    "source_score": null,
+    "added": "2026-09-01",
+    "status": "live",
+    "last_checked": "2026-10-20",
+    "kind": [
+      "docs",
+      "tool"
+    ],
+    "mood": [
+      "technical",
+      "minimal"
+    ],
+    "typography": {
+      "display": "mono",
+      "body": "sans",
+      "faces": [
+        "JetBrains Mono",
+        "Inter"
+      ]
+    },
+    "color": {
+      "strategy": "cold-neutral",
+      "dominant": "#f7f8fa",
+      "accent": "#2f6fed",
+      "ink": "#14161a"
+    },
+    "layout": {
+      "grid": "12-col",
+      "density": "dense",
+      "hero": "type-only"
+    },
+    "motion": 0,
+    "extractable": [
+      "type-pairing",
+      "chips",
+      "spacing-scale",
+      "nav",
+      "palette",
+      "card-system"
+    ],
+    "why": "Synthetic: dense, calm documentation system with mono headings.",
+    "anchor": true
+  },
+  {
+    "id": "retro-shop",
+    "url": "https://retro-shop.example.com/",
+    "title": "Retro Shop",
+    "source": "awwwards",
+    "source_url": "https://awards.example.com/sites/retro-shop",
+    "source_score": 6.9,
+    "added": "2026-09-01",
+    "status": "live",
+    "last_checked": "2026-10-20",
+    "kind": [
+      "ecommerce"
+    ],
+    "mood": [
+      "retro",
+      "playful"
+    ],
+    "typography": {
+      "display": "mixed",
+      "body": "serif",
+      "faces": [
+        "Recoleta",
+        "Lora"
+      ]
+    },
+    "color": {
+      "strategy": "duotone",
+      "dominant": "#f3e9d2",
+      "accent": "#1b4965",
+      "ink": "#2a2a2a"
+    },
+    "layout": {
+      "grid": "asymmetric",
+      "density": "balanced",
+      "hero": "split"
+    },
+    "motion": 1,
+    "extractable": [
+      "card-system",
+      "buttons",
+      "chips",
+      "palette"
+    ],
+    "why": "Synthetic: duotone shop with chunky cards; tentative fit.",
+    "tentative": true,
+    "avoid": "the chips are too loud for small screens"
+  }
+]
