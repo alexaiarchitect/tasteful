@@ -170,7 +170,7 @@ function panel(scheme, fonts, colors) {
     <div class="container-site">
       <div class="tf-scheme mono">${label} scheme</div>
       <header class="tf-hero hero-wash">
-        <span class="eyebrow">Field notes · Issue 12</span>
+        <span class="eyebrow">Field notes, issue 12</span>
         <h1 class="display tf-display">Calm interfaces for careful readers</h1>
         <p class="lead">A theme preview: tokens, components and long-form text rendered with plain CSS, so the palette, type and rhythm can be judged before anything ships.</p>
         <div class="tf-row">
@@ -255,7 +255,7 @@ body { display: block; min-height: 0; }
 .tf-panel { padding-block: 2rem 3rem; min-width: 0; }
 .tf-scheme { color: var(--color-muted); margin-bottom: 1.5rem; }
 .tf-hero { padding-block: 1rem 2rem; }
-.tf-display { font-size: clamp(2.25rem, 4vw, 3.5rem); margin: 0.75rem 0 1rem; }
+.tf-display { margin: 0.75rem 0 1rem; }
 .tf-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 1.25rem; }
 .tf-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-block: 1rem 2rem; }
 .tf-card-title { margin: 1rem 0 0.25rem; font-size: 1.125rem; }

@@ -1,0 +1,280 @@
+@import "tailwindcss";
+@source "../";
+
+/*
+ * ai-architect-blog: approval B.
+ * Typography from aestudio (GoShuin), palette from halfthesky (Half the Sky),
+ * cards from stash (Stash); the remaining facets from aestudio.
+ * Self-hosted variable fonts, split by unicode-range (latin + cyrillic load on demand).
+ */
+@import "@fontsource-variable/inter/wght.css";
+@import "@fontsource-variable/source-serif-4/wght.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* from: aestudio — -apple-system body, nav and buttons → Inter */
+  --font-display: "Source Serif 4 Variable", "Iowan Old Style", "Palatino Linotype", Georgia, serif; /* from: aestudio — Georgia 400 h1/h2 → Source Serif 4 */
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, Consolas, monospace; /* from: stash — Space Mono card meta and pagers → JetBrains Mono (Cyrillic) */
+
+  --color-bg: #dddcd7; /* from: halfthesky — stone ground, 100% of background area */
+  --color-panel: #e8e7e3; /* derived — bg lifted by the 35% white inset highlight halfthesky puts on its tiles */
+  --color-panel-2: #d3d2cc; /* derived — bg one step darker, same hue */
+  --color-ink: #3a3934; /* from: halfthesky — darkest text tone #3a3934 */
+  --color-muted: #5a5850; /* from: halfthesky — #66645c body ink, darkened to clear 4.5:1 on stone */
+  --color-line: #c6c5be; /* from: halfthesky — hairline grid between tiles, read from screenshot */
+  --color-line-strong: #a3a198; /* derived — between line and #8a887f, the lightest observed text */
+  --color-accent: #5a4a26; /* derived — halfthesky's warm hue pushed to a dark bronze so links separate from ink; the palette has no accent */
+  --color-accent-ink: #efeeea; /* derived — near panel, on accent */
+  --color-accent-soft: #d2c9b2; /* derived — accent tinted into stone */
+  --color-ok: #2f5e3f; /* derived — muted green tuned to the stone ground */
+  --color-ok-soft: #cdd6c8; /* derived */
+  --color-bad: #8c3326; /* derived — muted brick tuned to the stone ground */
+  --color-bad-soft: #e3cbc4; /* derived */
+  --color-warn: #6b5216; /* derived — ochre tuned to the stone ground */
+  --color-warn-soft: #e0d6bb; /* derived */
+
+  --radius-card: 0; /* from: stash — article cards, radius 0px */
+  --shadow-card: 0 0 0 0 transparent; /* from: stash — cards carry no shadow, only a rule */
+  --shadow-card-hover: 0 -1px 0 0 var(--color-ink); /* from: stash — black section rule, thickened on hover */
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1); /* derived — baseline quint kept for markup that names it; components use --ease-out */
+  --ease-out: cubic-bezier(0, 0, 0.58, 1); /* from: aestudio — "ease-out" easing on 160–250ms transitions */
+  --duration-fast: 160ms; /* from: aestudio — shortest transition 160ms */
+  --duration-base: 220ms; /* from: aestudio — transitions 160–250ms */
+
+  --spacing-block: 2.25rem; /* from: aestudio — section gap 35px */
+  --spacing-section: 4.5rem; /* from: aestudio — section gap 70px */
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --header-h: 3.25rem; /* from: aestudio — top bar about 52px high */
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-bg: #262521; /* derived — dark stone, same warm hue as #dddcd7; halfthesky is light-only */
+    --color-panel: #2e2d29; /* derived */
+    --color-panel-2: #36352f; /* derived */
+    --color-ink: #e2e1db; /* derived — bg #dddcd7 lifted, used as ink */
+    --color-muted: #aeaca3; /* derived — from #8a887f, lightened */
+    --color-line: #45443d; /* derived — raised so hairlines read on dark stone */
+    --color-line-strong: #5a5850; /* derived */
+    --color-accent: #d9c79a; /* derived — light bronze, the light accent's hue; not neon */
+    --color-accent-ink: #262521; /* derived */
+    --color-accent-soft: #3d3729; /* derived */
+    --color-ok: #9cc7a6; /* derived */
+    --color-ok-soft: #26332a; /* derived */
+    --color-bad: #e6a597; /* derived */
+    --color-bad-soft: #3d2a25; /* derived */
+    --color-warn: #ddc283; /* derived */
+    --color-warn-soft: #3a3322; /* derived */
+    --shadow-card: 0 0 0 0 transparent; /* derived */
+    --shadow-card-hover: 0 -1px 0 0 var(--color-ink); /* derived */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --color-bg: #262521; /* derived — dark stone, same warm hue as #dddcd7; halfthesky is light-only */
+      --color-panel: #2e2d29; /* derived */
+      --color-panel-2: #36352f; /* derived */
+      --color-ink: #e2e1db; /* derived — bg #dddcd7 lifted, used as ink */
+      --color-muted: #aeaca3; /* derived — from #8a887f, lightened */
+      --color-line: #45443d; /* derived — raised so hairlines read on dark stone */
+      --color-line-strong: #5a5850; /* derived */
+      --color-accent: #d9c79a; /* derived — light bronze, the light accent's hue; not neon */
+      --color-accent-ink: #262521; /* derived */
+      --color-accent-soft: #3d3729; /* derived */
+      --color-ok: #9cc7a6; /* derived */
+      --color-ok-soft: #26332a; /* derived */
+      --color-bad: #e6a597; /* derived */
+      --color-bad-soft: #3d2a25; /* derived */
+      --color-warn: #ddc283; /* derived */
+      --color-warn-soft: #3a3322; /* derived */
+      --shadow-card: 0 0 0 0 transparent; /* derived */
+      --shadow-card-hover: 0 -1px 0 0 var(--color-ink); /* derived */
+    }
+  }
+
+  /* Show one of two children depending on the effective colour scheme (theme toggle icons). */
+  .only-dark { display: none; }
+  :root[data-theme="dark"] .only-dark { display: block; }
+  :root[data-theme="dark"] .only-light { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .only-dark { display: block; }
+    :root:not([data-theme="light"]) .only-light { display: none; }
+  }
+
+  html {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    scroll-behavior: smooth;
+  }
+  body { margin: 0; min-height: 100dvh; display: flex; flex-direction: column; }
+  main { flex: 1; width: 100%; }
+  /* aestudio: Georgia at regular weight with tight tracking; the size contrast carries the hierarchy. */
+  h1, h2, h3 {
+    font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em; text-wrap: balance; line-height: 1.15;
+    overflow-wrap: break-word; hyphens: auto;
+  }
+  h4, h5, h6 { font-weight: 600; letter-spacing: -0.005em; overflow-wrap: break-word; hyphens: auto; }
+  p { text-wrap: pretty; }
+  a { color: var(--color-accent); text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 0; }
+  ::selection { background: var(--color-accent-soft); }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  .container-site { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 640px) { .container-site { padding-inline: 2rem; } }
+  .container-prose { width: 100%; max-width: 42rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 640px) { .container-prose { padding-inline: 2rem; } }
+
+  .skip-link {
+    position: absolute; left: 1rem; top: -4rem; z-index: 100;
+    background: var(--color-accent); color: var(--color-accent-ink);
+    padding: 0.5rem 0.75rem; border-radius: 0; text-decoration: none; font-weight: 500;
+    transition: top var(--duration-fast) var(--ease-out);
+  }
+  .skip-link:focus { top: 0.75rem; }
+
+  /* aestudio: small tracked caps set under a hairline rule ("AE STUDIO / GOSHUIN JOURNAL"). */
+  .eyebrow {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding-top: 0.875rem; border-top: 1px solid var(--color-line-strong);
+    font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--color-muted); overflow-wrap: break-word;
+  }
+  .eyebrow::before { content: none; }
+
+  /* aestudio's 129px title page, scaled down so long RU/ES words fit. */
+  .display {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-family: var(--font-display); font-weight: 400; letter-spacing: -0.04em; line-height: 1;
+    text-wrap: balance; overflow-wrap: break-word; hyphens: auto;
+  }
+  .lead { font-family: var(--font-display); font-size: 1.1875rem; line-height: 1.5; letter-spacing: 0.01em; color: var(--color-ink); max-width: 56ch; }
+  @media (min-width: 640px) { .lead { font-size: 1.375rem; } }
+
+  /* stash: an article card is a rule, a media frame, a mono meta line, a title and a dek; no box, no shadow. */
+  .card {
+    position: relative; display: flex; flex-direction: column; gap: 0.75rem;
+    background: transparent; border: 0; border-top: 1px solid var(--color-ink);
+    border-radius: var(--radius-card); padding: 1.25rem 0 0; box-shadow: var(--shadow-card);
+    overflow-wrap: break-word; hyphens: auto;
+  }
+  @media (min-width: 640px) { .card { padding: 1.5rem 0 0; } }
+  .card-media { background: var(--color-panel-2); aspect-ratio: 3 / 2; width: 100%; object-fit: cover; }
+  .card-meta {
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--color-muted); font-variant-numeric: tabular-nums;
+  }
+  .card h3, .card .card-title { font-size: 1.375rem; line-height: 1.25; margin: 0; }
+  .card > .btn { align-self: flex-start; margin-top: auto; }
+  .card-link { transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out), border-color var(--duration-base); }
+  .card-link:hover, .card-link:focus-within { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); border-color: var(--color-ink); }
+  .card-link > a.stretched::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .card-link > a.stretched { color: inherit; text-decoration: none; }
+  .card-link:hover > a.stretched, .card-link:focus-within > a.stretched { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+
+  .icon-tile {
+    display: inline-grid; place-items: center; width: 3rem; height: 3rem; border-radius: 0;
+    background: var(--color-accent-soft); color: var(--color-accent); font-size: 1.5rem; line-height: 1;
+  }
+
+  /* aestudio: calls to action are underlined text links ("App Store ↗", "Explore the app"). */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem;
+    min-height: 2.75rem; padding: 0.5rem 0.125rem; border-radius: 0;
+    font: inherit; font-weight: 400; font-size: 0.9375rem; line-height: 1.3; letter-spacing: 0.01em;
+    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.5em;
+    text-decoration-color: var(--color-line-strong);
+    cursor: pointer; overflow-wrap: break-word; hyphens: auto;
+    color: var(--color-ink); background: transparent; border: 0;
+    transition: color var(--duration-fast) var(--ease-out), text-decoration-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+  }
+  .btn:hover { text-decoration-color: var(--color-ink); }
+  .btn:active { transform: translateY(1px); }
+  /* The primary action is the one filled block on the page, square like the rest of the system. */
+  .btn-primary {
+    padding-inline: 1.125rem; color: var(--color-accent-ink); background: var(--color-accent);
+    border: 1px solid var(--color-accent); text-decoration: none;
+  }
+  .btn-primary:hover { background: color-mix(in oklab, var(--color-accent) 86%, black); border-color: color-mix(in oklab, var(--color-accent) 86%, black); }
+  .btn-sm { min-height: 2rem; padding: 0.25rem 0.125rem; font-size: 0.875rem; border-radius: 0; }
+  .btn-primary.btn-sm { padding-inline: 0.75rem; }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+
+  /* aestudio: the "Pause motion" pill, a hairline-bordered capsule in small sans. */
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.375rem;
+    padding: 0.125rem 0.625rem; border-radius: 999px; font-size: 0.75rem; font-weight: 400; line-height: 1.5;
+    background: var(--color-panel); color: var(--color-muted); border: 1px solid var(--color-line-strong);
+    overflow-wrap: break-word; hyphens: auto;
+  }
+  .chip-accent { background: var(--color-accent-soft); color: var(--color-accent); border-color: transparent; }
+  .chip-ok { background: var(--color-ok-soft); color: var(--color-ok); border-color: transparent; }
+  .chip-warn { background: var(--color-warn-soft); color: var(--color-warn); border-color: transparent; }
+  .chip-outline { background: transparent; border-color: var(--color-line-strong); }
+
+  .value-pill {
+    display: inline-block; padding: 0.125rem 0.625rem; border-radius: 999px;
+    font-weight: 500; background: var(--color-accent-soft); color: var(--color-accent);
+  }
+
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.875em; }
+  .divider { border: 0; border-top: 1px solid var(--color-line); margin: 0; }
+
+  .num-badge {
+    display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; flex: none;
+    background: var(--color-ink); color: var(--color-bg); font-family: var(--font-sans); font-weight: 500; font-size: 0.875rem;
+  }
+
+  /* Hero: aestudio's title page has no wash; its rules come from .eyebrow above and the card rules below. */
+  .hero-wash {
+    position: relative; isolation: isolate;
+  }
+  .hero-wash::before { content: none; }
+
+  /* Long-form text (blog posts, notes). */
+  .prose { font-size: 1.0625rem; line-height: 1.75; max-width: 68ch; }
+  .prose > * + * { margin-top: 1.15em; }
+  .prose h2 { font-size: 1.875rem; margin-top: 2.2em; margin-bottom: 0.4em; }
+  .prose h3 { font-size: 1.375rem; margin-top: 1.8em; margin-bottom: 0.3em; }
+  .prose ul, .prose ol { padding-inline-start: 1.5rem; }
+  .prose li + li { margin-top: 0.35em; }
+  .prose ul { list-style: disc; }
+  .prose ol { list-style: decimal; }
+  .prose blockquote {
+    border-inline-start: 1px solid var(--color-line-strong); padding-inline-start: 1.25rem;
+    font-family: var(--font-display); font-size: 1.1875em; line-height: 1.5; color: var(--color-ink); font-style: italic;
+  }
+  .prose code { font-family: var(--font-mono); font-size: 0.85em; background: var(--color-panel); border: 1px solid var(--color-line); border-radius: 0.25rem; padding: 0.1em 0.35em; }
+  .prose pre { background: var(--color-panel); border: 1px solid var(--color-line); border-radius: 0.25rem; padding: 1rem 1.25rem; overflow-x: auto; font-size: 0.875rem; line-height: 1.6; }
+  .prose pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+  .prose img { border-radius: 0; max-width: 100%; height: auto; }
+  .prose hr { border: 0; border-top: 1px solid var(--color-line-strong); margin-block: 2.5em; }
+  .prose table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .prose th, .prose td { text-align: start; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--color-line); }
+  .prose th { font-weight: 500; color: var(--color-muted); font-size: 0.8125rem; border-bottom-color: var(--color-line-strong); }
+  .prose a { font-weight: 450; overflow-wrap: anywhere; }
+  .prose strong { font-weight: 600; }
+}
+
+/* Kept for older markup: a plain bordered panel. */
+@utility panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  padding: 1rem 1.25rem;
+}

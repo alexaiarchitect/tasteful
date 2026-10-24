@@ -1,0 +1,13 @@
+{
+  "slug": "dji-settings-guide",
+  "title": "DJI Osmo Pocket settings guide",
+  "kind": ["docs", "tool"],
+  "audience": "Hobbyist creators looking up camera settings quickly, often on a phone while shooting",
+  "tone": ["technical", "direct", "trustworthy"],
+  "density": "text-heavy",
+  "motion": 0,
+  "dark_mode": "both",
+  "must_have": ["nav", "chips", "spacing-scale"],
+  "mood": ["technical", "minimal"],
+  "languages": ["en"]
+}

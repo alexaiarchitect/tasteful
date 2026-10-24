@@ -1,0 +1,12 @@
+{
+  "packages": [
+    { "name": "@fontsource-variable/source-serif-4", "family": "Source Serif 4 Variable", "role": "display", "observed": "Georgia", "variable": true, "cyrillic": true, "import": "@import \"@fontsource-variable/source-serif-4/wght.css\";" },
+    { "name": "@fontsource-variable/inter", "family": "Inter Variable", "role": "sans", "observed": "-apple-system", "variable": true, "cyrillic": true, "import": "@import \"@fontsource-variable/inter/wght.css\";" },
+    { "name": "@fontsource-variable/jetbrains-mono", "family": "JetBrains Mono Variable", "role": "mono", "observed": "Space Mono", "variable": true, "cyrillic": true, "import": "@import \"@fontsource-variable/jetbrains-mono/wght.css\";" }
+  ],
+  "imports": [
+    "@import \"@fontsource-variable/inter/wght.css\";",
+    "@import \"@fontsource-variable/source-serif-4/wght.css\";",
+    "@import \"@fontsource-variable/jetbrains-mono/wght.css\";"
+  ]
+}

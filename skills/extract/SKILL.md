@@ -30,7 +30,7 @@ Arguments: `$ARGUMENTS` (slug = `$0`).
 
 ## Composition rules
 
-- Start from a copy of the reference theme and change values and component styles; never delete or rename a token, class, `@utility` or dark selector. New tokens are fine.
+- Start from a copy of the reference theme and change values and component styles; never delete or rename a token, class, `@utility` or dark selector. New tokens are fine. Express each facet through the existing classes (`.card-link`, `.btn`, `.chip`, `.prose`, …): `preview.mjs` and the sites markup use only those, so a new class is invisible in the preview and the critic will block the facet as not visible. If a new class is unavoidable, list it under "Known gaps" as needing markup changes.
 - First two statements stay `@import "tailwindcss";` and `@source "../";`, then the `@fontsource` imports from `fonts.json`. No external `@import`, no Google Fonts.
 - Every token line ends with `/* from: <ref-id> — <what> */` (e.g. `/* from: acme-studio — h1 colour, 62% of text area */`) or `/* derived */`.
 - Dark mode: override every `--color-*` and `--shadow-*` in `:root[data-theme="dark"]` and identically in `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }`. For a dark-first reference, derive the light scheme and say so.
@@ -55,6 +55,8 @@ Arguments: `$ARGUMENTS` (slug = `$0`).
 `/tasteful:extract verify <theme.css>` (or a slug, meaning `${user_config.output_dir}/<slug>/theme.<slug>.css`). No approval is needed because nothing is extracted. Resolve the reference as in step 4, run the contract check and `contrast.mjs <theme.css> --extended --suggest`, and report every finding with the script's evidence: missing or renamed tokens and classes, failing pairs with ratio, minimum and scheme, suggested colours. Do not edit the file unless the user confirms a fix (AskUserQuestion: "Apply suggested fixes" / "Report only"); after a fix, re-run both checks.
 
 ## Scripts
+
+Run each command as its own Bash call with literal paths: no `;`, `&&`, `|`, `echo $?`, shell variables or `$(…)`. The `Bash(node *)` and `Bash(bash *)` allow rules match a single command only, so compound commands are refused in headless and auto modes and cost a turn. A plain `> file` redirect to a literal path is fine.
 
 | Command | Does | Exit codes |
 | --- | --- | --- |

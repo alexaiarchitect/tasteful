@@ -76,6 +76,8 @@ Marking a dead site edits the plugin's own `index/sites.json`. With a marketplac
 
 ## Scripts
 
+Run each command as its own Bash call with literal paths: no `;`, `&&`, `|`, `echo $?`, shell variables or `$(…)`. The `Bash(node *)` and `Bash(bash *)` allow rules match a single command only, so compound commands are refused in headless and auto modes and cost a turn. A plain `> file` redirect to a literal path is fine.
+
 | Command | Does | Exit codes |
 | --- | --- | --- |
 | `bash "${CLAUDE_PLUGIN_ROOT}/scripts/ensure-deps.sh" "${CLAUDE_PLUGIN_ROOT}" "${CLAUDE_PLUGIN_DATA}" --json` | Installs npm deps into the data dir once | 0 ready · 1 npm ci failed · 2 usage/env |

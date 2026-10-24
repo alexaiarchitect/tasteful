@@ -37,7 +37,36 @@ What happens:
 
 Example proposal (excerpt):
 
-<!-- filled from fixtures/runs after the e2e run -->
+From the recorded run for brief (a) (`fixtures/runs/ai-architect-blog/proposal.md`, 2026-10-24, trimmed):
+
+```markdown
+## 1. GoShuin: Goshuin Map & Journal for iPhone (safe pick)
+https://aestudio.studio/goshuin/en · [source](https://www.awwwards.com/sites/goshuin-every-stamp-a-memory)
+
+**Why it fits.** The closest match to "calm, precise, warm": a Georgia serif title page,
+hairline bronze rules and underlined text links instead of filled buttons. Airy layout,
+motion level 1 with a pause-motion control.
+
+**What to take**
+- type-pairing: serif display (Georgia → Source Serif 4, Cyrillic) over system sans (→ Inter)
+- palette: paper #f8f3e7, slate ink #2d3435, bronze #756449 for rules only
+- buttons: underlined text links as the primary CTA style
+…
+**What to leave:** the pixel-dithered pattern art and the 129px display.
+
+## 2. Half the Sky — https://halfthesky.app/        (palette, nav, card grid)
+## 3. The Quaker School at Horsham (bold pick)       (serif + sans sibling, chapter rhythm)
+## 4. Stash — https://stash.cool/                    (horizontal article cards, mono meta)
+## 5. Farm Minerals — https://www.farmminerals.com/  (bone/olive duotone, outlined CTA)
+
+## Combinations
+- A: #1 alone. The calmest option and the closest to the brief.
+- B: typography of #1 + palette of #2 + cards of #4. Source Serif 4 / Inter over a warm
+  stone ground, with Stash's ruled horizontal cards and mono meta.
+- C: nav, buttons, type and rhythm of #1 + nav of #3. The most restrained top bar.
+```
+
+The other two briefs produced: piano trainer → aestudio, yigua, stash, almadalabel, estudioniksen; DJI guide → stash, aestudio, yigua, enricbadrinas, almadalabel. All candidates answered the liveness probe, so nothing was replaced.
 
 The reply always ends with:
 
@@ -84,7 +113,65 @@ Output in `.tasteful/<slug>/`:
 
 Example check output and report excerpt:
 
-<!-- filled from fixtures/runs after the e2e run -->
+From the recorded run (`fixtures/runs/ai-architect-blog/`, approval `approve B`, trimmed).
+
+`approval.md`:
+
+```markdown
+approve B
+
+## Resolved
+Combination B: typography of #1 + palette of #2 + cards of #4. Facets not named in B
+come from the first reference named (#1 aestudio).
+| Facet | Reference |
+| --- | --- |
+| typography | aestudio (#1) |
+| palette | halfthesky (#2) |
+| cards | stash (#4) |
+| buttons, chips, hero, rhythm, nav, footer, motion | aestudio (#1) |
+```
+
+The project had no `packages/theme/src/styles/theme.css`, so `extract` said so and used `fixtures/theme.reference.css` as the contract. Final checks:
+
+```text
+$ node scripts/contract.mjs fixtures/theme.reference.css …/theme.ai-architect-blog.css --check
+ok   1. @theme tokens            ok   5. first two statements are @import "tailwindcss"; and @source "../";
+ok   2. classes                  ok   6. !important only inside prefers-reduced-motion
+ok   3. @utility names           ok   7. no external @import
+ok   4. dark coverage (--color-*, --shadow-*)
+info: added tokens: --ease-out · added classes: .card-media, .card-meta, .card-title
+ok: contract preserved
+```
+
+`REPORT.md` → Contrast (required pairs):
+
+| Scheme | ink / bg | muted / bg | accent-ink / accent | accent / bg |
+| --- | --- | --- | --- | --- |
+| light | 8.43 | 5.19 | 7.41 | 6.26 |
+| dark | 11.71 | 6.74 | 9.19 | 9.19 |
+| floor | 7 | 4.5 | 4.5 | 3 |
+
+Every token line carries provenance, for example `--color-bg: #dddcd7; /* from: halfthesky — stone ground, 100% of background area */`, and in the dark block `--color-bg: #262521; /* derived — dark stone, same warm hue as #dddcd7; halfthesky is light-only */`.
+
+Critic (`tasteful:critic`), two passes:
+
+```text
+Pass 1 — BLOCKED (1): the preview carries aestudio's typography and Half the Sky's stone
+palette, but the Stash card treatment cannot be seen.
+Pass 2 — PASS: Source Serif at weight 400 over Inter, halfthesky's #dddcd7 stone with
+#3a3934 ink, and Stash-style rule-topped zero-radius cards with a mono meta line.
+```
+
+The hand-over ends with the swap-in steps, filled in with the real slug and packages (never run by the plugin):
+
+```sh
+git switch -c feat/theme-ai-architect-blog
+cp .tasteful/ai-architect-blog/theme.ai-architect-blog.css packages/theme/src/styles/theme.css
+pnpm --filter @sites/theme add @fontsource-variable/inter @fontsource-variable/source-serif-4 @fontsource-variable/jetbrains-mono
+pnpm install
+pnpm run build && pnpm run check && pnpm run lint
+pnpm --filter www dev        # landing, a long post, /ru/, /es/, dark mode
+```
 
 To re-check a theme later without re-extracting:
 

@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Theme preview — theme.ai-architect-blog.css</title>
+<style>
+/* ===== theme (flattened from theme.ai-architect-blog.css) ===== */
+:root, [data-theme] {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Source Serif 4 Variable", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --color-bg: #dddcd7;
+  --color-panel: #e8e7e3;
+  --color-panel-2: #d3d2cc;
+  --color-ink: #3a3934;
+  --color-muted: #5a5850;
+  --color-line: #c6c5be;
+  --color-line-strong: #a3a198;
+  --color-accent: #5a4a26;
+  --color-accent-ink: #efeeea;
+  --color-accent-soft: #d2c9b2;
+  --color-ok: #2f5e3f;
+  --color-ok-soft: #cdd6c8;
+  --color-bad: #8c3326;
+  --color-bad-soft: #e3cbc4;
+  --color-warn: #6b5216;
+  --color-warn-soft: #e0d6bb;
+  --radius-card: 0;
+  --shadow-card: 0 0 0 0 transparent;
+  --shadow-card-hover: 0 -1px 0 0 var(--color-ink);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0, 0, 0.58, 1);
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+  --spacing-block: 2.25rem;
+  --spacing-section: 4.5rem;
+}
+:root, [data-theme] {
+  color-scheme: light;
+  --header-h: 3.25rem;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #262521;
+  --color-panel: #2e2d29;
+  --color-panel-2: #36352f;
+  --color-ink: #e2e1db;
+  --color-muted: #aeaca3;
+  --color-line: #45443d;
+  --color-line-strong: #5a5850;
+  --color-accent: #d9c79a;
+  --color-accent-ink: #262521;
+  --color-accent-soft: #3d3729;
+  --color-ok: #9cc7a6;
+  --color-ok-soft: #26332a;
+  --color-bad: #e6a597;
+  --color-bad-soft: #3d2a25;
+  --color-warn: #ddc283;
+  --color-warn-soft: #3a3322;
+  --shadow-card: 0 0 0 0 transparent;
+  --shadow-card-hover: 0 -1px 0 0 var(--color-ink);
+}
+@media (prefers-color-scheme: dark) {
+  [data-theme]:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: #262521;
+    --color-panel: #2e2d29;
+    --color-panel-2: #36352f;
+    --color-ink: #e2e1db;
+    --color-muted: #aeaca3;
+    --color-line: #45443d;
+    --color-line-strong: #5a5850;
+    --color-accent: #d9c79a;
+    --color-accent-ink: #262521;
+    --color-accent-soft: #3d3729;
+    --color-ok: #9cc7a6;
+    --color-ok-soft: #26332a;
+    --color-bad: #e6a597;
+    --color-bad-soft: #3d2a25;
+    --color-warn: #ddc283;
+    --color-warn-soft: #3a3322;
+    --shadow-card: 0 0 0 0 transparent;
+    --shadow-card-hover: 0 -1px 0 0 var(--color-ink);
+  }
+}
+.only-dark {
+  display: none;
+}
+[data-theme="dark"] .only-dark {
+  display: block;
+}
+[data-theme="dark"] .only-light {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  [data-theme]:not([data-theme="light"]) .only-dark {
+    display: block;
+  }
+  [data-theme]:not([data-theme="light"]) .only-light {
+    display: none;
+  }
+}
+html, [data-theme] {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+  width: 100%;
+}
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  line-height: 1.15;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+p {
+  text-wrap: pretty;
+}
+a {
+  color: var(--color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 0;
+}
+::selection {
+  background: var(--color-accent-soft);
+}
+@media (prefers-reduced-motion: reduce) {
+  html, [data-theme] {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+.container-site {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .container-site {
+    padding-inline: 2rem;
+  }
+}
+.container-prose {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .container-prose {
+    padding-inline: 2rem;
+  }
+}
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: top var(--duration-fast) var(--ease-out);
+}
+.skip-link:focus {
+  top: 0.75rem;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--color-line-strong);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  overflow-wrap: break-word;
+}
+.eyebrow::before {
+  content: none;
+}
+.display {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.lead {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--color-ink);
+  max-width: 56ch;
+}
+@media (min-width: 640px) {
+  .lead {
+    font-size: 1.375rem;
+  }
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--color-ink);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 0 0;
+  box-shadow: var(--shadow-card);
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+@media (min-width: 640px) {
+  .card {
+    padding: 1.5rem 0 0;
+  }
+}
+.card-media {
+  background: var(--color-panel-2);
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  object-fit: cover;
+}
+.card-meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+.card h3, .card .card-title {
+  font-size: 1.375rem;
+  line-height: 1.25;
+  margin: 0;
+}
+.card > .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+.card-link {
+  transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out), border-color var(--duration-base);
+}
+.card-link:hover, .card-link:focus-within {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-ink);
+}
+.card-link > a.stretched::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.card-link > a.stretched {
+  color: inherit;
+  text-decoration: none;
+}
+.card-link:hover > a.stretched, .card-link:focus-within > a.stretched {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.icon-tile {
+  display: inline-grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.125rem;
+  border-radius: 0;
+  font: inherit;
+  font-weight: 400;
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.5em;
+  text-decoration-color: var(--color-line-strong);
+  cursor: pointer;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  transition: color var(--duration-fast) var(--ease-out), text-decoration-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+.btn:hover {
+  text-decoration-color: var(--color-ink);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-primary {
+  padding-inline: 1.125rem;
+  color: var(--color-accent-ink);
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: color-mix(in oklab, var(--color-accent) 86%, black);
+  border-color: color-mix(in oklab, var(--color-accent) 86%, black);
+}
+.btn-sm {
+  min-height: 2rem;
+  padding: 0.25rem 0.125rem;
+  font-size: 0.875rem;
+  border-radius: 0;
+}
+.btn-primary.btn-sm {
+  padding-inline: 0.75rem;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background: var(--color-panel);
+  color: var(--color-muted);
+  border: 1px solid var(--color-line-strong);
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.chip-accent {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-color: transparent;
+}
+.chip-ok {
+  background: var(--color-ok-soft);
+  color: var(--color-ok);
+  border-color: transparent;
+}
+.chip-warn {
+  background: var(--color-warn-soft);
+  color: var(--color-warn);
+  border-color: transparent;
+}
+.chip-outline {
+  background: transparent;
+  border-color: var(--color-line-strong);
+}
+.value-pill {
+  display: inline-block;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-weight: 500;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875em;
+}
+.divider {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 0;
+}
+.num-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  flex: none;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+.hero-wash {
+  position: relative;
+  isolation: isolate;
+}
+.hero-wash::before {
+  content: none;
+}
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  max-width: 68ch;
+}
+.prose > * + * {
+  margin-top: 1.15em;
+}
+.prose h2 {
+  font-size: 1.875rem;
+  margin-top: 2.2em;
+  margin-bottom: 0.4em;
+}
+.prose h3 {
+  font-size: 1.375rem;
+  margin-top: 1.8em;
+  margin-bottom: 0.3em;
+}
+.prose ul, .prose ol {
+  padding-inline-start: 1.5rem;
+}
+.prose li + li {
+  margin-top: 0.35em;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose blockquote {
+  border-inline-start: 1px solid var(--color-line-strong);
+  padding-inline-start: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.1875em;
+  line-height: 1.5;
+  color: var(--color-ink);
+  font-style: italic;
+}
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 0.25rem;
+  padding: 0.1em 0.35em;
+}
+.prose pre {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 0.25rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+.prose img {
+  border-radius: 0;
+  max-width: 100%;
+  height: auto;
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-line-strong);
+  margin-block: 2.5em;
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.prose th, .prose td {
+  text-align: start;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.prose th {
+  font-weight: 500;
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  border-bottom-color: var(--color-line-strong);
+}
+.prose a {
+  font-weight: 450;
+  overflow-wrap: anywhere;
+}
+.prose strong {
+  font-weight: 600;
+}
+.panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  padding: 1rem 1.25rem;
+}
+
+/* preview scaffolding (not part of the theme) */
+html, body { margin: 0; padding: 0; }
+body { display: block; min-height: 0; }
+.tf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 560px), 1fr)); }
+[data-theme] { background: var(--color-bg); color: var(--color-ink); font-family: var(--font-sans); }
+.tf-panel { padding-block: 2rem 3rem; min-width: 0; }
+.tf-scheme { color: var(--color-muted); margin-bottom: 1.5rem; }
+.tf-hero { padding-block: 1rem 2rem; }
+.tf-display { font-size: clamp(2.25rem, 4vw, 3.5rem); margin: 0.75rem 0 1rem; }
+.tf-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 1.25rem; }
+.tf-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-block: 1rem 2rem; }
+.tf-card-title { margin: 1rem 0 0.25rem; font-size: 1.125rem; }
+.tf-muted { color: var(--color-muted); margin: 0; }
+.card a.stretched { margin-top: 0.75rem; font-weight: 600; }
+.tf-swatches { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.75rem; color: var(--color-muted); }
+.tf-swatch { display: inline-flex; align-items: center; gap: 0.375rem; }
+.tf-swatch i { width: 1rem; height: 1rem; border-radius: 0.25rem; border: 1px solid var(--color-line); display: inline-block; }
+.tf-prose { margin-top: 1rem; padding-inline: 0; }
+.tf-fonts { font-size: 0.875rem; }
+
+</style>
+</head>
+<body>
+<main class="tf-grid">
+
+  <section data-theme="light" class="tf-panel" id="panel-light" aria-label="Light scheme">
+    <div class="container-site">
+      <div class="tf-scheme mono">Light scheme</div>
+      <header class="tf-hero hero-wash">
+        <span class="eyebrow">Field notes · Issue 12</span>
+        <h1 class="display tf-display">Calm interfaces for careful readers</h1>
+        <p class="lead">A theme preview: tokens, components and long-form text rendered with plain CSS, so the palette, type and rhythm can be judged before anything ships.</p>
+        <div class="tf-row">
+          <a class="btn" href="#panel-light">Read the notes</a>
+          <a class="btn btn-primary" href="#panel-light">Start a project</a>
+          <button class="btn btn-sm" type="button">Small</button>
+        </div>
+        <div class="tf-row">
+          <span class="chip">Default</span>
+          <span class="chip chip-accent">Accent</span>
+          <span class="chip chip-ok">Shipped</span>
+          <span class="chip chip-warn">In review</span>
+          <span class="chip chip-outline">Outline</span>
+          <span class="value-pill">42 ms</span>
+        </div>
+      </header>
+
+      <div class="tf-cards">
+        <article class="card card-link">
+          <span class="icon-tile" aria-hidden="true">✦</span>
+          <h3 class="tf-card-title">Design tokens</h3>
+          <p class="tf-muted">Colour, radius, shadow and easing live in one place and switch with the scheme.</p>
+          <a class="stretched" href="#panel-light">Open tokens</a>
+        </article>
+        <article class="card card-link">
+          <span class="num-badge">2</span>
+          <h3 class="tf-card-title">Components</h3>
+          <p class="tf-muted">Buttons, chips, cards and badges keep their roles while the look changes.</p>
+          <a class="stretched" href="#panel-light">See components</a>
+        </article>
+        <article class="card card-link">
+          <span class="icon-tile" aria-hidden="true">¶</span>
+          <h3 class="tf-card-title">Long-form text</h3>
+          <p class="tf-muted">Headings, lists, quotes, code and tables set for reading, not skimming.</p>
+          <a class="stretched" href="#panel-light">Read a sample</a>
+        </article>
+      </div>
+
+      <div class="panel tf-swatches"><span class="tf-swatch" title="--color-bg"><i style="background: var(--color-bg)"></i>bg</span><span class="tf-swatch" title="--color-panel"><i style="background: var(--color-panel)"></i>panel</span><span class="tf-swatch" title="--color-panel-2"><i style="background: var(--color-panel-2)"></i>panel-2</span><span class="tf-swatch" title="--color-ink"><i style="background: var(--color-ink)"></i>ink</span><span class="tf-swatch" title="--color-muted"><i style="background: var(--color-muted)"></i>muted</span><span class="tf-swatch" title="--color-line"><i style="background: var(--color-line)"></i>line</span><span class="tf-swatch" title="--color-line-strong"><i style="background: var(--color-line-strong)"></i>line-strong</span><span class="tf-swatch" title="--color-accent"><i style="background: var(--color-accent)"></i>accent</span><span class="tf-swatch" title="--color-accent-ink"><i style="background: var(--color-accent-ink)"></i>accent-ink</span><span class="tf-swatch" title="--color-accent-soft"><i style="background: var(--color-accent-soft)"></i>accent-soft</span><span class="tf-swatch" title="--color-ok"><i style="background: var(--color-ok)"></i>ok</span><span class="tf-swatch" title="--color-ok-soft"><i style="background: var(--color-ok-soft)"></i>ok-soft</span><span class="tf-swatch" title="--color-bad"><i style="background: var(--color-bad)"></i>bad</span><span class="tf-swatch" title="--color-bad-soft"><i style="background: var(--color-bad-soft)"></i>bad-soft</span><span class="tf-swatch" title="--color-warn"><i style="background: var(--color-warn)"></i>warn</span><span class="tf-swatch" title="--color-warn-soft"><i style="background: var(--color-warn-soft)"></i>warn-soft</span></div>
+
+      <article class="prose container-prose tf-prose">
+        <h2>Why a theme needs a preview</h2>
+        <p>Contrast ratios and token names can be checked by a script, but <strong>rhythm and tone</strong> need eyes. This block uses every element the <a href="#panel-light">prose styles</a> cover, including <code>inline code</code>.</p>
+        <p lang="ru">Хорошая типографика незаметна: читатель видит смысл, а не шрифт.</p>
+        <p lang="es">La buena tipografía pasa desapercibida: el lector ve las ideas, no la letra.</p>
+        <h3>What to look at</h3>
+        <ul>
+          <li>Heading weight against body text</li>
+          <li>Link colour on the background</li>
+          <li>Card lift on hover</li>
+        </ul>
+        <ol>
+          <li>Open the light panel</li>
+          <li>Compare with the dark panel</li>
+        </ol>
+        <blockquote>Typography exists to honour content.</blockquote>
+        <pre><code>@import "tailwindcss";
+@source "../";
+:root { --color-accent: oklch(0.55 0.2 265); }</code></pre>
+        <table>
+          <thead><tr><th>Token</th><th>Role</th><th>Minimum</th></tr></thead>
+          <tbody>
+            <tr><td>ink / bg</td><td>Body text</td><td>7:1</td></tr>
+            <tr><td>muted / bg</td><td>Secondary text</td><td>4.5:1</td></tr>
+            <tr><td>accent / bg</td><td>Links, focus</td><td>3:1</td></tr>
+          </tbody>
+        </table>
+        <hr>
+        <p class="tf-muted">Font stacks (no web fonts are loaded in the preview; the first installed family renders):</p>
+        <ul class="tf-fonts"><li><code>--font-sans</code>: <span style="font-family: var(--font-sans)">&quot;Inter Variable&quot;, ui-sans-serif, system-ui, -apple-system, &quot;Segoe UI&quot;, Roboto, sans-serif</span></li><li><code>--font-display</code>: <span style="font-family: var(--font-display)">&quot;Source Serif 4 Variable&quot;, &quot;Iowan Old Style&quot;, &quot;Palatino Linotype&quot;, Georgia, serif</span></li><li><code>--font-mono</code>: <span style="font-family: var(--font-mono)">&quot;JetBrains Mono Variable&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, Consolas, monospace</span></li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section data-theme="dark" class="tf-panel" id="panel-dark" aria-label="Dark scheme">
+    <div class="container-site">
+      <div class="tf-scheme mono">Dark scheme</div>
+      <header class="tf-hero hero-wash">
+        <span class="eyebrow">Field notes · Issue 12</span>
+        <h1 class="display tf-display">Calm interfaces for careful readers</h1>
+        <p class="lead">A theme preview: tokens, components and long-form text rendered with plain CSS, so the palette, type and rhythm can be judged before anything ships.</p>
+        <div class="tf-row">
+          <a class="btn" href="#panel-dark">Read the notes</a>
+          <a class="btn btn-primary" href="#panel-dark">Start a project</a>
+          <button class="btn btn-sm" type="button">Small</button>
+        </div>
+        <div class="tf-row">
+          <span class="chip">Default</span>
+          <span class="chip chip-accent">Accent</span>
+          <span class="chip chip-ok">Shipped</span>
+          <span class="chip chip-warn">In review</span>
+          <span class="chip chip-outline">Outline</span>
+          <span class="value-pill">42 ms</span>
+        </div>
+      </header>
+
+      <div class="tf-cards">
+        <article class="card card-link">
+          <span class="icon-tile" aria-hidden="true">✦</span>
+          <h3 class="tf-card-title">Design tokens</h3>
+          <p class="tf-muted">Colour, radius, shadow and easing live in one place and switch with the scheme.</p>
+          <a class="stretched" href="#panel-dark">Open tokens</a>
+        </article>
+        <article class="card card-link">
+          <span class="num-badge">2</span>
+          <h3 class="tf-card-title">Components</h3>
+          <p class="tf-muted">Buttons, chips, cards and badges keep their roles while the look changes.</p>
+          <a class="stretched" href="#panel-dark">See components</a>
+        </article>
+        <article class="card card-link">
+          <span class="icon-tile" aria-hidden="true">¶</span>
+          <h3 class="tf-card-title">Long-form text</h3>
+          <p class="tf-muted">Headings, lists, quotes, code and tables set for reading, not skimming.</p>
+          <a class="stretched" href="#panel-dark">Read a sample</a>
+        </article>
+      </div>
+
+      <div class="panel tf-swatches"><span class="tf-swatch" title="--color-bg"><i style="background: var(--color-bg)"></i>bg</span><span class="tf-swatch" title="--color-panel"><i style="background: var(--color-panel)"></i>panel</span><span class="tf-swatch" title="--color-panel-2"><i style="background: var(--color-panel-2)"></i>panel-2</span><span class="tf-swatch" title="--color-ink"><i style="background: var(--color-ink)"></i>ink</span><span class="tf-swatch" title="--color-muted"><i style="background: var(--color-muted)"></i>muted</span><span class="tf-swatch" title="--color-line"><i style="background: var(--color-line)"></i>line</span><span class="tf-swatch" title="--color-line-strong"><i style="background: var(--color-line-strong)"></i>line-strong</span><span class="tf-swatch" title="--color-accent"><i style="background: var(--color-accent)"></i>accent</span><span class="tf-swatch" title="--color-accent-ink"><i style="background: var(--color-accent-ink)"></i>accent-ink</span><span class="tf-swatch" title="--color-accent-soft"><i style="background: var(--color-accent-soft)"></i>accent-soft</span><span class="tf-swatch" title="--color-ok"><i style="background: var(--color-ok)"></i>ok</span><span class="tf-swatch" title="--color-ok-soft"><i style="background: var(--color-ok-soft)"></i>ok-soft</span><span class="tf-swatch" title="--color-bad"><i style="background: var(--color-bad)"></i>bad</span><span class="tf-swatch" title="--color-bad-soft"><i style="background: var(--color-bad-soft)"></i>bad-soft</span><span class="tf-swatch" title="--color-warn"><i style="background: var(--color-warn)"></i>warn</span><span class="tf-swatch" title="--color-warn-soft"><i style="background: var(--color-warn-soft)"></i>warn-soft</span></div>
+
+      <article class="prose container-prose tf-prose">
+        <h2>Why a theme needs a preview</h2>
+        <p>Contrast ratios and token names can be checked by a script, but <strong>rhythm and tone</strong> need eyes. This block uses every element the <a href="#panel-dark">prose styles</a> cover, including <code>inline code</code>.</p>
+        <p lang="ru">Хорошая типографика незаметна: читатель видит смысл, а не шрифт.</p>
+        <p lang="es">La buena tipografía pasa desapercibida: el lector ve las ideas, no la letra.</p>
+        <h3>What to look at</h3>
+        <ul>
+          <li>Heading weight against body text</li>
+          <li>Link colour on the background</li>
+          <li>Card lift on hover</li>
+        </ul>
+        <ol>
+          <li>Open the light panel</li>
+          <li>Compare with the dark panel</li>
+        </ol>
+        <blockquote>Typography exists to honour content.</blockquote>
+        <pre><code>@import "tailwindcss";
+@source "../";
+:root { --color-accent: oklch(0.55 0.2 265); }</code></pre>
+        <table>
+          <thead><tr><th>Token</th><th>Role</th><th>Minimum</th></tr></thead>
+          <tbody>
+            <tr><td>ink / bg</td><td>Body text</td><td>7:1</td></tr>
+            <tr><td>muted / bg</td><td>Secondary text</td><td>4.5:1</td></tr>
+            <tr><td>accent / bg</td><td>Links, focus</td><td>3:1</td></tr>
+          </tbody>
+        </table>
+        <hr>
+        <p class="tf-muted">Font stacks (no web fonts are loaded in the preview; the first installed family renders):</p>
+        <ul class="tf-fonts"><li><code>--font-sans</code>: <span style="font-family: var(--font-sans)">&quot;Inter Variable&quot;, ui-sans-serif, system-ui, -apple-system, &quot;Segoe UI&quot;, Roboto, sans-serif</span></li><li><code>--font-display</code>: <span style="font-family: var(--font-display)">&quot;Source Serif 4 Variable&quot;, &quot;Iowan Old Style&quot;, &quot;Palatino Linotype&quot;, Georgia, serif</span></li><li><code>--font-mono</code>: <span style="font-family: var(--font-mono)">&quot;JetBrains Mono Variable&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, Consolas, monospace</span></li></ul>
+      </article>
+    </div>
+  </section>
+</main>
+</body>
+</html>

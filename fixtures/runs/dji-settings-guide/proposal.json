@@ -1,0 +1,32 @@
+{
+  "slug": "dji-settings-guide",
+  "created": "2026-10-24",
+  "brief": "brief.json",
+  "verified": true,
+  "candidates": [
+    { "n": 1, "id": "stash", "url": "https://stash.cool/", "title": "Stash", "source_url": "https://www.awwwards.com/sites/stash", "anchor": false,
+      "score": 11.25, "why": "The only candidate that is already a dense reference tool: ruled section headers, bracketed pagers, Space Mono meta lines and one yellow accent, which map onto settings-value chips and a many-section nav.",
+      "take": ["chips", "nav", "card-system", "buttons"], "leave": "Slab wordmark (a logo); grey #8a8a8a deks below 4.5:1; motion 1 over budget 0." },
+    { "n": 2, "id": "aestudio", "url": "https://aestudio.studio/goshuin/en", "title": "GoShuin: Goshuin Map & Journal for iPhone", "source_url": "https://www.awwwards.com/sites/goshuin-every-stamp-a-memory", "anchor": false,
+      "score": 13.25, "why": "Restrained trust: hairline bronze rules, underlined text links, a pause-motion control and a Previous/select/Next paging bar for stepping through scenarios on a phone.",
+      "take": ["nav", "section-rhythm", "buttons", "palette", "type-pairing"], "leave": "129px Georgia display, book-spread hero and dithered art; too editorial and airy; motion 1 over budget 0." },
+    { "n": 3, "id": "yigua", "url": "https://yigua.art/?lang=en", "title": "一卦", "source_url": "https://www.cssdesignawards.com/sites/yi-gua/50511", "anchor": false,
+      "score": 13.25, "why": "A single-purpose tool built from system fonts only, so it loads fast in the field; hairline-framed header and footer, one black pill as the picker action.",
+      "take": ["spacing-scale", "buttons", "palette"], "leave": "Radial glow and motion 2 over budget; airy centred column unsuited to tables." },
+    { "n": 4, "id": "enricbadrinas", "url": "https://enricbadrinas.com/", "title": "Enric Badrinas", "source_url": "https://www.behance.net/gallery/180444857/La-Deseada", "anchor": false,
+      "score": 8.25, "why": "Strict economy: one grotesk at 16px, a two-link nav and monochrome black on white, which is the easiest to invert for the dark scheme.",
+      "take": ["nav", "spacing-scale"], "leave": "Photo-led hero and single type size; tables need a second size and weight; motion 1 over budget 0." },
+    { "n": 5, "id": "almadalabel", "url": "https://almadalabel.com/", "title": "ALMADA LABEL", "source_url": "https://www.awwwards.com/sites/almada-label", "anchor": false,
+      "score": 7.25, "why": "Plain grotesk UI with an ink-filled square button and no chromatic accent; the weakest fit, useful mainly as a button and nav reference.",
+      "take": ["buttons", "nav"], "leave": "Full-bleed photo hero, italic serif labels, spaced wordmark; real faces unknown (Shopify aliases); motion 1 over budget 0." }
+  ],
+  "combinations": [
+    { "label": "A", "parts": [{ "n": 2, "id": "aestudio", "take": ["all"] }],
+      "character": "GoShuin as-is: hairline rules, text-link buttons and paper/slate tones; calm and trustworthy, more editorial than technical." },
+    { "label": "B", "parts": [{ "n": 2, "id": "aestudio", "take": ["type-pairing"] }, { "n": 3, "id": "yigua", "take": ["palette"] }, { "n": 1, "id": "stash", "take": ["card-system"] }],
+      "character": "System-sans UI with tracked-caps metadata over warm paper and near-black ink, with Stash's horizontal mono-titled cards for scenarios." },
+    { "label": "C", "parts": [{ "n": 2, "id": "aestudio", "take": ["nav", "type-pairing", "section-rhythm", "buttons"] }, { "n": 1, "id": "stash", "take": ["nav"] }],
+      "character": "GoShuin's paging bar and hairline rules plus Stash's ruled section headers and bracketed pagers; the most navigable option." }
+  ],
+  "replaced": []
+}

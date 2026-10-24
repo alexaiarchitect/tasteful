@@ -1,0 +1,47 @@
+{
+  "slug": "ai-architect-blog",
+  "created": "2026-10-24",
+  "brief": "brief.json",
+  "verified": true,
+  "candidates": [
+    { "n": 1, "id": "aestudio", "url": "https://aestudio.studio/goshuin/en", "title": "GoShuin: Goshuin Map & Journal for iPhone",
+      "source_url": "https://www.awwwards.com/sites/goshuin-every-stamp-a-memory", "anchor": false, "score": 24.25,
+      "why": "Book-like editorial landing: Georgia serif title page, hairline bronze rules, underlined text links instead of filled buttons; paper #f8f3e7 with slate ink, airy, motion 1. The calm, unhyped register the audience trusts.",
+      "take": ["type-pairing", "palette", "buttons", "nav", "section-rhythm"],
+      "leave": "Pixel-dithered Japanese pattern art; scale the 129px display down for long RU/ES words." },
+    { "n": 2, "id": "halfthesky", "url": "https://halfthesky.app/", "title": "Half the Sky",
+      "source_url": "https://www.cssdesignawards.com/sites/half-the-sky/50250", "anchor": false, "score": 19.4,
+      "why": "Editorial and landing in a warm stone-grey palette; centred one-row nav that stays out of the way; a hairline-ruled 4-up grid as the base for a calm card system; motion 1.",
+      "take": ["card-system", "nav", "palette"],
+      "leave": "Tracked-out caps everywhere and #66645c on #dddcd7 ink, which fails the 7:1 floor." },
+    { "n": 3, "id": "quakerschool", "url": "https://www.quakerschool.org/", "title": "The Quaker School at Horsham",
+      "source_url": "https://www.cssdesignawards.com/sites/the-quaker-school-at-horsham/50093", "anchor": false, "score": 15.4,
+      "why": "Soft serif display with its own sans sibling for body text at 18.6px; chapter-like 220–444px section gaps; short plain-label nav; ivory and near-black. Bold pick.",
+      "take": ["type-pairing", "section-rhythm", "nav"],
+      "leave": "Video hero and 226px display; motion level 2 is over budget. Newsreader (the open alternative) lacks Cyrillic." },
+    { "n": 4, "id": "stash", "url": "https://stash.cool/", "title": "Stash",
+      "source_url": "https://www.awwwards.com/sites/stash", "anchor": false, "score": 15.25,
+      "why": "Directory with real editorial structure: ruled section headers, bracketed pagers, mono meta lines, horizontal article cards. Covers nav, card-system and buttons; motion 1.",
+      "take": ["card-system", "chips", "buttons", "nav"],
+      "leave": "Giant slab wordmark, #8a8a8a deks below 4.5:1, highlighter yellow; Space Mono lacks Cyrillic." },
+    { "n": 5, "id": "farmminerals", "url": "https://www.farmminerals.com/", "title": "Farm Minerals",
+      "source_url": "https://www.cssdesignawards.com/wotm/farm-minerals/50091", "anchor": false, "score": 13.43,
+      "why": "Bone/olive duotone with one regular-weight grotesk; outlined CTA with dot markers; three-item quiet nav. Warmth without default cream.",
+      "take": ["palette", "buttons", "type-pairing", "nav"],
+      "leave": "3D product render hero, uppercase Arial body, GSAP ScrollTrigger reveals; motion level 2 is over budget." }
+  ],
+  "combinations": [
+    { "label": "A", "parts": [{ "n": 1, "id": "aestudio", "take": ["all"] }],
+      "character": "GoShuin as it is: serif title page, paper and slate with bronze rules, text-link CTAs. The calmest and closest to the brief." },
+    { "label": "B", "parts": [
+        { "n": 1, "id": "aestudio", "take": ["type-pairing"] },
+        { "n": 2, "id": "halfthesky", "take": ["palette"] },
+        { "n": 4, "id": "stash", "take": ["card-system"] } ],
+      "character": "Serif/sans pairing over a warm stone ground with ruled horizontal cards and mono meta: editorial essays with a precise, technical index." },
+    { "label": "C", "parts": [
+        { "n": 1, "id": "aestudio", "take": ["nav", "buttons", "type-pairing", "section-rhythm"] },
+        { "n": 3, "id": "quakerschool", "take": ["nav"] } ],
+      "character": "GoShuin's book-like structure with Quaker's short plain-label top nav. The most restrained top bar." }
+  ],
+  "replaced": []
+}

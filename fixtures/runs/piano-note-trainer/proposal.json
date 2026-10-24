@@ -1,0 +1,65 @@
+{
+  "slug": "piano-note-trainer",
+  "created": "2026-10-24",
+  "brief": "brief.json",
+  "verified": true,
+  "candidates": [
+    {
+      "n": 1, "id": "aestudio", "url": "https://aestudio.studio/goshuin/en",
+      "title": "GoShuin: Goshuin Map & Journal for iPhone",
+      "source_url": "https://www.awwwards.com/sites/goshuin-every-stamp-a-memory", "anchor": false,
+      "score": 18.25,
+      "why": "Calm, warm companion: paged-book landing, paper #f8f3e7 under slate ink #2d3435 with a bronze #756449 rule accent; motion 1 with a pause control; airy space keeps focus on the staff.",
+      "take": ["palette", "type-pairing", "buttons"],
+      "leave": "Pixel-dithered Japanese pattern art; underlined text links in place of buttons."
+    },
+    {
+      "n": 2, "id": "yigua", "url": "https://yigua.art/?lang=en", "title": "一卦",
+      "source_url": "https://www.cssdesignawards.com/sites/yi-gua/50511", "anchor": false,
+      "score": 18.25,
+      "why": "Single-purpose tool: one central object, a serif sentence, one black pill and hairline rules on warm paper #f3f0e8; maps directly onto a staff-plus-keyboard exercise screen.",
+      "take": ["spacing-scale", "buttons", "palette"],
+      "leave": "Soft radial glow behind the symbol; motion level 2 is above budget 1, keep transitions subtle."
+    },
+    {
+      "n": 3, "id": "stash", "url": "https://stash.cool/", "title": "Stash",
+      "source_url": "https://www.awwwards.com/sites/stash", "anchor": false,
+      "score": 15.25,
+      "why": "Only candidate covering chips, card-system and buttons; balanced tool density; ruled horizontal cards and compact meta tags fit the progress card and right/wrong chips.",
+      "take": ["chips", "card-system", "buttons"],
+      "leave": "Giant slab wordmark, brutalist edge, #ffff00 yellow, grey #8a8a8a deks below 4.5:1."
+    },
+    {
+      "n": 4, "id": "almadalabel", "url": "https://almadalabel.com/", "title": "ALMADA LABEL",
+      "source_url": "https://www.awwwards.com/sites/almada-label", "anchor": false,
+      "score": 10.25,
+      "why": "Plain grotesk UI with one italic serif accent that could carry the encouraging voice; ink-filled square primary button; balanced, motion 1.",
+      "take": ["buttons", "type-pairing"],
+      "leave": "Fashion photography and spaced wordmark; Shopify font aliases, use open alternatives only."
+    },
+    {
+      "n": 5, "id": "estudioniksen", "url": "https://estudioniksen.com/", "title": "Estudio Niksen",
+      "source_url": "https://www.awwwards.com/sites/estudio-niksen", "anchor": false,
+      "score": 10.25,
+      "why": "Disciplined single-grotesk system, 16/24 body and 42px headings, 2px radii; a clean base for short explainer pages; motion 1.",
+      "take": ["spacing-scale", "buttons"],
+      "leave": "Newsletter popover over the hero; arrow on the sign-up link; strict monochrome needs warmth."
+    }
+  ],
+  "combinations": [
+    { "label": "A", "parts": [{ "n": 1, "id": "aestudio", "take": ["buttons", "palette"] }],
+      "character": "Warm paper-and-slate book feel: calm, grown-up, kind enough for kids." },
+    { "label": "B", "parts": [
+        { "n": 1, "id": "aestudio", "take": ["type-pairing"] },
+        { "n": 2, "id": "yigua", "take": ["palette"] },
+        { "n": 3, "id": "stash", "take": ["card-system", "chips"] }
+      ],
+      "character": "Serif-led warm-paper tool with ruled cards and status chips; covers every must-have." },
+    { "label": "C", "parts": [
+        { "n": 1, "id": "aestudio", "take": ["buttons"] },
+        { "n": 2, "id": "yigua", "take": ["palette"] }
+      ],
+      "character": "Editorial structure in warm paper with one black pill; the staff is the only focal point." }
+  ],
+  "replaced": []
+}
