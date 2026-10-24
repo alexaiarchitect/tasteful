@@ -11,7 +11,7 @@
 //   browsers/                               (PLAYWRIGHT_BROWSERS_PATH, optional)
 
 import { createRequire } from 'node:module';
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -20,19 +20,29 @@ export function dataDir(opts = {}) {
   return opts.data ?? process.env.CLAUDE_PLUGIN_DATA ?? join(homedir(), '.claude/plugins/data/tasteful');
 }
 
+function nonEmptyDir(dir) {
+  try {
+    return existsSync(dir) && readdirSync(dir).length > 0;
+  } catch {
+    return false;
+  }
+}
+
 function requireFromDeps(data) {
   return createRequire(join(data, 'deps', 'package.json'));
 }
 
 /**
  * Load Playwright from <data>/deps. Sets PLAYWRIGHT_BROWSERS_PATH to
- * <data>/browsers when that dir exists and the variable is unset.
+ * <data>/browsers only when that dir exists, is non-empty and the variable
+ * is unset; otherwise Playwright's default cache (e.g.
+ * ~/Library/Caches/ms-playwright) is used.
  * Returns the module, or null if unavailable. Never throws.
  */
 export function loadPlaywright(data = dataDir()) {
   try {
     const browsers = join(data, 'browsers');
-    if (existsSync(browsers)) process.env.PLAYWRIGHT_BROWSERS_PATH ??= browsers;
+    if (nonEmptyDir(browsers)) process.env.PLAYWRIGHT_BROWSERS_PATH ??= browsers;
     return requireFromDeps(data)('playwright');
   } catch {
     return null;
@@ -51,7 +61,7 @@ export function depsStatus(data = dataDir()) {
   return {
     data,
     depsInstalled: existsSync(join(data, 'deps', 'node_modules')) && playwrightVersion !== null,
-    browsersDir: existsSync(browsers) ? browsers : null,
+    browsersDir: nonEmptyDir(browsers) ? browsers : null,
     playwrightVersion,
   };
 }

@@ -1,0 +1,717 @@
+[
+  {
+    "observed": [
+      "Inter",
+      "Inter Variable",
+      "Inter Display",
+      "InterVariable",
+      "Inter Tight"
+    ],
+    "family": "Inter",
+    "package": "@fontsource-variable/inter",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/inter/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Geist",
+      "Geist Sans",
+      "Geist Variable"
+    ],
+    "family": "Geist",
+    "package": "@fontsource-variable/geist",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/geist/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Geist Mono"
+    ],
+    "family": "Geist Mono",
+    "package": "@fontsource-variable/geist-mono",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/geist-mono/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Manrope"
+    ],
+    "family": "Manrope",
+    "package": "@fontsource-variable/manrope",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/manrope/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "DM Sans",
+      "DMSans"
+    ],
+    "family": "DM Sans",
+    "package": "@fontsource-variable/dm-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/dm-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Figtree"
+    ],
+    "family": "Figtree",
+    "package": "@fontsource-variable/figtree",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/figtree/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Space Grotesk"
+    ],
+    "family": "Space Grotesk",
+    "package": "@fontsource-variable/space-grotesk",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/space-grotesk/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Instrument Sans"
+    ],
+    "family": "Instrument Sans",
+    "package": "@fontsource-variable/instrument-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/instrument-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Instrument Serif"
+    ],
+    "family": "Instrument Serif",
+    "package": "@fontsource/instrument-serif",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/instrument-serif/400.css\";",
+    "note": "No variable build; static regular + italic only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Fraunces"
+    ],
+    "family": "Fraunces",
+    "package": "@fontsource-variable/fraunces",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/fraunces/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Newsreader"
+    ],
+    "family": "Newsreader",
+    "package": "@fontsource-variable/newsreader",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/newsreader/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Literata"
+    ],
+    "family": "Literata",
+    "package": "@fontsource-variable/literata",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/literata/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Source Serif 4",
+      "Source Serif Pro",
+      "Source Serif"
+    ],
+    "family": "Source Serif 4",
+    "package": "@fontsource-variable/source-serif-4",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/source-serif-4/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Source Sans 3",
+      "Source Sans Pro",
+      "Source Sans"
+    ],
+    "family": "Source Sans 3",
+    "package": "@fontsource-variable/source-sans-3",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/source-sans-3/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "IBM Plex Sans",
+      "Plex Sans"
+    ],
+    "family": "IBM Plex Sans",
+    "package": "@fontsource-variable/ibm-plex-sans",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/ibm-plex-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "IBM Plex Serif",
+      "Plex Serif"
+    ],
+    "family": "IBM Plex Serif",
+    "package": "@fontsource/ibm-plex-serif",
+    "variable": false,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/ibm-plex-serif/400.css\";",
+    "note": "No variable build on Fontsource; static weights only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "IBM Plex Mono",
+      "Plex Mono"
+    ],
+    "family": "IBM Plex Mono",
+    "package": "@fontsource/ibm-plex-mono",
+    "variable": false,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/ibm-plex-mono/400.css\";",
+    "note": "No variable build on Fontsource; static weights only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "JetBrains Mono"
+    ],
+    "family": "JetBrains Mono",
+    "package": "@fontsource-variable/jetbrains-mono",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/jetbrains-mono/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Fira Code"
+    ],
+    "family": "Fira Code",
+    "package": "@fontsource-variable/fira-code",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/fira-code/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Playfair Display",
+      "Playfair"
+    ],
+    "family": "Playfair Display",
+    "package": "@fontsource-variable/playfair-display",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/playfair-display/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Lora"
+    ],
+    "family": "Lora",
+    "package": "@fontsource-variable/lora",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/lora/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Merriweather"
+    ],
+    "family": "Merriweather",
+    "package": "@fontsource-variable/merriweather",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/merriweather/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Roboto"
+    ],
+    "family": "Roboto",
+    "package": "@fontsource-variable/roboto",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/roboto/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Open Sans"
+    ],
+    "family": "Open Sans",
+    "package": "@fontsource-variable/open-sans",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/open-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Work Sans"
+    ],
+    "family": "Work Sans",
+    "package": "@fontsource-variable/work-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/work-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Archivo"
+    ],
+    "family": "Archivo",
+    "package": "@fontsource-variable/archivo",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/archivo/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Archivo Black"
+    ],
+    "family": "Archivo Black",
+    "package": "@fontsource/archivo-black",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/archivo-black/400.css\";",
+    "note": "Not variable: a single heavy weight.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Syne"
+    ],
+    "family": "Syne",
+    "package": "@fontsource-variable/syne",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/syne/wght.css\";",
+    "note": "Latin and Greek only; no Cyrillic.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Outfit"
+    ],
+    "family": "Outfit",
+    "package": "@fontsource-variable/outfit",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/outfit/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Plus Jakarta Sans",
+      "Jakarta Sans"
+    ],
+    "family": "Plus Jakarta Sans",
+    "package": "@fontsource-variable/plus-jakarta-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/plus-jakarta-sans/wght.css\";",
+    "note": "Fontsource ships cyrillic-ext only, not the basic Cyrillic subset: not suitable for ru (use Manrope or Onest).",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Onest"
+    ],
+    "family": "Onest",
+    "package": "@fontsource-variable/onest",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/onest/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Golos Text",
+      "Golos",
+      "Golos UI"
+    ],
+    "family": "Golos Text",
+    "package": "@fontsource-variable/golos-text",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/golos-text/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "PT Serif"
+    ],
+    "family": "PT Serif",
+    "package": "@fontsource/pt-serif",
+    "variable": false,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/pt-serif/400.css\";",
+    "note": "No variable build on Fontsource; static weights only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "EB Garamond",
+      "Garamond"
+    ],
+    "family": "EB Garamond",
+    "package": "@fontsource-variable/eb-garamond",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/eb-garamond/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Cormorant Garamond",
+      "Cormorant"
+    ],
+    "family": "Cormorant Garamond",
+    "package": "@fontsource-variable/cormorant-garamond",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/cormorant-garamond/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Source Code Pro"
+    ],
+    "family": "Source Code Pro",
+    "package": "@fontsource-variable/source-code-pro",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/source-code-pro/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Helvetica",
+      "Helvetica Neue",
+      "Helvetica Now",
+      "Helvetica Now Variable",
+      "Helvetica Now Display",
+      "Neue Haas Grotesk",
+      "Neue Haas Grotesk Display",
+      "Neue Haas Grotesk Text",
+      "Neue Haas Unica",
+      "Neue Haas Unica Pro",
+      "Arial",
+      "Neue Montreal",
+      "PP Neue Montreal"
+    ],
+    "family": "Inter",
+    "package": "@fontsource-variable/inter",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/inter/wght.css\";",
+    "note": "Neo-grotesque stand-in; Inter is wider with a taller x-height, tighten letter-spacing slightly at display sizes.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "GT America",
+      "Söhne",
+      "Sohne",
+      "Söhne Breit",
+      "Suisse Int'l",
+      "Suisse Intl",
+      "Suisse International",
+      "Suisse"
+    ],
+    "family": "Inter",
+    "package": "@fontsource-variable/inter",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/inter/wght.css\";",
+    "note": "Closest open grotesque; Manrope (@fontsource-variable/manrope) is a warmer alternative with Cyrillic.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Canela",
+      "Canela Deck",
+      "Canela Text",
+      "GT Sectra",
+      "GT Sectra Display",
+      "GT Sectra Fine"
+    ],
+    "family": "Fraunces",
+    "package": "@fontsource-variable/fraunces",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/fraunces/wght.css\";",
+    "note": "Soft-serif display stand-in; use the opsz/SOFT axes for high-contrast headlines. No Cyrillic: pair with Literata for ru.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Tiempos",
+      "Tiempos Text",
+      "Tiempos Headline",
+      "Tiempos Fine"
+    ],
+    "family": "Source Serif 4",
+    "package": "@fontsource-variable/source-serif-4",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/source-serif-4/wght.css\";",
+    "note": "Text serif with optical sizes; Newsreader is a sharper alternative (no Cyrillic).",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Editorial New",
+      "PP Editorial New",
+      "PP Editorial"
+    ],
+    "family": "Instrument Serif",
+    "package": "@fontsource/instrument-serif",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/instrument-serif/400.css\";",
+    "note": "Condensed editorial serif; static only (no variable build). Fraunces is the variable fallback.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Monument Extended",
+      "PP Monument Extended",
+      "Monument Grotesk",
+      "Druk",
+      "Druk Wide",
+      "Druk Text",
+      "Druk XCond"
+    ],
+    "family": "Archivo Black",
+    "package": "@fontsource/archivo-black",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/archivo-black/400.css\";",
+    "note": "Not variable. For a variable option use Archivo (@fontsource-variable/archivo) with the wdth axis at 125 and wght 800-900.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Circular",
+      "Circular Std",
+      "CircularXX",
+      "Graphik"
+    ],
+    "family": "Figtree",
+    "package": "@fontsource-variable/figtree",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/figtree/wght.css\";",
+    "note": "Geometric-humanist stand-in; DM Sans (@fontsource-variable/dm-sans) is a close alternative. Neither ships Cyrillic: use Manrope for ru.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Founders Grotesk",
+      "Founders Grotesk Text",
+      "Founders Grotesk Condensed"
+    ],
+    "family": "Work Sans",
+    "package": "@fontsource-variable/work-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/work-sans/wght.css\";",
+    "note": "Grotesque with similar proportions; no Cyrillic.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Untitled Sans",
+      "Untitled Serif Sans"
+    ],
+    "family": "Instrument Sans",
+    "package": "@fontsource-variable/instrument-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/instrument-sans/wght.css\";",
+    "note": "Plain neutral sans; no Cyrillic (Inter if ru is needed).",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "SF Pro",
+      "SF Pro Display",
+      "SF Pro Text",
+      "San Francisco",
+      "system-ui",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "Segoe UI",
+      ".SFNSText",
+      "ui-sans-serif"
+    ],
+    "family": "Inter",
+    "package": "@fontsource-variable/inter",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/inter/wght.css\";",
+    "note": "System UI stack stand-in; Inter is the de facto open system-like face.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Times New Roman",
+      "Times",
+      "Georgia",
+      "Iowan Old Style",
+      "Palatino",
+      "Palatino Linotype",
+      "ui-serif"
+    ],
+    "family": "Source Serif 4",
+    "package": "@fontsource-variable/source-serif-4",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/source-serif-4/wght.css\";",
+    "note": "Classic text serif stand-in; Literata (@fontsource-variable/literata) is a warmer alternative with Cyrillic.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Aeonik",
+      "Aeonik Pro"
+    ],
+    "family": "Manrope",
+    "package": "@fontsource-variable/manrope",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/manrope/wght.css\";",
+    "note": "Geometric grotesque stand-in.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Satoshi",
+      "General Sans"
+    ],
+    "family": "Figtree",
+    "package": "@fontsource-variable/figtree",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/figtree/wght.css\";",
+    "note": "Geometric sans stand-in; no Cyrillic.",
+    "proprietary": true
+  }
+]
