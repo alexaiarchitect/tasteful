@@ -44,6 +44,20 @@ h1, h2 { font-family: 'Fraunces', Georgia, serif; color: #15171c; }
 .spinner { animation: spin 1s linear infinite; }
 `;
 
+const MESSY = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Messy</title><style>
+@font-face { font-family: "__Inter_d65c78"; src: url("/fonts/inter.woff2") format("woff2"); }
+@font-face { font-family: "Placeholder"; src: local("Arial"); }
+body { margin: 0; font-family: "__Inter_d65c78", "__Inter_Fallback_d65c78", sans-serif; background-color: #fafafa; color: #111111; }
+h1 { font-family: "Ppneuemontreal", sans-serif; }
+h2 { font-family: "Atlasgrotesk Web", sans-serif; }
+p { font-family: "Inter Display:Medium", "Placeholder", sans-serif; }
+.pill { border-radius: 9999px; background-color: #111111; color: #ffffff; padding: 8px 20px; display: inline-block; }
+.chip { border-radius: 3.35544e+07px; background-color: #3b5bdb; color: #ffffff; padding: 8px 20px; display: inline-block; }
+.card { border-radius: 7.123px; background-color: #ffffff; border: 1px solid #e2e3e0; width: 320px; height: 200px; }
+</style></head><body><main><h1>Title</h1><h2>Sub</h2><p>Copy</p>
+<button class="pill">Start</button> <a class="btn chip" href="#">More</a>
+<div class="card">Card</div></main></body></html>`;
+
 let server;
 let hang;
 let base;
@@ -63,6 +77,10 @@ before(async () => {
       res.end(`<!doctype html><title>Scroller</title><style>html,body{margin:0;height:100vh;overflow:hidden;background:#dddcd7}
 #s{height:100vh;overflow:auto}.blk{height:900px;background:#dddcd7}.alt{height:600px;background:#222;position:relative}
 .alt i{position:absolute;inset:-200px 0;background:#3b5bdb}</style><div id="s"><div class="blk"></div><div class="alt"><i></i></div><div class="blk"></div><div class="blk"></div></div>`);
+    } else if (req.url === '/messy') {
+      // Builder-generated font names and Tailwind rounded-full radii (static + browser mode).
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      res.end(MESSY);
     } else if (req.url === '/site.css') {
       res.writeHead(200, { 'content-type': 'text/css' });
       res.end(CSS);
@@ -187,6 +205,42 @@ test('browser mode: background area_pct stays within 0–100 (inner scroll conta
   const sum = bgs.reduce((a, b) => a + b.area_pct, 0);
   assert.ok(sum <= 100.05, `sum ${sum}: ${JSON.stringify(bgs)}`);
   assert.equal(bgs[0].hex, '#dddcd7');
+});
+
+test('static mode: rounded-full radii become "pill", builder font names are cleaned, raw names kept', async () => {
+  const r = await run([`${base}/messy`, '--json'], { TASTEFUL_FORCE_STATIC: '1' });
+  assert.equal(r.code, 0, r.stderr);
+  const j = JSON.parse(r.stdout);
+  assert.equal(j.mode, 'static');
+  assert.equal(j.radii.histogram.pill, 2, JSON.stringify(j.radii)); // 9999px + 3.35544e+07px
+  assert.equal(j.radii.histogram['7.12px'], 1, JSON.stringify(j.radii));
+  assert.ok(!Object.keys(j.radii.histogram).some((k) => /e\+|9999/.test(k)), JSON.stringify(j.radii));
+  const faces = j.fonts.faces;
+  assert.ok(faces.includes('Inter'), JSON.stringify(faces));
+  assert.ok(faces.includes('PP Neue Montreal') && faces.includes('Ppneuemontreal'), JSON.stringify(faces));
+  assert.ok(faces.includes('Atlas Grotesk'), JSON.stringify(faces));
+  assert.ok(faces.includes('Inter Display'), JSON.stringify(faces));
+  assert.ok(!faces.some((f) => /^__|:|^Placeholder$/.test(f)), JSON.stringify(faces));
+  assert.ok(j.fonts.faces_raw.includes('__Inter_d65c78'), JSON.stringify(j.fonts.faces_raw));
+  assert.ok(j.fonts.faces_raw.includes('Placeholder'), JSON.stringify(j.fonts.faces_raw));
+  assert.equal(j.fonts.computed.body, 'Inter');
+});
+
+test('browser mode: rounded-full radii become "pill" in the histogram, buttons and cards', { skip: !hasPlaywright && 'playwright not installed' }, async () => {
+  const r = await run([`${base}/messy`, '--json', '--timeout', '20000']);
+  assert.equal(r.code, 0, r.stderr);
+  const j = JSON.parse(r.stdout);
+  assert.equal(j.mode, 'browser');
+  assert.ok(j.radii.histogram.pill >= 2, JSON.stringify(j.radii));
+  assert.ok(!Object.keys(j.radii.histogram).some((k) => /e\+|9999/.test(k)), JSON.stringify(j.radii));
+  assert.ok(j.buttons.length >= 2, JSON.stringify(j.buttons));
+  for (const b of j.buttons) assert.equal(b.radius, 'pill', JSON.stringify(j.buttons));
+  assert.ok(j.cards.some((c) => c.radius === '7.12px'), JSON.stringify(j.cards));
+  assert.equal(j.fonts.computed.body, 'Inter');
+  assert.equal(j.fonts.computed.h1, 'PP Neue Montreal');
+  assert.equal(j.fonts.computed.h2, 'Atlas Grotesk');
+  assert.equal(j.fonts.computed.p, 'Inter Display');
+  assert.ok(Array.isArray(j.fonts.faces_raw));
 });
 
 test('static mode on a 404 exits 1', async () => {

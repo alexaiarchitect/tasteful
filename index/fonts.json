@@ -462,8 +462,7 @@
   },
   {
     "observed": [
-      "Cormorant Garamond",
-      "Cormorant"
+      "Cormorant Garamond"
     ],
     "family": "Cormorant Garamond",
     "package": "@fontsource-variable/cormorant-garamond",
@@ -605,7 +604,10 @@
       "Circular",
       "Circular Std",
       "CircularXX",
-      "Graphik"
+      "Graphik",
+      "Commercial Graphik",
+      "Commercial Gräphik",
+      "Graphik Web"
     ],
     "family": "Figtree",
     "package": "@fontsource-variable/figtree",
@@ -703,7 +705,7 @@
   {
     "observed": [
       "Satoshi",
-      "General Sans"
+      "Gilroy"
     ],
     "family": "Figtree",
     "package": "@fontsource-variable/figtree",
@@ -711,7 +713,510 @@
     "cyrillic": false,
     "latin_ext": true,
     "import": "@import \"@fontsource-variable/figtree/wght.css\";",
-    "note": "Geometric sans stand-in; no Cyrillic.",
+    "note": "Geometric sans stand-in; no Cyrillic (Manrope for ru).",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Nunito Sans",
+      "NunitoSans"
+    ],
+    "family": "Nunito Sans",
+    "package": "@fontsource-variable/nunito-sans",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/nunito-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Martian Mono"
+    ],
+    "family": "Martian Mono",
+    "package": "@fontsource-variable/martian-mono",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/martian-mono/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Public Sans"
+    ],
+    "family": "Public Sans",
+    "package": "@fontsource-variable/public-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/public-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Eczar"
+    ],
+    "family": "Eczar",
+    "package": "@fontsource-variable/eczar",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/eczar/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Geologica"
+    ],
+    "family": "Geologica",
+    "package": "@fontsource-variable/geologica",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/geologica/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Montserrat"
+    ],
+    "family": "Montserrat",
+    "package": "@fontsource-variable/montserrat",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/montserrat/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Xanh Mono"
+    ],
+    "family": "Xanh Mono",
+    "package": "@fontsource/xanh-mono",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/xanh-mono/400.css\";",
+    "note": "No variable build on Fontsource; static weights only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Cormorant"
+    ],
+    "family": "Cormorant",
+    "package": "@fontsource-variable/cormorant",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/cormorant/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Bricolage Grotesque"
+    ],
+    "family": "Bricolage Grotesque",
+    "package": "@fontsource-variable/bricolage-grotesque",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/bricolage-grotesque/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Hanken Grotesk"
+    ],
+    "family": "Hanken Grotesk",
+    "package": "@fontsource-variable/hanken-grotesk",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/hanken-grotesk/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Albert Sans"
+    ],
+    "family": "Albert Sans",
+    "package": "@fontsource-variable/albert-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/albert-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Red Hat Display"
+    ],
+    "family": "Red Hat Display",
+    "package": "@fontsource-variable/red-hat-display",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/red-hat-display/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Noto Serif"
+    ],
+    "family": "Noto Serif",
+    "package": "@fontsource-variable/noto-serif",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/noto-serif/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Noto Sans"
+    ],
+    "family": "Noto Sans",
+    "package": "@fontsource-variable/noto-sans",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/noto-sans/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Unbounded"
+    ],
+    "family": "Unbounded",
+    "package": "@fontsource-variable/unbounded",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/unbounded/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Rubik"
+    ],
+    "family": "Rubik",
+    "package": "@fontsource-variable/rubik",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/rubik/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Raleway"
+    ],
+    "family": "Raleway",
+    "package": "@fontsource-variable/raleway",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/raleway/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Lato"
+    ],
+    "family": "Lato",
+    "package": "@fontsource/lato",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/lato/400.css\";",
+    "note": "No variable build on Fontsource; static weights only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Nunito"
+    ],
+    "family": "Nunito",
+    "package": "@fontsource-variable/nunito",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/nunito/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Poppins"
+    ],
+    "family": "Poppins",
+    "package": "@fontsource/poppins",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/poppins/400.css\";",
+    "note": "No variable build on Fontsource; static weights only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Space Mono"
+    ],
+    "family": "Space Mono",
+    "package": "@fontsource/space-mono",
+    "variable": false,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource/space-mono/400.css\";",
+    "note": "No variable build on Fontsource; static weights only.",
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Jost"
+    ],
+    "family": "Jost",
+    "package": "@fontsource-variable/jost",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/jost/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Libre Baskerville"
+    ],
+    "family": "Libre Baskerville",
+    "package": "@fontsource-variable/libre-baskerville",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/libre-baskerville/wght.css\";",
+    "note": null,
+    "proprietary": false
+  },
+  {
+    "observed": [
+      "Reckless Neue",
+      "Reckless",
+      "Season Mix",
+      "Recoleta"
+    ],
+    "family": "Fraunces",
+    "package": "@fontsource-variable/fraunces",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/fraunces/wght.css\";",
+    "note": "Soft display serif stand-in (opsz/SOFT/WONK axes); Newsreader (@fontsource-variable/newsreader) is a sharper text alternative. Neither ships Cyrillic: Literata for ru.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Recital"
+    ],
+    "family": "Newsreader",
+    "package": "@fontsource-variable/newsreader",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/newsreader/wght.css\";",
+    "note": "Text serif stand-in with optical sizes; no Cyrillic (Literata for ru).",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Switzer",
+      "Roobert"
+    ],
+    "family": "Manrope",
+    "package": "@fontsource-variable/manrope",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/manrope/wght.css\";",
+    "note": "Neutral grotesque stand-in with Cyrillic; Inter is the plainer alternative.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "OT Jubilee",
+      "Jubilee"
+    ],
+    "family": "Literata",
+    "package": "@fontsource-variable/literata",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/literata/wght.css\";",
+    "note": "Bookish text serif stand-in with Cyrillic.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Enduro",
+      "Atlas Grotesk"
+    ],
+    "family": "Inter",
+    "package": "@fontsource-variable/inter",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/inter/wght.css\";",
+    "note": "Neutral grotesque stand-in; tighten letter-spacing slightly at display sizes.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Lekton"
+    ],
+    "family": "Source Code Pro",
+    "package": "@fontsource-variable/source-code-pro",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/source-code-pro/wght.css\";",
+    "note": "Monospace stand-in with Cyrillic. Lekton itself is open (OFL) and on Fontsource as @fontsource/lekton (static, no Cyrillic) if the exact face is wanted.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Avenir",
+      "Avenir Next",
+      "Avenir LT"
+    ],
+    "family": "Nunito Sans",
+    "package": "@fontsource-variable/nunito-sans",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/nunito-sans/wght.css\";",
+    "note": "Humanist-geometric stand-in with Cyrillic.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Futura",
+      "Futura PT",
+      "Futura Std",
+      "Futura Now"
+    ],
+    "family": "Jost",
+    "package": "@fontsource-variable/jost",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/jost/wght.css\";",
+    "note": "Geometric stand-in with Futura proportions; Cyrillic included.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Adobe Garamond",
+      "Adobe Garamond Pro",
+      "Garamond Premier",
+      "Garamond Premier Pro"
+    ],
+    "family": "EB Garamond",
+    "package": "@fontsource-variable/eb-garamond",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/eb-garamond/wght.css\";",
+    "note": "Old-style Garamond revival with Cyrillic.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Baskerville",
+      "New Baskerville",
+      "ITC New Baskerville",
+      "Baskerville URW"
+    ],
+    "family": "Libre Baskerville",
+    "package": "@fontsource-variable/libre-baskerville",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/libre-baskerville/wght.css\";",
+    "note": "Transitional serif stand-in, cut for screen text; no Cyrillic (Literata for ru).",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Didot",
+      "Linotype Didot",
+      "HFJ Didot",
+      "Didot LT"
+    ],
+    "family": "Playfair Display",
+    "package": "@fontsource-variable/playfair-display",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/playfair-display/wght.css\";",
+    "note": "High-contrast Didone stand-in for headlines; Cyrillic included.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Clash Display",
+      "Clash Grotesk"
+    ],
+    "family": "Unbounded",
+    "package": "@fontsource-variable/unbounded",
+    "variable": true,
+    "cyrillic": true,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/unbounded/wght.css\";",
+    "note": "Wide display stand-in with Cyrillic; Space Grotesk (@fontsource-variable/space-grotesk) is closer in feel but has no Cyrillic.",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "General Sans"
+    ],
+    "family": "Albert Sans",
+    "package": "@fontsource-variable/albert-sans",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/albert-sans/wght.css\";",
+    "note": "Geometric grotesque stand-in; no Cyrillic (Manrope for ru).",
+    "proprietary": true
+  },
+  {
+    "observed": [
+      "Cabinet Grotesk"
+    ],
+    "family": "Archivo",
+    "package": "@fontsource-variable/archivo",
+    "variable": true,
+    "cyrillic": false,
+    "latin_ext": true,
+    "import": "@import \"@fontsource-variable/archivo/wght.css\";",
+    "note": "Grotesque stand-in; use the wdth axis for the wider cuts. No Cyrillic (Manrope for ru).",
     "proprietary": true
   }
 ]

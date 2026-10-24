@@ -14,6 +14,7 @@
 // Env hooks: TASTEFUL_FORCE_STATIC=1 skips the browser (used by tests).
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs, fail, EXIT_OK, EXIT_FAIL, EXIT_USAGE } from './lib/args.mjs';
@@ -155,12 +156,109 @@ function baseResult(url, mode) {
   };
 }
 
+// ---------------------------------------------------------------- tidy (radii + font names)
+
+/** Normalise one border-radius value: ≥ 1000px (Tailwind rounded-full: 9999px, 3.35544e+07px) → "pill"; px rounded to 2 decimals. */
+function normalizeRadius(v) {
+  if (v == null) return v;
+  const s = String(v).trim();
+  const m = s.match(/^(-?\d*\.?\d+(?:e[+-]?\d+)?)(px|rem|em)?$/i);
+  if (!m) return s;
+  const n = Number(m[1]);
+  const unit = (m[2] ?? 'px').toLowerCase();
+  const px = unit === 'px' ? n : n * 16;
+  if (px >= 1000) return 'pill';
+  if (unit !== 'px') return s;
+  return `${Math.round(n * 100) / 100}px`;
+}
+
+function normalizeRadiusHistogram(hist) {
+  const out = new Map();
+  for (const [k, n] of Object.entries(hist ?? {})) {
+    const nk = normalizeRadius(k);
+    out.set(nk, (out.get(nk) ?? 0) + n);
+  }
+  return Object.fromEntries([...out.entries()].sort((a, b) => b[1] - a[1]));
+}
+
+// Known aliases from index/fonts.json, keyed by their compact form ("ppneuemontreal" → "PP Neue Montreal"),
+// used only to recover the spacing of Webflow-style lowercase concatenations.
+let KNOWN_FONT_NAMES = null;
+function knownFontNames() {
+  if (KNOWN_FONT_NAMES) return KNOWN_FONT_NAMES;
+  KNOWN_FONT_NAMES = new Map();
+  try {
+    for (const e of JSON.parse(readFileSync(join(ROOT, 'index', 'fonts.json'), 'utf8'))) {
+      for (const a of [e.family, ...(e.observed ?? [])]) {
+        const k = compactFontName(a);
+        if (k && !KNOWN_FONT_NAMES.has(k)) KNOWN_FONT_NAMES.set(k, a);
+      }
+    }
+  } catch {
+    /* map unavailable: no recovery beyond the mechanical rules */
+  }
+  return KNOWN_FONT_NAMES;
+}
+const compactFontName = (s) => String(s ?? '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[\s_-]+/g, '');
+
+/**
+ * Clean one observed family name → { name, readable } (readable: a recovered Webflow spelling, or null),
+ * or null when the entry should be dropped (Framer "Placeholder" fallbacks, empty).
+ */
+function cleanFontName(raw) {
+  let s = String(raw ?? '').trim().replace(/^["']+|["']+$/g, '').trim();
+  // Next.js next/font: __Inter_d65c78, __Inter_Fallback_d65c78, __Space_Grotesk_5e1d3a
+  const next = s.match(/^__(.+?)(?:_Fallback)?_[0-9a-f]{5,8}$/i);
+  if (next) s = next[1].replace(/_+/g, ' ').trim();
+  // Framer: "Inter:Regular", "Inter Display:Medium" (weight/style after a colon)
+  s = s.replace(/\s*:\s*[A-Za-z0-9 ]+$/, '').trim();
+  // Framer fallback faces: "Placeholder", "Inter Placeholder"
+  if (/^placeholder$/i.test(s)) return null;
+  s = s.replace(/\s+Placeholder$/i, '').trim();
+  if (!s) return null;
+  // Webflow lowercase concatenations: "Ppneuemontreal", "Atlasgrotesk Web"
+  let readable = null;
+  if (/^[A-Z][a-z0-9]{5,}(\s+Web)?$/.test(s)) {
+    const base = s.replace(/\s+Web$/, '');
+    const known = knownFontNames().get(compactFontName(base));
+    if (known) readable = known;
+    else if (/^Pp[a-z]/.test(base)) readable = `PP ${base[2].toUpperCase()}${base.slice(3)}`;
+    else if (base !== s) readable = base;
+  } else if (/^Pp\s/.test(s)) readable = s.replace(/^Pp\s/, 'PP ');
+  return { name: s, readable: readable && readable !== s ? readable : null };
+}
+
+/** Clean fonts.faces (keeping the raw list in fonts.faces_raw) and fonts.computed.*; normalise radii. */
+function tidyFacts(r) {
+  if (r.fonts) {
+    const raw = Array.isArray(r.fonts.faces) ? r.fonts.faces : [];
+    const faces = [];
+    for (const f of raw) {
+      const c = cleanFontName(f);
+      if (!c) continue;
+      if (c.readable && !faces.includes(c.readable)) faces.push(c.readable);
+      if (!faces.includes(c.name)) faces.push(c.name);
+    }
+    r.fonts.faces = faces;
+    r.fonts.faces_raw = raw;
+    for (const [k, v] of Object.entries(r.fonts.computed ?? {})) {
+      if (v == null) continue;
+      const c = cleanFontName(v);
+      r.fonts.computed[k] = c ? (c.readable ?? c.name) : null;
+    }
+  }
+  if (r.radii?.histogram) r.radii.histogram = normalizeRadiusHistogram(r.radii.histogram);
+  for (const list of [r.buttons, r.cards]) for (const x of list ?? []) if (x && 'radius' in x) x.radius = normalizeRadius(x.radius);
+  return r;
+}
+
 const isDead = (r) => r.dead === true;
 
 /** Stamp elapsed time; keep `dead` as a non-enumerable flag so it never reaches the JSON. */
 function finalize(r, t0) {
   const dead = r.dead === true;
   delete r.dead;
+  if (r.mode !== 'quick') tidyFacts(r);
   r.elapsed_ms = Date.now() - t0;
   Object.defineProperty(r, 'dead', { value: dead, enumerable: false, writable: true });
   return r;

@@ -39,8 +39,10 @@ const MODIFIERS = new Set([
 
 /** Normalise a family name: strip quotes, Next.js hashes, diacritics, punctuation, case. */
 export function normalizeFamily(name) {
-  let s = String(name ?? '').trim().replace(/^["']+|["']+$/g, '');
+  let s = String(name ?? '').trim().replace(/^["']+|["']+$/g, '').trim();
   s = s.replace(/^_+/, '').replace(/_(fallback_)?[0-9a-f]{5,8}$/i, ''); // __Inter_d65c78 / __Inter_Fallback_d65c78
+  s = s.replace(/\s*:\s*[A-Za-z0-9 ]+$/, ''); // Framer "Inter:Regular", "Inter Display:Medium"
+  s = s.replace(/(^|\s+)placeholder$/i, ''); // Framer fallback faces "Placeholder", "Inter Placeholder"
   s = s.normalize('NFKD').replace(/[̀-ͯ]/g, '');
   s = s.replace(/[’']/g, '').replace(/[-_]+/g, ' ');
   s = s.replace(/([a-z])([A-Z])/g, '$1 $2'); // DMSans → DM Sans, InterVariable → Inter Variable
@@ -48,14 +50,22 @@ export function normalizeFamily(name) {
   return s.toLowerCase().replace(/[^a-z0-9.+ ]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+/** Compact key: normalised, with spaces and hyphens removed ("PP Neue Montreal" ≡ "Ppneuemontreal"). */
+export const compactFamily = (name) => normalizeFamily(name).replace(/[\s-]+/g, '');
+
 function buildIndex(map) {
   const idx = new Map();
+  const add = (k, entry, i, own) => {
+    const prev = idx.get(k);
+    // prefer variable packages, then the entry whose own family is this alias
+    if (prev === undefined || (entry.variable && !map[prev].variable) || (own(entry) && !own(map[prev]) && entry.variable === map[prev].variable)) idx.set(k, i);
+  };
   map.forEach((entry, i) => {
     for (const alias of [entry.family, ...(entry.observed ?? [])]) {
       const k = normalizeFamily(alias);
-      const prev = idx.get(k);
-      // prefer variable packages, then the entry whose own family is this alias
-      if (!prev || (entry.variable && !map[prev].variable) || (normalizeFamily(entry.family) === k && normalizeFamily(map[prev].family) !== k && entry.variable === map[prev].variable)) idx.set(k, i);
+      add(k, entry, i, (e) => normalizeFamily(e.family) === k);
+      const c = 'compact:' + k.replace(/[\s-]+/g, '');
+      add(c, entry, i, (e) => 'compact:' + compactFamily(e.family) === c);
     }
   });
   return idx;
@@ -63,21 +73,39 @@ function buildIndex(map) {
 
 /** Find the map entry for an observed name; strips trailing weight/width words one by one. */
 export function matchFamily(name, map, idx = buildIndex(map)) {
+  const exact = matchKeys(name, (k) => idx.get(k));
+  if (exact) return { entry: map[exact.i], key: exact.key };
+  // Webflow-style concatenations: compare without spaces and hyphens
+  const loose = matchKeys(name, (k) => idx.get('compact:' + k.replace(/[\s-]+/g, '')));
+  if (loose) {
+    const e = map[loose.i];
+    return { entry: e, key: compactFamily(e.family) === loose.key.replace(/[\s-]+/g, '') ? normalizeFamily(e.family) : loose.key };
+  }
+  return null;
+}
+
+/** Try the normalised name, then with trailing and inner modifier words removed; lookup(k) → map index. */
+function matchKeys(name, lookup) {
+  const hit = (k) => {
+    const i = lookup(k);
+    return i === undefined ? null : { i, key: k };
+  };
   let k = normalizeFamily(name);
-  if (idx.has(k)) return { entry: map[idx.get(k)], key: k };
+  if (!k) return null;
+  let h = hit(k);
+  if (h) return h;
   const words = k.split(' ');
   while (words.length > 1) {
     const last = words[words.length - 1];
     if (!MODIFIERS.has(last) && !/^\d+$/.test(last)) break;
     words.pop();
     k = words.join(' ');
-    if (idx.has(k)) return { entry: map[idx.get(k)], key: k };
+    if ((h = hit(k))) return h;
   }
   // modifiers in the middle ("GT America Standard Bold Italic" handled above; "Helvetica Neue LT Pro")
   const filtered = normalizeFamily(name).split(' ').filter((w) => !MODIFIERS.has(w) && w !== 'lt' && w !== 'w01' && w !== 'w02');
   for (let n = filtered.length; n >= 1; n--) {
-    const kk = filtered.slice(0, n).join(' ');
-    if (idx.has(kk)) return { entry: map[idx.get(kk)], key: kk };
+    if ((h = hit(filtered.slice(0, n).join(' ')))) return h;
   }
   return null;
 }
@@ -172,6 +200,11 @@ async function main() {
   const results = [];
   let failed = false;
   for (const name of names) {
+    if (!normalizeFamily(name)) {
+      // Framer "Placeholder" fallback faces (and empty names) are not fonts: report, do not fail.
+      results.push({ observed: name, family: null, package: null, variable: null, cyrillic: null, import: null, alternative: null, verified: null, skipped: 'placeholder' });
+      continue;
+    }
     const m = matchFamily(name, map, idx);
     if (!m) {
       failed = true;

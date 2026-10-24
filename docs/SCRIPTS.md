@@ -124,6 +124,8 @@ Default mode (neither `--quick` nor `--deep`) is a browser probe of computed des
 
 `--quick` output contains only `url, final_url, status, mode, probed_at, elapsed_ms, title, errors`.
 
+Tidying (browser and static modes): any border-radius ≥ 1000px (Tailwind `rounded-full`, `9999px`, `3.35544e+07px`) is reported as `"pill"` in `radii.histogram`, `buttons[].radius` and `cards[].radius`; other px values are rounded to 2 decimals. Font names are cleaned (Next.js hashes such as `__Inter_d65c78`, Framer `:Weight` suffixes and `Placeholder` entries removed, Webflow concatenations like `Ppneuemontreal` recovered through `index/fonts.json` aliases); the untouched list is kept in `fonts.faces_raw`.
+
 **Exit codes**: 0 probed (including static fallback for blocked sites); 1 site dead (JSON still printed) or the watchdog fired; 2 usage error (`--quick` with `--deep`, bad url, unreadable `--batch` file), or `--deep` requested without Playwright. In `--batch` mode exit 1 if any URL was dead.
 
 ---
@@ -387,6 +389,8 @@ Matching normalises the name (quotes, Next.js hashed names like `__Inter_d65c78`
 - Unmapped names give `{observed, family: null, package: null, …, error: "unmapped"}`.
 
 Variable packages are preferred when several map entries match.
+
+Matching order: exact alias → alias after stripping weight/width words and `:Weight` suffixes → alias compared with spaces and hyphens removed (`Ppneuemontreal`, `Atlasgrotesk Web`). A name that is empty after cleaning (e.g. `Placeholder`) is returned as `{ "observed", "skipped": "placeholder" }` and does not affect the exit code.
 
 **Exit codes**: 0 every family mapped (and verified with `--verify`); 1 some family unmapped or failed verification; 2 usage error, unreadable map, or registry unreachable with `--verify`.
 
