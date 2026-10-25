@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0 — 2026-10-25
+
+- Site layers: a look for one site now ships as a small overlay, `apps/<site>/src/styles/site.css`, over the shared theme instead of replacing it.
+- `scripts/overlay.mjs` (new): derives the layer from a full generated theme — header comment, new `@fontsource` imports, unlayered `:root` with changed tokens, both dark selectors (identical), `@layer base` / `@layer components` rule deltas; resets base declarations the full theme deleted with `unset` (`removed`), inlines `var()` references to theme-only tokens (`inlined`), skips `@utility`, self-checks before writing. Diff logic in `scripts/lib/overlay.mjs`.
+- `contract.mjs --overlay`: tokens exist in the base, every `var()` resolves to a base or layer token, dark symmetry and agreement, no Tailwind-only statements or external imports, `!important` only in reduced motion, overridden selectors exist in the base. `contrast.mjs --overlay`: merges base and layer tokens per scheme, then the usual pairs. Both stay dependency-free so the `sites` repo vendors them.
+- Brief JSON: optional `site` (app folder under `apps/`). `find` offers "Site layer for `<site>`" in its single question when the project has app folders and the brief names one.
+- `extract`: derives and checks the layer when `brief.site` is set, hands it to the critic, adds a "Site layer" section to REPORT.md, prints Path B swap-in steps (`pnpm --filter <site> add`, Shell.astro import order); `verify` accepts `<base> <site.css>` or a single layer. `fonts.json` gains an `install` command per package. The critic checks layers (both overlay checks, no renames, both dark blocks, resets placed before the rule's declarations, inlined values match, removed/inlined counts reported).
+- New user setting `site_layer_path` (default `apps/{site}/src/styles/site.css`).
+- Docs: `SITES-INTEGRATION.md` split into "Which path?", Path A (shared theme, `shared-theme` label) and Path B (site layer); `WORKFLOW.md` step 3b; `SCRIPTS.md`; README.
+- Tests for overlay derivation and both `--overlay` checks, a known-good layer fixture (`fixtures/runs/ai-architect-blog/site.ai-architect-blog.css`), and the `overlay-missing-dark` eval case.
+
 ## 0.1.0 — 2026-10-24
 
 - Plugin manifest (`tasteful`, Apache-2.0) with `theme_path`, `output_dir` and `max_candidates` user settings, and a single-plugin marketplace.

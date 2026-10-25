@@ -1,6 +1,6 @@
 # tasteful — taste-driven design references for Astro + Tailwind sites
 
-`tasteful` is a Claude Code plugin that finds juried reference sites for a short brief, waits for you to approve a selection, and then extracts a drop-in `theme.css` that keeps your design system's token and class contract.
+`tasteful` is a Claude Code plugin that finds juried reference sites for a short brief, waits for you to approve a selection, and then extracts a drop-in `theme.css` that keeps your design system's token and class contract, or, when the look is for one site only, a small per-site layer (`site.css`) over the shared theme.
 The taste lives in a curated index (`index/sites.json`) and a taste profile (`index/taste.md`) that you refine with feedback.
 Nothing is extracted before you approve, and nothing is written into your sites repo.
 
@@ -24,7 +24,7 @@ claude --plugin-dir /path/to/tasteful
 | Skill | Use it to |
 | --- | --- |
 | `/tasteful:find <brief>` | Get 3–5 reference sites for a brief, with what to take from each and suggested combinations |
-| `/tasteful:extract <brief-slug> [approval]` | Turn an approved selection into a contract-preserving `theme.<slug>.css`, report and preview |
+| `/tasteful:extract <brief-slug> [approval]` | Turn an approved selection into a contract-preserving `theme.<slug>.css`, report and preview, plus a site layer `site.<slug>.css` when the brief names a site; `verify` re-checks a theme or a layer |
 | `/tasteful:add <url> [source-url]` | Probe a site you found and add it to the index (the path for Behance and anything else) |
 | `/tasteful:refresh [source]` | Crawl the sources for new candidates and review them in batches |
 | `/tasteful:rate <id\|url> +\|- [note]` | Record taste feedback; repeated signals become rules |
@@ -36,6 +36,7 @@ Examples (natural language triggers the same skills):
 /tasteful:find A trilingual blog + landing for an AI-architecture consultant; calm, precise, warm; text-heavy; motion 1; both schemes
 /tasteful:extract ai-architect-blog approve B
 /tasteful:extract verify .tasteful/ai-architect-blog/theme.ai-architect-blog.css
+/tasteful:extract verify packages/theme/src/styles/theme.css apps/dji/src/styles/site.css
 /tasteful:add https://example.studio https://www.awwwards.com/sites/example-studio
 /tasteful:add behance
 /tasteful:refresh awwwards
@@ -51,8 +52,8 @@ Examples (natural language triggers the same skills):
 2. Candidates are re-probed live; dead ones are replaced silently.
 3. A proposal with 3–5 references and 2–3 combinations is written to `.tasteful/<slug>/proposal.md`.
 4. **Approve** — reply `approve B` or `approve 1, palette from 3`; the approval is stored verbatim.
-5. **Extract** — references are deep-probed and composed into `theme.<slug>.css`, `fonts.json`, `REPORT.md` and a preview, then checked for contract, contrast and by the critic agent.
-6. **Swap in** — you copy the theme into your sites repo on a branch; tasteful never does it for you.
+5. **Extract** — references are deep-probed and composed into `theme.<slug>.css`, `fonts.json`, `REPORT.md` and a preview, then checked for contract, contrast and by the critic agent. When the brief names a site (`"site": "dji"`), the site layer `site.<slug>.css` is derived from the theme with `overlay.mjs` and checked in overlay mode.
+6. **Swap in** — you copy the theme (shared path) or the layer (site path) into your sites repo on a branch; tasteful never does it for you.
 
 The full flow with commands is in [`docs/WORKFLOW.md`](docs/WORKFLOW.md); the swap-in steps for the `sites` repo are in [`docs/SITES-INTEGRATION.md`](docs/SITES-INTEGRATION.md); every index field is explained in [`docs/INDEX-SCHEMA.md`](docs/INDEX-SCHEMA.md).
 
@@ -69,6 +70,19 @@ Every generated theme must:
 - keep `prefers-reduced-motion` handling and use no `!important` outside it.
 
 The contract source of truth for tests is `fixtures/theme.reference.css`.
+
+### Site layers
+
+The shared theme stays the base for every site; a look meant for one site goes into that app's layer, `apps/<site>/src/styles/site.css` (the `site_layer_path` setting), imported after the shared stylesheet. `scripts/overlay.mjs` derives the layer from a full generated theme: new `@fontsource` imports, an unlayered `:root` redeclaring only the changed tokens, both dark selectors with identical values, and `@layer base` / `@layer components` rule overrides. It never emits Tailwind-only syntax (`@import "tailwindcss"`, `@source`, `@theme`, `@apply`, `@utility`) never renames a token, and never references a token the base lacks (theme-only tokens are inlined; deleted base declarations are reset with `unset`). `contract.mjs --overlay` and `contrast.mjs --overlay` check a layer against the base; the `sites` repo vendors both and runs them on every `site.css`. A comment-only layer is valid. Details in [`docs/SITES-INTEGRATION.md`](docs/SITES-INTEGRATION.md) → Path B.
+
+## Settings
+
+| Setting | Default | Meaning |
+| --- | --- | --- |
+| `theme_path` | `packages/theme/src/styles/theme.css` | The theme whose token and class contract extract preserves (and the base for site layers) |
+| `site_layer_path` | `apps/{site}/src/styles/site.css` | Where a site layer is copied; `{site}` is the brief's `site` |
+| `output_dir` | `.tasteful` | Where proposals, approvals and generated files are written |
+| `max_candidates` | `5` | How many references find returns (3–8) |
 
 ## Sources
 
@@ -97,7 +111,7 @@ To add a source: add an entry to `index/sources.json` (id, role, entry url, coll
 skills/           find, extract, add, refresh, rate, check
 agents/           critic.md — independent reviewer for extract output
 index/            sources.json, sites.json, schema.json, taste.md, rejected.json
-scripts/          probe, crawlers, contrast, contract, rank, index-edit, preview, fonts (see docs/SCRIPTS.md)
+scripts/          probe, crawlers, contrast, contract, overlay, rank, index-edit, preview, fonts (see docs/SCRIPTS.md)
 fixtures/         theme.reference.css, sample briefs, recorded runs
 plugin-evals/     eval cases for `claude plugin eval`
 tests/            node --test suites
@@ -114,10 +128,10 @@ tasteful/
 │   ├── sites.json  schema.json  rejected.json  sources.json  fonts.json  taste.md
 │   └── probes/<id>.json               # stored probe results (shots/ and staging/ are gitignored)
 ├── scripts/
-│   ├── probe.mjs  rank.mjs  contrast.mjs  contract.mjs  validate-index.mjs  index-edit.mjs
+│   ├── probe.mjs  rank.mjs  contrast.mjs  contract.mjs  overlay.mjs  validate-index.mjs  index-edit.mjs
 │   ├── preview.mjs  fonts.mjs  crawl-awwwards.mjs  crawl-cssda.mjs  crawl-behance.mjs
 │   ├── ensure-deps.sh  test.sh  package.json  package-lock.json
-│   └── lib/{args,log,deps}.mjs …
+│   └── lib/{args,log,deps,css,color,overlay}.mjs …
 ├── fixtures/{theme.reference.css, briefs/, runs/}
 ├── plugin-evals/{scaffold.sh, <case>/…}
 ├── tests/*.test.mjs
