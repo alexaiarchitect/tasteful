@@ -1,7 +1,7 @@
 {
   "name": "tasteful",
   "displayName": "Tasteful",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Taste-driven design-reference system: find juried reference sites for a brief, approve a selection, and extract a contract-preserving theme.css.",
   "author": {
     "name": "Alex",
@@ -28,6 +28,12 @@
       "title": "Theme path",
       "description": "Path, relative to the project root, of the theme.css whose token and class contract extract must preserve.",
       "default": "packages/theme/src/styles/theme.css"
+    },
+    "site_layer_path": {
+      "type": "string",
+      "title": "Site layer path",
+      "description": "Path, relative to the project root, where a per-site overlay is copied; {site} is replaced by the brief's site.",
+      "default": "apps/{site}/src/styles/site.css"
     },
     "output_dir": {
       "type": "string",

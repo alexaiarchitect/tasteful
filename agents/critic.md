@@ -14,6 +14,7 @@ You are an independent design reviewer. You have **not** seen how this theme was
 The caller gives you paths. Expect:
 
 - the generated theme `theme.<slug>.css`, its `REPORT.md`, `fonts.json` and `approval.md`;
+- when the brief targets one site, the site layer `site.<slug>.css` derived from that theme;
 - the preview screenshots `preview-light.jpg` and `preview-dark.jpg` (and `preview.html`);
 - the reference theme (the project's `theme.css` or `fixtures/theme.reference.css`);
 - the taste profile `index/taste.md`;
@@ -44,6 +45,7 @@ If a path is missing or unreadable, say so as a blocking issue ("cannot verify X
    - fade-and-slide-up on every section or hover motion on every card.
 7. **Taste profile.** Compare against `taste.md` Likes, Dislikes and Non-negotiables. A broken non-negotiable is blocking; a Dislike that appears is a nit unless REPORT.md justifies it under "Deviations".
 8. **Resilience.** Headings, `.btn`, `.chip` and cards must allow long words to wrap (`overflow-wrap`/`hyphens`); `.prose` line length ≤ ~75ch; `prefers-reduced-motion` block present; motion within the brief's budget.
+9. **Site layer** (only when given a `site.<slug>.css`). Re-run both checks yourself: `node "${CLAUDE_PLUGIN_ROOT}/scripts/contract.mjs" <reference.css> <site.css> --overlay --check --json --data "${CLAUDE_PLUGIN_DATA}"` and `node "${CLAUDE_PLUGIN_ROOT}/scripts/contrast.mjs" <reference.css> --overlay <site.css> --extended --json --data "${CLAUDE_PLUGIN_DATA}"`; any finding is blocking. Read the layer: tokens are only redeclared, never renamed or invented; `:root[data-theme="dark"]` and the `@media (prefers-color-scheme: dark)` fallback are both present and identical; nothing Tailwind-only (`@import "tailwindcss"`, `@source`, `@theme`, `@apply`, `@utility`, new or bare `@layer`). Every `/* removed in the full theme */` reset (`<prop>: unset`) must sit before the rule's own declarations; a reset after a longhand it covers is blocking. Inlined values (where the full theme used a token the base lacks) must match the full theme's token values: spot-check two. REPORT.md's "Site layer" section must state the removed and inlined counts.
 
 ## Output
 

@@ -14,8 +14,8 @@ Brief: `$ARGUMENTS`
 ## Flow
 
 1. **Read the brief.** If `$ARGUMENTS` is empty, ask for a brief with AskUserQuestion and stop until it arrives. Map it onto the vocabulary of `${CLAUDE_PLUGIN_ROOT}/docs/INDEX-SCHEMA.md` (`kind`, `mood`) and the brief fields in the table below.
-2. **Fill gaps with one question.** If any required field is missing or ambiguous, ask **once**, with a single AskUserQuestion call whose first option is "Use these defaults (recommended)" and lists the defaults you would apply. Never ask a second round; proceed with defaults for anything still unanswered.
-3. **Write the brief.** Pick a kebab-case slug (3–5 words, ASCII, from the title). Write `${user_config.output_dir}/<slug>/brief.json` in the shape of `docs/SCRIPTS.md` → Brief JSON (`${CLAUDE_PLUGIN_ROOT}/fixtures/briefs/*.json` are examples). If the folder already holds a proposal, ask whether to overwrite or use a new slug.
+2. **Fill gaps with one question.** If any required field is missing or ambiguous, ask **once**, with a single AskUserQuestion call whose first option is "Use these defaults (recommended)" and lists the defaults you would apply. Never ask a second round; proceed with defaults for anything still unanswered. **Site scope:** Glob `apps/*/` in the project. When app folders exist and the brief names one of them, or says "only for <site>", "site layer" or "overlay", include in that same call a question with the options "Site layer for `<site>`" and "Shared theme (default)". Without app folders or such wording, do not ask; the look is for the shared theme.
+3. **Write the brief.** Pick a kebab-case slug (3–5 words, ASCII, from the title). Write `${user_config.output_dir}/<slug>/brief.json` in the shape of `docs/SCRIPTS.md` → Brief JSON (`${CLAUDE_PLUGIN_ROOT}/fixtures/briefs/*.json` are examples). Write `site` only when a site layer was chosen; leave it out for the shared theme. If the folder already holds a proposal, ask whether to overwrite or use a new slug.
 4. **Ensure deps** (no browsers needed): `bash "${CLAUDE_PLUGIN_ROOT}/scripts/ensure-deps.sh" "${CLAUDE_PLUGIN_ROOT}" "${CLAUDE_PLUGIN_DATA}" --json`. If it fails, continue: `rank.mjs` and `probe.mjs --quick` are dependency-free.
 5. **Rank.** `node "${CLAUDE_PLUGIN_ROOT}/scripts/rank.mjs" --brief "${user_config.output_dir}/<slug>/brief.json" --n ${user_config.max_candidates} --data "${CLAUDE_PLUGIN_DATA}"`. Exit 1 (fewer than 3 eligible) → tell the user which filters bit (from `excluded`) and offer to relax motion or dark-mode constraints; exit 2 → report the error and stop.
 6. **Look up each candidate** in `${CLAUDE_PLUGIN_ROOT}/index/sites.json` (title, url, source_url, extractable, why, avoid, typography, color, layout, motion, anchor).
@@ -41,6 +41,7 @@ Brief: `$ARGUMENTS`
 | must_have | extractables / components | `[]` |
 | mood | `sites.json` mood vocabulary | derived from tone |
 | languages | BCP-47 codes | `["en"]`; if the user's sites are trilingual (EN/RU/ES), `["en","ru","es"]` |
+| site | name of the app folder under `apps/` when the look is for one site only | absent = shared theme; extract then also derives a site layer |
 
 ## Writing each candidate
 
@@ -88,7 +89,7 @@ Run each command as its own Bash call with literal paths: no `;`, `&&`, `|`, `ec
 ## Completion checklist
 
 - [ ] At most one clarifying question was asked, with defaults offered
-- [ ] `brief.json` exists and matches the Brief JSON shape
+- [ ] `brief.json` exists and matches the Brief JSON shape; `site` is set only for a chosen site layer
 - [ ] `rank.mjs` was run with `--n ${user_config.max_candidates}`; no candidate was hand-picked outside its output
 - [ ] Every presented candidate was quick-probed; dead ones were marked and replaced (or the offline guard was stated)
 - [ ] Each candidate has url, source link, why, what to take, what to leave

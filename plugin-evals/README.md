@@ -15,7 +15,7 @@ plugin-evals/<case-name>/
     └── *.md        # one grader per file: tool_used, regex, file_exists or llm
 ```
 
-`plugin-evals/scaffold.sh <case>` is shared: it copies `fixtures/theme.reference.css` to `packages/theme/src/styles/theme.css` in the workspace (the default `theme_path`) and writes each case's fixtures. The eval sandbox has no Playwright, so every case works with static or quick probes and the dependency-free `contract.mjs` / `contrast.mjs`.
+`plugin-evals/scaffold.sh <case>` is shared: it copies `fixtures/theme.reference.css` to `packages/theme/src/styles/theme.css` in the workspace (the default `theme_path`) and writes each case's fixtures (for `overlay-missing-dark`, a site layer at `apps/dji/src/styles/site.css`, the default `site_layer_path`). The eval sandbox has no Playwright, so every case works with static or quick probes and the dependency-free `contract.mjs` / `contrast.mjs`.
 
 | Case | Skill | What it checks |
 | --- | --- | --- |
@@ -23,6 +23,7 @@ plugin-evals/<case-name>/
 | `extract-refuses-without-approval` | extract | A proposal exists but no approval: no deep probe, no theme, no `approval.md`; asks for approval |
 | `contract-rename-detected` | extract (verify) | One token renamed: `contract.mjs` reports `--color-accent-soft` → `--color-accent-tint`; file not edited |
 | `contrast-floor` | extract (verify) | Light `--color-muted` at ≈ 2.44:1: `contrast.mjs` failure reported with ratio and fix; file not edited |
+| `overlay-missing-dark` | extract (verify) | Site layer `apps/dji/src/styles/site.css` sets `--color-bg`/`--color-ink` with only the `data-theme` dark block: `contract.mjs --overlay` runs, the missing `prefers-color-scheme` fallback is named with the fix (same values); no file edited |
 | `add-confirms-before-writing` | add | Probes the url, drafts the entry and asks; never runs `index-edit.mjs upsert` without confirmation |
 
 Results are written to `plugin-evals/results/` (gitignored).
