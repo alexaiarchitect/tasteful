@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
   parseCss, walkRules, walkDeclarations, stripComments, firstStatements, selectorClasses,
-  themeDeclarations, darkBlocks,
+  themeDeclarations, darkBlocks, rootDeclarations, normSelector, rulesByContext,
 } from '../scripts/lib/css.mjs';
 
 const REF = readFileSync(fileURLToPath(new URL('../fixtures/theme.reference.css', import.meta.url)), 'utf8');
@@ -141,4 +141,55 @@ test('selectorClasses', () => {
   assert.deepEqual(selectorClasses('a[href$=".pdf"] .x:not(.y)'), ['x', 'y']);
   assert.deepEqual(selectorClasses('.md\\:flex'), ['md:flex']);
   assert.deepEqual(selectorClasses('html, body'), []);
+});
+
+test('trailing declaration comments and leading rule comments', () => {
+  const css = `@layer components {
+  /* card: lead */
+  .card {
+    color: red; /* from: x — y */
+    margin: 0;
+    padding: 0;   /* multi
+      line */
+  }
+
+  /* detached by a blank line */
+
+  .chip { color: blue; }
+  /* on the line before */
+  @media (min-width: 640px) { .chip { color: green; } }
+}
+/* top */
+@import "a.css";`;
+  const { nodes } = parseCss(css);
+  const layer = nodes[0];
+  const [card, chip, media] = layer.children.filter((n) => n.type !== 'comment');
+  assert.deepEqual(card.declarations.map((d) => d.comment), ['/* from: x — y */', undefined, '/* multi\n      line */']);
+  assert.equal(card.declarations[0].value, 'red');
+  assert.equal(card.leading.text, 'card: lead');
+  assert.equal(card.leading.raw, '/* card: lead */');
+  assert.equal(chip.leading, undefined);
+  assert.equal(media.leading.text, 'on the line before');
+  assert.equal(media.block, true);
+  assert.equal(nodes.at(-1).leading.text, 'top');
+  assert.equal(nodes.at(-1).block, false);
+  // trailing comments stay in children, flagged
+  assert.ok(card.children.every((c) => c.type === 'comment' && c.trailing));
+});
+
+test('reference: provenance-free decls have no comment; rootDeclarations ignores layered :root', () => {
+  const { nodes } = parseCss(REF);
+  assert.ok(themeDeclarations(nodes).every((d) => d.comment === undefined));
+  assert.deepEqual(rootDeclarations(nodes), []);
+  const ov = parseCss(':root { --color-bg: #fff; }\n@layer base { :root { --x: 1; } }\n@media print { :root { --y: 2; } }\n:root, .x { --z: 3; }').nodes;
+  assert.deepEqual(rootDeclarations(ov).map((d) => d.prop), ['--color-bg']);
+});
+
+test('normSelector and rulesByContext', () => {
+  assert.equal(normSelector(":root[data-theme='dark'] .a ,  .b"), ':root[data-theme="dark"].a,.b');
+  const m = rulesByContext(parseCss(REF).nodes);
+  assert.equal(m.get('@layer components|@media (min-width: 640px)|.card').declarations[0].value, '1.5rem');
+  assert.equal(m.get('@layer components|.card').declarations[0].prop, 'position');
+  assert.equal(m.get('@layer base|h1,h2,h3').declarations[1].value, '600');
+  assert.equal(m.get('@layer base|@media (prefers-color-scheme: dark)|:root:not([data-theme="light"])').declarations.length, 19);
 });

@@ -4,26 +4,39 @@
 
 import { readFileSync } from 'node:fs';
 import { parseArgs, fail, EXIT_OK, EXIT_FAIL } from './lib/args.mjs';
-import { parseCss, walkRules, walkDeclarations, selectorClasses, firstStatements, themeDeclarations, darkBlocks } from './lib/css.mjs';
+import {
+  parseCss,
+  walkRules,
+  walkDeclarations,
+  firstStatements,
+  darkBlocks,
+  themeTokens as tokens,
+  layerClasses,
+  allClasses,
+  tokenPrefix as prefixOf,
+} from './lib/css.mjs';
+import { compareOverlay } from './lib/overlay.mjs';
 
 const spec = {
-  usage: 'contract.mjs <reference.css> <candidate.css> [--check] [--json]',
+  usage: 'contract.mjs <reference.css> <candidate.css> [--check] [--json]\n       contract.mjs <base.css> <overlay.css> --overlay [--check] [--json]',
   description:
     'Check that a generated theme keeps the reference contract: @theme tokens, component/base classes, @utility names,\n' +
-    'dark-mode coverage, the first two statements, !important only under prefers-reduced-motion, and no external @import.',
+    'dark-mode coverage, the first two statements, !important only under prefers-reduced-motion, and no external @import.\n' +
+    'With --overlay, check a site layer (site.css) against the base theme instead: tokens exist in the base, dark symmetry,\n' +
+    'both dark blocks agree, no Tailwind-only statements, no external or late @import, !important, selectors exist in the base.',
   positional: [
     { name: 'reference', required: true, help: 'Contract source (project theme.css or fixtures/theme.reference.css)' },
-    { name: 'candidate', required: true, help: 'Generated theme to compare' },
+    { name: 'candidate', required: true, help: 'Generated theme to compare (with --overlay: the site layer)' },
   ],
   flags: {
     check: { type: 'boolean', default: false, help: 'Exit 1 if anything is missing or any rule is broken' },
+    overlay: { type: 'boolean', default: false, help: 'Candidate is a site layer (site.css) that overrides the reference' },
   },
 };
 
-export const TOKEN_PREFIXES = ['--font-', '--color-', '--radius-', '--shadow-', '--ease-'];
+export { TOKEN_PREFIXES } from './lib/css.mjs';
 const EXPECTED_FIRST = ['@import "tailwindcss";', '@source "../";'];
 
-const prefixOf = (t) => TOKEN_PREFIXES.find((p) => t.startsWith(p)) ?? null;
 const norm = (v) => String(v).replace(/\s+/g, ' ').trim().toLowerCase();
 
 function load(path) {
@@ -38,30 +51,6 @@ function load(path) {
   } catch (e) {
     fail(`cannot parse ${path}: ${e.message}`);
   }
-}
-
-function tokens(nodes) {
-  const m = new Map();
-  for (const d of themeDeclarations(nodes)) if (prefixOf(d.prop)) m.set(d.prop, d.value);
-  return m;
-}
-
-const inLayer = (ancestors) => ancestors.some((a) => a.type === 'at' && a.name === 'layer' && /^(components|base)$/.test(a.params.trim()));
-
-function layerClasses(nodes) {
-  const out = new Set();
-  walkRules(nodes, (node, ancestors) => {
-    if (node.type === 'rule' && inLayer(ancestors)) for (const c of selectorClasses(node.selector)) out.add(c);
-  });
-  return out;
-}
-
-function allClasses(nodes) {
-  const out = new Set();
-  walkRules(nodes, (node) => {
-    if (node.type === 'rule') for (const c of selectorClasses(node.selector)) out.add(c);
-  });
-  return out;
 }
 
 function utilities(nodes) {
@@ -185,10 +174,47 @@ function human(r, refPath, candPath) {
   return L.join('\n') + '\n';
 }
 
+function humanOverlay(r, basePath, ovPath) {
+  const L = [`contract (overlay): ${basePath} + ${ovPath}`, ''];
+  const status = (bad) => (bad ? 'FAIL' : 'ok  ');
+  const dm = r.dark_missing;
+  const where = { root: ':root', data_theme: ':root[data-theme="dark"]', media: 'the prefers-color-scheme fallback (:root:not([data-theme="light"]))' };
+  L.push(`${status(r.unknown_tokens.length)} 1. tokens set in the layer exist in the base`);
+  for (const t of r.unknown_tokens) L.push(`       ${t} is not a base token (a layer redeclares tokens, it never adds or renames them)`);
+  L.push(`${status(dm.root.length || dm.data_theme.length || dm.media.length)} 2. dark symmetry (--color-*, --shadow-* set in :root and both dark selectors)`);
+  for (const k of ['root', 'data_theme', 'media']) for (const t of dm[k]) L.push(`       ${t} not set in ${where[k]}`);
+  L.push(`${status(r.dark_mismatch.length)} 3. both dark blocks agree`);
+  for (const m of r.dark_mismatch) L.push(`       ${m.prop} is ${m.data_theme} in :root[data-theme="dark"] but ${m.media} in the prefers-color-scheme fallback`);
+  L.push(`${status(r.forbidden.length)} 4. no Tailwind-only statements (@import "tailwindcss", @source, @theme, @apply, @utility, @variant, …, bare @layer, theme())`);
+  for (const f of r.forbidden) L.push(`       line ${f.line}: ${f.text}`);
+  L.push(`${status(r.external_imports.length || r.imports_after_rules.length)} 5. no external @import, @import before any rule`);
+  for (const e of r.external_imports) L.push(`       external @import ${e}`);
+  for (const e of r.imports_after_rules) L.push(`       line ${e.line}: ${e.text} comes after a rule`);
+  L.push(`${status(r.important.length)} 6. !important only inside prefers-reduced-motion`);
+  for (const i of r.important) L.push(`       line ${i.line}: ${i.text}`);
+  L.push(`ok   7. selectors exist in the base${r.new_selectors.length || r.unknown_selectors.length ? ' (new ones listed below as info)' : ''}`);
+  L.push(`${status(r.unknown_var_refs.length)} 8. var() references resolve (base tokens or declared in the layer)`);
+  for (const v of r.unknown_var_refs) L.push(`       line ${v.line}: ${v.selector} { ${v.prop} } uses var(${v.token}), defined neither in the base nor in the layer`);
+  if (r.new_selectors.length || r.unknown_selectors.length || r.empty) {
+    L.push('', 'info:');
+    if (r.empty) L.push('  comment-only layer: the site uses the shared theme unchanged');
+    if (r.new_selectors.length) L.push(`  new classes (not in the base): ${r.new_selectors.join(', ')}`);
+    if (r.unknown_selectors.length) L.push(`  new selectors (no base rule in the same context): ${r.unknown_selectors.join(', ')}`);
+  }
+  L.push('', r.ok ? 'ok: overlay valid' : 'FAIL: overlay invalid (see findings above)');
+  return L.join('\n') + '\n';
+}
+
 function main() {
   const { flags, positional } = parseArgs(process.argv.slice(2), spec);
   const ref = load(positional.reference);
   const cand = load(positional.candidate);
+  if (flags.overlay) {
+    const r = compareOverlay(ref.text, cand.text);
+    if (flags.json) process.stdout.write(JSON.stringify(r, null, 2) + '\n');
+    else process.stdout.write(humanOverlay(r, positional.reference, positional.candidate));
+    process.exit(flags.check && !r.ok ? EXIT_FAIL : EXIT_OK);
+  }
   const r = compare(ref, cand);
   if (flags.json) {
     const { _dark_found, first_statements, ...out } = r;

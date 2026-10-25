@@ -1,0 +1,12 @@
+/* Site layer that changes two light tokens but forgets the prefers-color-scheme fallback.
+   contract.mjs --overlay --check must exit 1 and name --color-bg. */
+
+:root {
+  --color-bg: #f3f0e8;
+  --color-ink: #171815;
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #171815;
+  --color-ink: #f3f0e8;
+}

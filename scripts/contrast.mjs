@@ -5,18 +5,21 @@
 import { readFileSync } from 'node:fs';
 import { parseArgs, fail, EXIT_OK, EXIT_FAIL } from './lib/args.mjs';
 import { log } from './lib/log.mjs';
-import { parseCss, themeDeclarations, darkBlocks, declMap } from './lib/css.mjs';
+import { parseCss, themeDeclarations, darkBlocks, declMap, rootDeclarations } from './lib/css.mjs';
 import { parseColor, toHex, contrastRatio, rawContrast, nearestPassing } from './lib/color.mjs';
 
 const spec = {
-  usage: 'contrast.mjs <theme.css> [--extended] [--suggest] [--json]',
+  usage: 'contrast.mjs <theme.css> [--overlay <site.css>] [--extended] [--suggest] [--json]',
   description:
     'Compute WCAG 2.x contrast for the required token pairs in the light (@theme) and dark (:root[data-theme="dark"]) schemes,\n' +
-    'and check that the prefers-color-scheme fallback block declares the same dark values.',
+    'and check that the prefers-color-scheme fallback block declares the same dark values.\n' +
+    'With --overlay, check the theme with a site layer applied: light = @theme + the layer\'s :root, dark = light + the\n' +
+    'base dark block + the layer\'s dark block (the layer wins); the dark-block agreement check runs on the layer.',
   positional: [{ name: 'theme', required: true, help: 'Theme file to check' }],
   flags: {
     extended: { type: 'boolean', default: false, help: 'Also report advisory pairs (never affect the exit code)' },
     suggest: { type: 'boolean', default: false, help: 'For each failing pair, print the nearest passing colour (same hue, adjusted lightness)' },
+    overlay: { type: 'string', help: 'Site layer (site.css) applied on top of <theme.css>' },
   },
 };
 
@@ -46,29 +49,51 @@ function resolve(map, value, depth = 0) {
 
 const short = (t) => t.replace(/^--color-/, '');
 
-function main() {
-  const { flags, positional } = parseArgs(process.argv.slice(2), spec);
-  const file = positional.theme;
+function load(file) {
   let text;
   try {
     text = readFileSync(file, 'utf8');
   } catch (e) {
     fail(`cannot read ${file}: ${e.message}`);
   }
-  let nodes;
   try {
-    ({ nodes } = parseCss(text));
+    return parseCss(text).nodes;
   } catch (e) {
     fail(`cannot parse ${file}: ${e.message}`);
   }
+}
+
+function main() {
+  const { flags, positional } = parseArgs(process.argv.slice(2), spec);
+  const file = positional.theme;
+  const nodes = load(file);
+  const overlay = flags.overlay;
+  const ovNodes = overlay ? load(overlay) : null;
 
   const errors = [];
-  const light = declMap(themeDeclarations(nodes));
-  const { dataTheme, media } = darkBlocks(nodes);
-  const dark = new Map([...light, ...declMap(dataTheme.decls)]);
+  let light = declMap(themeDeclarations(nodes));
+  const base = darkBlocks(nodes);
+  let { dataTheme, media } = base;
+  let dark = new Map([...light, ...declMap(dataTheme.decls)]);
+  let checkBlocks = true;
+  if (ovNodes) {
+    // light = base @theme ∪ layer :root; dark = light ∪ base dark ∪ layer dark (later wins)
+    light = new Map([...light, ...declMap(rootDeclarations(ovNodes))]);
+    const ov = darkBlocks(ovNodes);
+    dark = new Map([...light, ...declMap(base.dataTheme.decls), ...declMap(ov.dataTheme.decls)]);
+    ({ dataTheme, media } = ov);
+    if (dataTheme.found !== media.found) {
+      errors.push(
+        dataTheme.found
+          ? `${overlay}: the layer sets :root[data-theme="dark"] but has no @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) } block`
+          : `${overlay}: the layer sets the prefers-color-scheme dark fallback but has no :root[data-theme="dark"] block`,
+      );
+    }
+    checkBlocks = false; // a layer without dark blocks keeps the base's dark scheme
+  }
 
-  if (!dataTheme.found) errors.push('dark block :root[data-theme="dark"] not found');
-  if (!media.found) errors.push('dark fallback @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) } not found');
+  if (checkBlocks && !dataTheme.found) errors.push('dark block :root[data-theme="dark"] not found');
+  if (checkBlocks && !media.found) errors.push('dark fallback @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) } not found');
   if (dataTheme.found && media.found) {
     const a = declMap(dataTheme.decls.filter((d) => d.prop !== 'color-scheme'));
     const b = declMap(media.decls.filter((d) => d.prop !== 'color-scheme'));
@@ -119,7 +144,7 @@ function main() {
   const ok = errors.length === 0 && pairs.every((p) => p.pass || !p.required);
 
   if (flags.json) {
-    process.stdout.write(JSON.stringify({ file, ok, pairs, errors }, null, 2) + '\n');
+    process.stdout.write(JSON.stringify({ file, ...(overlay ? { overlay } : {}), ok, pairs, errors }, null, 2) + '\n');
   } else {
     const rows = [['scheme', 'pair', 'ratio', 'min', 'pass']];
     for (const p of pairs) {
@@ -134,7 +159,7 @@ function main() {
     const w = rows[0].map((_, i) => Math.max(...rows.map((r) => r[i].length)));
     const out = rows.map((r) => r.map((c, i) => c.padEnd(w[i])).join(' | ').trimEnd());
     out.splice(1, 0, w.map((n) => '-'.repeat(n)).join('-|-'));
-    const lines = [`contrast: ${file}`, ...out];
+    const lines = [`contrast: ${file}${overlay ? ` + ${overlay}` : ''}`, ...out];
     if (flags.suggest) {
       const failing = pairs.filter((p) => !p.pass);
       if (failing.length) lines.push('', 'suggestions (foreground adjusted, same hue):');

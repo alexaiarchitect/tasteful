@@ -72,3 +72,56 @@ test('exit 2 on unreadable file', () => {
   assert.equal(run('contract.mjs', [REF, 'missing.css', '--check']).code, 2);
   assert.equal(run('contract.mjs', [REF]).code, 2);
 });
+
+const ov = (file, extra = []) => run('contract.mjs', [REF, file, '--overlay', ...extra]);
+const LAYER_OK = `/* Site layer */
+:root { --color-accent: #2f5e3f; }
+:root[data-theme="dark"] { --color-accent: #9cc7a6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --color-accent: #9cc7a6; } }
+@layer components { .card { border-radius: 0; } }
+`;
+
+test('overlay: the ai-architect-blog layer and a small hand-written layer pass', () => {
+  for (const f of ['fixtures/runs/ai-architect-blog/site.ai-architect-blog.css', 'tests/fixtures/overlay-ok.css', tmpFile(LAYER_OK)]) {
+    const r = ov(f, ['--check']);
+    assert.equal(r.code, 0, r.stdout);
+    assert.match(r.stdout, /ok: overlay valid/);
+  }
+  const j = JSON.parse(ov('tests/fixtures/overlay-ok.css', ['--json']).stdout);
+  assert.equal(j.ok, true);
+  assert.equal(j.empty, false);
+});
+
+test('overlay: missing prefers-color-scheme block fails and names the token', () => {
+  const r = ov('tests/fixtures/overlay-missing-dark.css', ['--check']);
+  assert.equal(r.code, 1);
+  assert.match(r.stdout, /--color-bg not set in the prefers-color-scheme fallback/);
+  const j = JSON.parse(ov('tests/fixtures/overlay-missing-dark.css', ['--json']).stdout);
+  assert.deepEqual(j.dark_missing, { root: [], data_theme: [], media: ['--color-bg', '--color-ink'] });
+  // without --check: 0
+  assert.equal(ov('tests/fixtures/overlay-missing-dark.css').code, 0);
+});
+
+test('overlay: unknown token, @apply, theme(), bare @layer each fail', () => {
+  const cases = [
+    [LAYER_OK.replace('--color-accent: #2f5e3f;', '--color-accent: #2f5e3f; --space-x: 1rem;'), /--space-x is not a base token/],
+    [LAYER_OK.replace('border-radius: 0;', '@apply rounded-none;'), /@apply rounded-none;/],
+    [LAYER_OK.replace('border-radius: 0;', 'border-radius: theme(--radius-card);'), /border-radius: theme\(--radius-card\)/],
+    [LAYER_OK.replace('/* Site layer */', '/* Site layer */\n@layer base, components;'), /@layer base, components;/],
+    [LAYER_OK.replace('/* Site layer */', '/* Site layer */\n@import "tailwindcss";'), /@import "tailwindcss";/],
+    [LAYER_OK.replace('border-radius: 0;', 'transition: top var(--duration-fast);'), /FAIL 8\. var\(\) references resolve[\s\S]*uses var\(--duration-fast\)/],
+  ];
+  for (const [css, re] of cases) {
+    const r = ov(tmpFile(css), ['--check']);
+    assert.equal(r.code, 1, css);
+    assert.match(r.stdout, re);
+    assert.match(r.stdout, /FAIL: overlay invalid/);
+  }
+});
+
+test('overlay: comment-only layer passes', () => {
+  const r = ov(tmpFile('/* Site layer for piano: the shared theme, unchanged. */\n'), ['--check']);
+  assert.equal(r.code, 0, r.stdout);
+  assert.match(r.stdout, /comment-only layer/);
+  assert.equal(ov('missing.css', ['--check']).code, 2);
+});

@@ -120,3 +120,19 @@ test('every scripts/*.mjs answers --help (exit 0, < 10 s, mentions --json)', asy
     assert.match(r.out, /--json/, `${r.script} --help mentions --json`);
   }
 });
+
+test('vendored scripts import only node: modules and each other (the sites repo copies them as-is)', () => {
+  const set = ['contract.mjs', 'contrast.mjs', 'overlay.mjs', 'lib/args.mjs', 'lib/css.mjs', 'lib/color.mjs', 'lib/log.mjs', 'lib/overlay.mjs'];
+  const bad = [];
+  for (const rel of set) {
+    const abs = join(ROOT, 'scripts', rel);
+    const text = readFileSync(abs, 'utf8');
+    const specs = [...text.matchAll(/^\s*(?:import|export)\s[^'"]*?from\s*['"]([^'"]+)['"]|\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)|^\s*import\s*['"]([^'"]+)['"]/gm)].map((m) => m[1] ?? m[2] ?? m[3]);
+    for (const s of specs) {
+      if (s.startsWith('node:')) continue;
+      const target = relative(join(ROOT, 'scripts'), join(abs, '..', s));
+      if (!s.startsWith('.') || !set.includes(target)) bad.push(`${rel} -> ${s}`);
+    }
+  }
+  assert.deepEqual(bad, []);
+});

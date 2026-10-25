@@ -7,11 +7,17 @@
 // broken input: unbalanced braces or unterminated strings/comments throw).
 //
 // Shapes:
-//   Node = { type:'rule', selector, declarations, children, line }
-//        | { type:'at', name, params, declarations, children, line }
-//        | { type:'comment', text, line }
-//   Decl = { prop, value, important, line }
+//   Node = { type:'rule', selector, declarations, children, line, leading? }
+//        | { type:'at', name, params, block, declarations, children, line, leading? }
+//        | { type:'comment', text, raw, line, endLine, trailing? }
+//   Decl = { prop, value, important, line, comment? }
 // Values and preludes have comments removed and whitespace collapsed.
+//   * Decl.comment: the raw text ('/* … */') of a comment that starts on the
+//     same line right after the declaration's ';'. That comment is still also
+//     listed in children, flagged trailing: true.
+//   * leading: the comment node right before a rule/at node at the same level,
+//     ending on the line before it (or the same line); no blank line between.
+//   * at.block: true for '@x … { }', false for a ';'-terminated statement.
 
 function collapse(s) {
   return s.replace(/\s+/g, ' ').trim();
@@ -38,18 +44,26 @@ export function parseCss(text) {
     let bufLine = null;
     let parens = 0;
 
+    let trailingAt = -1;
+    const withLeading = (node) => {
+      const prev = children[children.length - 1];
+      if (prev?.type === 'comment' && !prev.trailing && prev.endLine >= node.line - 1) node.leading = prev;
+      return node;
+    };
     const flushDecl = () => {
       const t = collapse(buf);
+      let made = null;
       if (t) {
-        if (t.startsWith('@')) children.push(atNode(t, bufLine, false));
+        if (t.startsWith('@')) children.push(withLeading(atNode(t, bufLine, false)));
         else {
           const d = makeDecl(t, bufLine);
-          if (d) declarations.push(d);
+          if (d) declarations.push((made = d));
           else throw err(`cannot parse declaration "${t.slice(0, 60)}"`, bufLine);
         }
       }
       buf = '';
       bufLine = null;
+      return made;
     };
 
     while (i < n) {
@@ -63,8 +77,14 @@ export function parseCss(text) {
         const body = src.slice(start + 2, end);
         for (const c of body) if (c === '\n') line++;
         i = end + 2;
-        if (!buf.trim()) children.push({ type: 'comment', text: body.trim(), line: startLine });
-        else buf += ' ';
+        if (!buf.trim()) {
+          const c = { type: 'comment', text: body.trim(), raw: src.slice(start, end + 2), line: startLine, endLine: line };
+          if (start === trailingAt) {
+            c.trailing = true;
+            declarations[declarations.length - 1].comment = c.raw;
+          }
+          children.push(c);
+        } else buf += ' ';
         continue;
       }
       // strings
@@ -85,8 +105,13 @@ export function parseCss(text) {
       if (ch === '(') parens++;
       else if (ch === ')') parens = Math.max(0, parens - 1);
       if (parens === 0 && ch === ';') {
-        flushDecl();
+        const d = flushDecl();
         i++;
+        if (d) {
+          let j = i;
+          while (src[j] === ' ' || src[j] === '\t') j++;
+          if (src[j] === '/' && src[j + 1] === '*') trailingAt = j;
+        }
         continue;
       }
       if (parens === 0 && ch === '{') {
@@ -101,7 +126,7 @@ export function parseCss(text) {
         else node = { type: 'rule', selector: prelude, declarations: [], children: [], line: pl };
         node.declarations = inner.declarations;
         node.children = inner.children;
-        children.push(node);
+        children.push(withLeading(node));
         continue;
       }
       if (parens === 0 && ch === '}') {
@@ -126,9 +151,9 @@ export function parseCss(text) {
   return { nodes: children };
 }
 
-function atNode(prelude, line, _hasBlock) {
+function atNode(prelude, line, hasBlock) {
   const m = /^@([\w-]+)\s*([\s\S]*)$/.exec(prelude);
-  return { type: 'at', name: m ? m[1].toLowerCase() : '', params: m ? m[2].trim() : '', declarations: [], children: [], line };
+  return { type: 'at', name: m ? m[1].toLowerCase() : '', params: m ? m[2].trim() : '', block: hasBlock, declarations: [], children: [], line };
 }
 
 function makeDecl(text, line) {
@@ -260,6 +285,8 @@ export function selectorClasses(selector) {
 // Theme-contract helpers (used by contrast.mjs and contract.mjs).
 
 const normSel = (s) => s.replace(/\s+/g, '').replace(/'/g, '"');
+/** Selector normalised for comparison: whitespace removed, single quotes → double. */
+export const normSelector = (s) => normSel(String(s ?? ''));
 export const DARK_DATA_SELECTOR = ':root[data-theme="dark"]';
 export const DARK_MEDIA_SELECTOR = ':root:not([data-theme="light"])';
 
@@ -305,5 +332,62 @@ export function darkBlocks(nodes) {
 export function declMap(decls) {
   const m = new Map();
   for (const d of decls) m.set(d.prop, d.value);
+  return m;
+}
+
+export const TOKEN_PREFIXES = ['--font-', '--color-', '--radius-', '--shadow-', '--ease-'];
+/** The TOKEN_PREFIXES entry a custom property starts with, or null. */
+export const tokenPrefix = (t) => TOKEN_PREFIXES.find((p) => t.startsWith(p)) ?? null;
+
+/** Map(prop → value) of the contract tokens (TOKEN_PREFIXES) declared in @theme. */
+export function themeTokens(nodes) {
+  const m = new Map();
+  for (const d of themeDeclarations(nodes)) if (tokenPrefix(d.prop)) m.set(d.prop, d.value);
+  return m;
+}
+
+const inContractLayer = (ancestors) =>
+  ancestors.some((a) => a.type === 'at' && a.name === 'layer' && /^(components|base)$/.test(a.params.trim()));
+
+/** Class names used by rules inside @layer components / @layer base. */
+export function layerClasses(nodes) {
+  const out = new Set();
+  walkRules(nodes, (node, ancestors) => {
+    if (node.type === 'rule' && inContractLayer(ancestors)) for (const c of selectorClasses(node.selector)) out.add(c);
+  });
+  return out;
+}
+
+/** Class names used by any rule, anywhere. */
+export function allClasses(nodes) {
+  const out = new Set();
+  walkRules(nodes, (node) => {
+    if (node.type === 'rule') for (const c of selectorClasses(node.selector)) out.add(c);
+  });
+  return out;
+}
+
+/** Declarations of unlayered top-level rules whose selector is exactly :root (no at-rule ancestor). */
+export function rootDeclarations(nodes) {
+  const out = [];
+  for (const n of nodes ?? []) if (n.type === 'rule' && normSel(n.selector) === ':root') out.push(...n.declarations);
+  return out;
+}
+
+/** "@name params" of an at node, whitespace collapsed. */
+export const atLabel = (n) => `@${n.name}${n.params ? ' ' + n.params.replace(/\s+/g, ' ').trim() : ''}`;
+
+/**
+ * Map(`<at-rule chain>|<normalised selector>` → rule node) for every rule, e.g.
+ * '@layer components|@media (min-width: 640px)|.card'. A top-level rule's key is
+ * '|<selector>'. When a key repeats, the last rule wins.
+ */
+export function rulesByContext(nodes) {
+  const m = new Map();
+  walkRules(nodes, (node, ancestors) => {
+    if (node.type !== 'rule') return;
+    const chain = ancestors.filter((a) => a.type === 'at').map(atLabel).join('|');
+    m.set(`${chain}|${normSel(node.selector)}`, node);
+  });
   return m;
 }

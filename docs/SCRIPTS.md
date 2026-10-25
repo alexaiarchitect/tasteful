@@ -43,9 +43,12 @@ Written by the `find` skill to `${output_dir}/<slug>/brief.json`; consumed by `r
   "dark_mode": "both",                  // "both" | "light-first" | "dark-first"
   "must_have": ["prose", "nav"],        // components/extractables that must be covered
   "mood": ["editorial", "minimal"],     // sites.json mood vocabulary
-  "languages": ["en", "ru", "es"]       // BCP-47 codes; "ru" ⇒ Cyrillic coverage required
+  "languages": ["en", "ru", "es"],      // BCP-47 codes; "ru" ⇒ Cyrillic coverage required
+  "site": "dji"                         // optional: name of an app under apps/ ⇒ build a site layer (overlay.mjs); absent ⇒ shared theme
 }
 ```
+
+`site` is written only when set; `rank.mjs` ignores it.
 
 ### Candidate JSONL (all crawlers)
 
@@ -132,15 +135,18 @@ Tidying (browser and static modes): any border-radius ≥ 1000px (Tailwind `roun
 
 ## `contrast.mjs`
 
-`contrast.mjs <theme.css> [--extended] [--suggest]`
+`contrast.mjs <theme.css> [--overlay <site.css>] [--extended] [--suggest]`
 
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| `<theme.css>` | string | — | Theme file to check |
+| `<theme.css>` | string | — | Theme file to check (with `--overlay`: the base theme the app loads) |
+| `--overlay <site.css>` | string | — | Check the base with this site layer applied (see below) |
 | `--extended` | boolean | false | Also report advisory pairs (never affect the exit code; skipped with a warning when a token is missing) |
 | `--suggest` | boolean | false | For each failing pair, the nearest passing colour: same hue, lightness adjusted, **foreground only** |
 
 Schemes: **light** = `@theme`; **dark** = `:root[data-theme="dark"]` (tokens not overridden there inherit from `@theme`). The `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` block must declare the same values as the data-theme block (`color-scheme` is ignored); any difference, or either dark block missing, is an error. `var(--x[, fallback])` references are resolved (up to 10 levels). Translucent colours are compared with alpha ignored (warning on stderr).
+
+With `--overlay`: **light** = base `@theme` + the layer's unlayered `:root` custom properties (the layer wins); **dark** = light + the base's `:root[data-theme="dark"]` + the layer's `:root[data-theme="dark"]` (later wins). The dark-block agreement check runs on the layer's two dark blocks; a layer with neither is fine (the base dark scheme applies), a layer with exactly one is an error. The human header reads `contrast: <base> + <overlay>`.
 
 Required pairs (WCAG 2.x, both schemes):
 
@@ -155,7 +161,7 @@ Advisory pairs (`--extended`): `ink/panel` 7:1, `muted/panel` 4.5:1, `ok/ok-soft
 
 Pass/fail is decided on the unrounded ratio; `ratio` in the output is rounded to 2 decimals (so 6.996 shows as `7.00` and still fails 7:1).
 
-**Output**: table `scheme | pair | ratio | min | pass`, then suggestions and errors, on stdout; with `--json`: `{file, ok, pairs:[{scheme, fg, bg, fg_hex, bg_hex, ratio, min, pass, required, suggest?: {hex, ratio} | null}], errors:[]}` (`suggest` is `null` when no lightness of the hue reaches the minimum).
+**Output**: table `scheme | pair | ratio | min | pass`, then suggestions and errors, on stdout; with `--json`: `{file, overlay?, ok, pairs:[{scheme, fg, bg, fg_hex, bg_hex, ratio, min, pass, required, suggest?: {hex, ratio} | null}], errors:[]}` (`suggest` is `null` when no lightness of the hue reaches the minimum).
 
 **Exit codes**: 0 all required pairs pass and both dark blocks exist and agree; 1 any required violation, a missing dark block or a dark-block mismatch; 2 unreadable/unparseable file, a required token missing from `@theme`, or a required colour that cannot be resolved or parsed.
 
@@ -164,12 +170,14 @@ Pass/fail is decided on the unrounded ratio; `ratio` in the output is rounded to
 ## `contract.mjs`
 
 `contract.mjs <reference.css> <candidate.css> [--check]`
+`contract.mjs <base.css> <site.css> --overlay [--check]`
 
 | Flag/Arg | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | `<reference.css>` | string | — | Contract source (project `theme.css` or `fixtures/theme.reference.css`) |
-| `<candidate.css>` | string | — | Generated theme to compare |
+| `<candidate.css>` | string | — | Generated theme to compare (with `--overlay`: the site layer) |
 | `--check` | boolean | false | Exit 1 if anything is missing or any rule below is broken |
+| `--overlay` | boolean | false | The candidate is a site layer that overrides the reference; run the overlay checks below instead |
 
 Checks, each reported as a finding with a clear message:
 
@@ -185,7 +193,60 @@ Additions (new tokens/classes) are listed as info, never failures.
 
 **Output**: human list grouped by check (`ok` / `FAIL` per check); with `--json`: `{ok, missing:{tokens[], classes[], utilities[]}, renamed:[{from,to}], dark_missing:{data_theme[], media[]}, first_lines_ok, important:[{line,text}], external_imports:[], added:{tokens[], classes[]}}`.
 
-**Exit codes**: 0 contract preserved (or without `--check`, always 0 if both files parsed); 1 with `--check` and any finding; 2 unreadable file or CSS parser error.
+### Overlay mode (`--overlay`)
+
+Checks a site layer (layout under `overlay.mjs`) against the base theme. Logic in `scripts/lib/overlay.mjs` → `compareOverlay()`.
+
+1. Every custom property set on a `:root` selector (unlayered `:root`, both dark selectors, `:root` inside `@layer`) exists in the base: `@theme` tokens, base `:root` extras such as `--header-h`, or base dark-block properties. A layer redeclares tokens; it never adds or renames them.
+2. Dark symmetry: the sets of `--color-*`/`--shadow-*` in `:root`, `:root[data-theme="dark"]` and `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` are equal. A token changed on `:root` without a dark override would win over the base's layered dark block in dark mode.
+3. Both dark blocks declare the same values.
+4. Forbidden (Tailwind-only or layer-breaking): `@import "tailwindcss"` (any quoting), `@source`, `@theme`, `@apply`, `@utility`, `@variant`, `@custom-variant`, `@plugin`, `@config`, `@reference`, bare `@layer x;` statements (a `@layer x { }` block is fine), and `theme(` in any value.
+5. No external `@import` (`http(s)://`, `//`, Google Fonts); every `@import` comes before the first rule.
+6. `!important` only inside `prefers-reduced-motion`.
+7. Selectors: every class must exist in the base's class contract; new classes and selectors with no base rule in the same context are info, never failures.
+
+8. `var()` references resolve: every `var(--x)` in a declaration names a base token (`@theme`, `:root` extras, dark-block properties) or a custom property the layer declares itself.
+
+A comment-only layer passes (`empty: true`); www and piano ship one.
+
+**Output (overlay)**: human list `ok`/`FAIL` per check, info, then `ok: overlay valid` or `FAIL: overlay invalid …`; with `--json`: `{ok, unknown_tokens[], dark_missing:{root[], data_theme[], media[]}, dark_mismatch:[{prop, data_theme, media}], forbidden:[{line, text}], external_imports[], important:[{line, text}], imports_after_rules:[{line, text}], unknown_var_refs:[{line, selector, prop, token}], unknown_selectors[], new_selectors[], empty}`. `dark_missing.<set>` lists tokens present in one of the other two sets but missing from that one. `ok` is false for checks 1–6 and 8; check 7 is info.
+
+**Exit codes**: 0 contract preserved (or without `--check`, always 0 if both files parsed); 1 with `--check` and any finding; 2 unreadable file or CSS parser error. Same in overlay mode.
+
+---
+
+## `overlay.mjs`
+
+`overlay.mjs <base.css> <full.css> --out <site.css> [--site <name>] [--slug <slug>] [--approval <text>] [--allow-empty]`
+
+Derives a per-site layer from a full generated theme: only what differs from the shared base, as plain CSS an app imports after the shared theme (`@sites/theme/styles.css`, then `site.css`, then BaseLayout). Logic in `scripts/lib/overlay.mjs` → `buildOverlay()`.
+
+| Flag/Arg | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `<base.css>` | string | — | Shared theme the app already loads (project `theme.css` or `fixtures/theme.reference.css`) |
+| `<full.css>` | string | — | Full generated theme (`theme.<slug>.css`); must start with `@import "tailwindcss";` then `@source "../";` |
+| `--out <site.css>` | string | — | Where to write the layer (required; parent directories are created) |
+| `--site <name>` | string | `unknown` | App name under `apps/`, used in the header comment |
+| `--slug <slug>` | string | `unknown` | Brief slug, used in the header comment |
+| `--approval <text>` | string | `unknown` | Approval text, used in the header comment |
+| `--allow-empty` | boolean | false | When nothing differs, write a comment-only layer and exit 0 instead of 1 |
+
+Layout of the written file, in this order, 2-space indent, one declaration per line, a blank line between sections:
+
+1. Header comment: `/* Site layer for <site> — generated by tasteful from theme.<slug>.css (approval: <text>). Overrides the shared theme; token names never change. Import order in the app: … */`
+2. `@import` lines of `@fontsource` packages the full theme imports and the base does not.
+3. One unlayered `:root { }` with the `@theme` tokens (`--font-*`, `--color-*`, `--radius-*`, `--shadow-*`, `--ease-*`) whose normalised value differs from the base, plus `--header-h` (or another base `:root` extra) only when changed. Never `color-scheme`. Unlayered beats Tailwind's `@layer theme`.
+4. `:root[data-theme="dark"] { }` and `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { } }` with identical declarations: every `--color-*`/`--shadow-*` whose dark value changed, plus the dark partner of every one emitted on `:root` (the base dark value when the full theme kept it); symmetrically a dark-only change restates the base light value on `:root`. The `--color-*`/`--shadow-*` sets of the three blocks are equal.
+5. `@layer base { }`: element rules whose declarations differ from the base rule with the same selector in the same at-rule context (rules inside `@media` keep their wrapper). Skipped: the dark blocks, the `.only-dark`/`.only-light` toggles, the `prefers-reduced-motion` block.
+6. `@layer components { }`: every differing rule, `@media` wrappers kept.
+
+Rules are emitted whole (all declarations), with the comment that precedes them in the full theme. Provenance comments (`/* from: … */`, `/* derived */`) stay on their declarations. Rules whose selector the base lacks are emitted too and listed under `newSelectors`. A layer cannot delete a base declaration: when the full theme dropped one, the rule starts with `<prop>: unset; /* removed in the full theme */` (one per property, before the rule's own declarations, so a reset shorthand such as `background` cannot wipe the longhands that follow), a note goes to stderr and the rule is listed under `removed`. `unset` makes the cascade behave as if the base declaration were absent: `initial` for non-inherited properties, `inherit` for inherited ones. Never emitted: `@theme`, `@source`, `@import "tailwindcss"`, `@utility` (a differing one is listed under `skipped.utility` with a warning), `@apply`, bare `@layer` statements, `color-scheme`. Tokens the base does not have (e.g. `--duration-fast`) cannot be added by a layer: they are listed under `skipped.tokens` with a warning, and every `var(--x)` to such a token (defined in the full theme's `@theme` or `:root`) in an emitted declaration is replaced by its value, nested `var()` resolved, a fallback dropped. The declaration's comment gains `inlined --x` (`/* from: … — inlined --x */`, or `/* inlined --x */` when it had none) and the declaration is listed under `inlined`.
+
+Before writing, the result is checked with `compareOverlay()` (the same rules as `contract.mjs --overlay`); a failing self-check exits 2 with the findings and writes nothing.
+
+**Output**: a short summary on stdout (imports, token counts, rules, new selectors, removed declarations, skipped items); with `--json`: `{out, tokens:{light[], dark[]}, imports[], rules:{base[], components[]}, newSelectors[], removed:[{selector, props[]}], inlined:[{selector, prop, tokens[]}], skipped:{utility[], tokens[], unchanged}, empty}` (`out` is `null` when nothing was written; `unchanged` counts the rules identical to the base).
+
+**Exit codes**: 0 layer written; 1 nothing differs, no file written (unless `--allow-empty`); 2 unreadable or unparseable input, a full theme without the two first statements, missing `--out`, or a failed self-check.
 
 ---
 
@@ -428,6 +489,8 @@ Runs in order and stops on the first failure:
 3. `node scripts/validate-index.mjs`
 4. `node scripts/contrast.mjs fixtures/theme.reference.css`
 5. `node scripts/contract.mjs fixtures/theme.reference.css fixtures/theme.reference.css --check`, then against `tests/fixtures/renamed-token.css` (one token renamed) — must exit 1 and mention `--color-ink`
+6. `fixtures/runs/ai-architect-blog/site.ai-architect-blog.css` passes `contract.mjs --overlay --check` and `contrast.mjs --overlay` against `fixtures/theme.reference.css`
+7. `contract.mjs --overlay --check` on `tests/fixtures/overlay-missing-dark.css` (no prefers-color-scheme block) — must exit 1 and mention `--color-bg`
 
 To run only the unit tests: `node --test 'tests/**/*.test.mjs'`.
 

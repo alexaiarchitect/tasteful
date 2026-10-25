@@ -75,3 +75,41 @@ test('exit 2: missing file, unparseable file, missing required token', () => {
   assert.match(r.stderr, /--color-muted/);
   assert.equal(run('contrast.mjs', []).code, 2);
 });
+
+const LAYER = (muted) => `/* Site layer */
+:root { --color-muted: ${muted}; }
+:root[data-theme="dark"] { --color-muted: #a2aab6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --color-muted: #a2aab6; } }
+`;
+
+test('--overlay: merged schemes pass, JSON names the overlay', () => {
+  const r = run('contrast.mjs', [REF, '--overlay', 'fixtures/runs/ai-architect-blog/site.ai-architect-blog.css', '--json']);
+  assert.equal(r.code, 0, r.stdout);
+  const out = json(r);
+  assert.equal(out.overlay, 'fixtures/runs/ai-architect-blog/site.ai-architect-blog.css');
+  assert.equal(pair(out, 'light', '--color-ink', '--color-bg').fg_hex, '#3a3934');
+  assert.equal(pair(out, 'dark', '--color-ink', '--color-bg').bg_hex, '#262521');
+  const h = run('contrast.mjs', [REF, '--overlay', 'fixtures/runs/ai-architect-blog/site.ai-architect-blog.css']);
+  assert.match(h.stdout, /^contrast: \S+theme\.reference\.css \+ fixtures\/runs\/ai-architect-blog\/site\.ai-architect-blog\.css\n/);
+});
+
+test('--overlay: low-contrast --color-muted on :root fails in light only', () => {
+  const r = run('contrast.mjs', [REF, '--overlay', tmpFile(LAYER('#a0a0a0')), '--json']);
+  assert.equal(r.code, 1);
+  const out = json(r);
+  assert.equal(pair(out, 'light', '--color-muted', '--color-bg').pass, false);
+  assert.equal(pair(out, 'dark', '--color-muted', '--color-bg').pass, true);
+  assert.equal(run('contrast.mjs', [REF, '--overlay', tmpFile(LAYER('#555555'))]).code, 0);
+});
+
+test('--overlay: no dark block is fine, one of two is an error, a mismatch is an error', () => {
+  assert.equal(run('contrast.mjs', [REF, '--overlay', tmpFile(':root { --color-bg: #ffffff; }\n')]).code, 0);
+  assert.equal(run('contrast.mjs', [REF, '--overlay', tmpFile('/* empty layer */\n')]).code, 0);
+  const one = run('contrast.mjs', [REF, '--overlay', 'tests/fixtures/overlay-missing-dark.css', '--json']);
+  assert.equal(one.code, 1);
+  assert.match(json(one).errors.join('\n'), /no @media \(prefers-color-scheme: dark\)/);
+  const mm = run('contrast.mjs', [REF, '--overlay', tmpFile(LAYER('#555555').replace(/(:root:not[^{]*\{ --color-muted: )#a2aab6/, '$1#a2aab7')), '--json']);
+  assert.equal(mm.code, 1);
+  assert.match(json(mm).errors.join('\n'), /--color-muted is #a2aab6 .* but #a2aab7/);
+  assert.equal(run('contrast.mjs', [REF, '--overlay', 'missing.css']).code, 2);
+});
